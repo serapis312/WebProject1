@@ -1,5 +1,5 @@
 package com.project.childprj.service;
 
-public interface UserService {
-
+public interface protectService {
+    
 }
