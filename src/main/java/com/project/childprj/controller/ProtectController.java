@@ -2,6 +2,7 @@ package com.project.childprj.controller;
 
 import com.project.childprj.domain.ChildHouse;
 import com.project.childprj.repository.ChildHouseRepository;
+import com.project.childprj.service.ProtectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +13,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/protect")
-public class ChildHouseController {
+public class ProtectController {
+
+    @Autowired
+    private ProtectService protectService;
 
     @Autowired
     private ChildHouseRepository childHouseRepository;
@@ -24,10 +28,10 @@ public class ChildHouseController {
         return "childHouseList";
     }
 
-//    @GetMapping("/kindergartens")
+//    @GetMapping("/kindergardens")
 //    public String getKindergartens(Model model) {
 //        List<Kindergarten> kindergartens = kindergartenRepository.findAll();
 //        model.addAttribute("kindergartens", kindergartens);
-//        return "kindergartenList"; // Thymeleaf 템플릿의 이름 (kindergartenList.html)
+//        return "kindergartenList";
 //    }
 }
