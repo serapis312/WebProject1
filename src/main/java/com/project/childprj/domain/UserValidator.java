@@ -56,5 +56,11 @@ public class UserValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name 은 필수입니다");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nickName", "nickName 은 필수입니다");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "email 은 필수입니다");
+
+        // 입력 password, re_password 가 동일한지 비교
+        if(!user.getPassword().equals(user.getRe_password())){
+            errors.rejectValue("re_password", "비밀번호와 비밀번호 확인 입력값은 같아야 합니다");
+        }
+
     }
 }

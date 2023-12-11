@@ -37,6 +37,28 @@
         AND nickName = #{nickName}
     </select>
 
+    <select id="findByNameAndEmail" resultType="com.project.childprj.domain.User">
+        <include refid="SELECT_BASE"/>
+        AND name = #{name}
+        AND email = #{email}
+    </select>
+
+    <select id="findByNameAndLoginId" resultType="com.project.childprj.domain.User">
+        <include refid="SELECT_BASE"/>
+        AND name = #{name}
+        AND loginId = #{loginId}
+    </select>
+
+    <update id="updatePasswordByNameAndLoginId" flushCache="true" parameterType="com.project.childprj.domain.User">
+        UPDATE user SET password = #{password}
+        WHERE name = #{name} AND loginId = #{loginId}
+    </update>
+
+    <update id="updatePasswordByNameAndEmail" flushCache="true" parameterType="com.project.childprj.domain.User">
+        UPDATE user SET password = #{password}
+        WHERE name = #{name} AND email = #{email}
+    </update>
+
     <insert id="save" flushCache="true" parameterType="com.project.childprj.domain.User"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO user (loginId, password, nickName, name, email)
@@ -47,5 +69,9 @@
         UPDATE user SET loginId = #{loginId}, password = #{password}, nickName = #{nickName}, name = #{name}, email = #{email}
         WHERE id = #{id}
     </update>
+
+    <delete id="delete" flushCache="true" parameterType="com.project.childprj.domain.User">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
 
 </mapper>

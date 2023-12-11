@@ -74,29 +74,48 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int updateUser(User user) {
+        return userRepository.update(user);
+    }
+
+    @Override
     public List<Authority> selectAuthoritiesById(Long id) {
         User user = userRepository.findById(id);
         return authorityRepository.findByUser(user);
     }
 
     @Override
-    public String findLoginIdByEmail(String email) {
-        User user = userRepository.findByEmail(email);
-        String loginId = user.getLoginId();
-        return loginId;
-    }
-
-
-    // 비밀번호 찾기는 비밀번호가 암호화 되어있어서 안된다... 비밀번호 변경으로 하는건 어떨까??
-    @Override
-    public String findPasswordByLoginId(String loginId) {
-        User user = userRepository.findByLoginId(loginId);
-        String password =  user.getPassword();
-        return null;
+    public String findLoginIdByNameAndEmail(String name, String email) {
+        User user = userRepository.findByNameAndEmail(name, email);
+        return user.getLoginId();
     }
 
     @Override
-    public String findPasswordByEmail(String email) {
-        return null;
+    public int changePasswordByNameAndLoginId(String name, String loginId, String newPassword, String re_password) {
+        if (!newPassword.equals(re_password)) {
+            return 0;
+        }
+        User user = userRepository.findByNameAndLoginId(name, loginId);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        return userRepository.updatePasswordByNameAndLoginId(user);
     }
+
+    @Override
+    public int changePasswordByNameAndEmail(String name, String email, String newPassword, String re_password) {
+        if (!newPassword.equals(re_password)) {
+            return 0;
+        }
+        User user = userRepository.findByNameAndEmail(name, email);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        return userRepository.updatePasswordByNameAndEmail(user);
+    }
+
+    @Override
+    public int deleteUser(User user) {
+        if(!user.getPassword().equals(user.getRe_password())){
+            return 0;
+        }
+        return userRepository.delete(user);
+    }
+
 }
