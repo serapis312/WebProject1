@@ -14,5 +14,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         System.out.println("### 접근권한 오류 : CustomAccessDeniedHandler ###");
 
         response.sendRedirect("/user/rejectAuth");
+        //test
     }
 }
