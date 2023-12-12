@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.childprj.repository.KindergardenRepository">
+    <resultMap id="kindergardenResultMap" type="com.project.childprj.domain.Kindergarden">
+        <id property="id" column="id" />
+        <result property="KINDERNAME" column="KINDERNAME" />
+        <result property="ESTABLISH" column="ESTABLISH" />
+        <result property="LDGRNAME" column="LDGRNAME" />
+        <result property="ODATE" column="ODATE" />
+        <result property="ADDR" column="ADDR" />
+        <result property="TELNO" column="TELNO" />
+        <result property="HPADDR" column="HPADDR" />
+        <result property="OPERTIME" column="OPERTIME" />
+    </resultMap>
+    <insert id="insertKindergarden" parameterType="com.project.childprj.domain.Kindergarden">
+        INSERT INTO kindergarden (
+            ID, KINDERNAME, ESTABLISH, LDGRNAME, ODATE, ADDR, TELNO, HPADDR, OPERTIME
+        )
+        VALUES (
+                   #{id}, #{KINDERNAME}, #{ESTABLISH}, #{LDGRNAME}, #{ODATE}, #{ADDR}, #{TELNO}, #{HPADDR}, #{OPERTIME}
+               )
+    </insert>
+
+    <select id="selectAllKindergardens" resultType="com.project.childprj.domain.Kindergarden">
+        SELECT * FROM kindergarden;
+    </select>
+</mapper>

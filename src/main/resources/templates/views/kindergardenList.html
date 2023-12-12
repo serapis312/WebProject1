@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유치원 목록</title>
+</head>
+<body>
+
+<h2>유치원 목록</h2>
+
+<!-- 유치원 목록을 표시하는 부분 -->
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>유치원 이름</th>
+        <th>설립일자</th>
+        <th>운영시간</th>
+        <th>대표전화</th>
+        <th>주소</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 유치원 데이터를 반복해서 표시 -->
+    <tr th:each="kindergarden : ${kindergarden}">
+        <td th:text="${kindergarden.id}"></td>
+        <td th:text="${kindergarden.KINDERNAME}"></td>
+        <td th:text="${kindergarden.ESTABLISH}"></td>
+        <td th:text="${kindergarden.OPERTIME}"></td>
+        <td th:text="${kindergarden.TELNO}"></td>
+        <td th:text="${kindergarden.ADDR}"></td>
+        <!-- 다른 필드들도 추가 가능 -->
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
