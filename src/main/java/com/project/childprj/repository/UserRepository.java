@@ -23,11 +23,8 @@ public interface UserRepository {
     // 특정 name 과 loginId 의 user 리턴
     User findByNameAndLoginId(String name, String loginId);
 
-    // 특정 name 과 loginId 의 user 비밀번호 변경
-    int updatePasswordByNameAndLoginId(User user);
-
-    // 특정 name 과 email 의 user 비밀번호 변경
-    int updatePasswordByNameAndEmail(User user);
+    // findByNameAndEmail, findByNameAndLoginId 로 찾은 해당 user 비밀번호 변경
+    int updatePassword(User user);
 
     // 새로운 User 등록
     int save(User user);

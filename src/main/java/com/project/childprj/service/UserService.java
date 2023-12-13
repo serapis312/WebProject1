@@ -1,6 +1,8 @@
 package com.project.childprj.service;
 
 import com.project.childprj.domain.Authority;
+import com.project.childprj.domain.NameAndEmail;
+import com.project.childprj.domain.NameAndLoginId;
 import com.project.childprj.domain.User;
 
 import java.util.List;
@@ -34,11 +36,17 @@ public interface UserService {
     // 1. 이름, 아이디로 비밀번호 변경
     // 2. 이름, 이메일로 비밀번호 변경
 
-    // 비밀번호 변경 (이름, 아이디로 변경)
-    int changePasswordByNameAndLoginId(String name, String loginId, String newPassword, String re_password);
+    // 해당 이름, 아이디의 사용자가 존재하는지 확인
+    boolean isExistByNameAndLoginId(NameAndLoginId nameAndLoginId);
 
-    // 비밀번호 변경 (이름, 이메일로 변경)
-    int changePasswordByNameAndEmail(String name, String email, String newPassword, String re_password);
+    // 해당 이름, 이메일의 사용자가 존재하는지 확인
+    boolean isExistByNameAndEmail(NameAndEmail nameAndEmail);
+
+    // 비밀번호 변경 (이름, 아이디 이용)
+    int changePasswordByLoginId(NameAndLoginId nameAndLoginId, String newPassword, String re_password);
+
+    // 비밀번호 변경 (이름, 이메일 이용)
+    int changePasswordByEmail(NameAndEmail nameAndEmail, String newPassword, String re_password);
 
     // 로그인 한 유저 비밀번호와 비밀번호확인 입력 후 회원탈퇴버튼 누르면 해당 user 삭제
     int deleteUser(User user);

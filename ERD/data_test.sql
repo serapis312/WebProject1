@@ -6,3 +6,9 @@ SELECT *
 
 SELECT *
   FROM post_comment;
+ 
+ SELECT *
+  FROM user_authority;
+ 
+ SELECT *
+  FROM user_authorities;

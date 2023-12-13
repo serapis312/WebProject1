@@ -49,14 +49,9 @@
         AND loginId = #{loginId}
     </select>
 
-    <update id="updatePasswordByNameAndLoginId" flushCache="true" parameterType="com.project.childprj.domain.User">
+    <update id="updatePassword" flushCache="true" parameterType="com.project.childprj.domain.User">
         UPDATE user SET password = #{password}
-        WHERE name = #{name} AND loginId = #{loginId}
-    </update>
-
-    <update id="updatePasswordByNameAndEmail" flushCache="true" parameterType="com.project.childprj.domain.User">
-        UPDATE user SET password = #{password}
-        WHERE name = #{name} AND email = #{email}
+        WHERE id = #{id}
     </update>
 
     <insert id="save" flushCache="true" parameterType="com.project.childprj.domain.User"

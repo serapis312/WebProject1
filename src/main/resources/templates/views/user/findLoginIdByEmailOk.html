@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<script th:unless="${message.length() > 0 }">
+    alert("해당하는 사용자가 없습니다");
+    location.href = "/user/find";
+</script>
+<script th:if="${message.length() > 0 }" th:with="message = ${message}" th:inline="javascript">
+    let message = [[${message}]];
+    alert("해당 사용자의 로그인 아이디는 " + message + " 입니다");
+    location.href = "/user/login";
+</script>
+</html>
