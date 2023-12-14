@@ -60,6 +60,12 @@
         VALUES (#{loginId}, #{password}, #{nickName}, #{name}, #{email})
     </insert>
 
+    <insert id="saveImage" flushCache="true" parameterType="com.project.childprj.domain.UserImage"
+            useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO user_img (sourceName, fileName, userId)
+        VALUES (#{sourceName}, #{fileName}, #{userId})
+    </insert>
+
     <update id="update" flushCache="true" parameterType="com.project.childprj.domain.User">
         UPDATE user SET loginId = #{loginId}, password = #{password}, nickName = #{nickName}, name = #{name}, email = #{email}
         WHERE id = #{id}

@@ -190,37 +190,6 @@ public class UserController {
         return "/user/changePasswordOk";
     }
 
-    @GetMapping("/mypage")
-    public void mypage(){}
-
-    @GetMapping("/update")
-    public void update(){}
-
-    @PostMapping("/update")
-    public String updateOk(@Valid User user, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
-        // 검증 에러가 있었다면 redirect 한다.
-        if(result.hasErrors()){
-            redirectAttributes.addFlashAttribute("loginId", user.getLoginId());
-            redirectAttributes.addFlashAttribute("name", user.getName());
-            redirectAttributes.addFlashAttribute("nickName", user.getNickName());
-            redirectAttributes.addFlashAttribute("email", user.getEmail());
-
-            List<FieldError> errList = result.getFieldErrors();
-            for(FieldError err : errList){
-                // 가장 처음에 발견된 에러만 보내기
-                redirectAttributes.addFlashAttribute("error", err.getCode());
-                break;
-            }
-
-            return "redirect:/user/update";
-        }
-
-        // 검증 에러 없었으면 회원 등록 진행
-        int cnt = userService.updateUser(user);
-        model.addAttribute("result", cnt);
-        return "/user/updateOk";
-    }
-
     @GetMapping("/register")
     public void register(){}
 
@@ -251,15 +220,6 @@ public class UserController {
         int cnt = userService.register(user);
         model.addAttribute("result", cnt);
         return "/user/registerOk";
-    }
-
-    @GetMapping("/delete")
-    public void delete(){}
-
-    @PostMapping("/delete")
-    public String deleteOk(User user, Model model){
-        model.addAttribute("result", userService.deleteUser(user));
-        return "user/deleteOk";
     }
 
     @Autowired

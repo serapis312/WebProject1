@@ -1,13 +1,15 @@
 package com.project.childprj.service;
 
-import com.project.childprj.domain.Authority;
-import com.project.childprj.domain.NameAndEmail;
-import com.project.childprj.domain.NameAndLoginId;
-import com.project.childprj.domain.User;
+import com.project.childprj.domain.*;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface UserService {
+    // 특정 Id 의 user 정보 읽어오기
+    User findById(Long id);
+
     // loginId(회원 아이디) 의 User 정보 읽어오기
     User findByLoginId(String loginId);
 
@@ -23,8 +25,11 @@ public interface UserService {
     // 신규 회원 등록
     int register(User user);
 
+    // 마이페이지 프로필사진 업로드
+    int uploadProfile(MultipartFile file, Long id);
+
     // 로그인 한 회원 마이페이지 수정
-    int updateUser(User user);
+    int updateUser(User user, HttpSession session);
 
     // 특정 사용자(id)의 authority(들)
     List<Authority> selectAuthoritiesById(Long id);
