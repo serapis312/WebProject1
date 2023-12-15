@@ -9,31 +9,31 @@
 
 <h2>유치원 목록</h2>
 
-<!-- 유치원 목록을 표시하는 부분 -->
 <table>
     <thead>
     <tr>
-        <th>ID</th>
-        <th>유치원 이름</th>
-        <th>설립일자</th>
-        <th>운영시간</th>
-        <th>대표전화</th>
+        <th>No</th>
+        <th>유치원명</th>
+        <th>설립유형</th>
+        <th>원장명</th>
         <th>주소</th>
+        <th>전화번호</th>
+        <th>홈페이지</th>
+        <th>운영시간</th>
     </tr>
     </thead>
     <tbody>
-    <!-- 유치원 데이터를 반복해서 표시 -->
-    <tr th:each="kindergarden : ${kindergarden}">
-        <td th:text="${kindergarden.id}"></td>
+    <!-- Thymeleaf 반복문을 사용하여 유치원 목록을 출력 -->
+    <tr th:each="kindergarden, stat : ${kindergarden}">
         <td th:text="${kindergarden.KINDERNAME}"></td>
         <td th:text="${kindergarden.ESTABLISH}"></td>
-        <td th:text="${kindergarden.OPERTIME}"></td>
-        <td th:text="${kindergarden.TELNO}"></td>
+        <td th:text="${kindergarden.LDGRNAME}"></td>
         <td th:text="${kindergarden.ADDR}"></td>
-        <!-- 다른 필드들도 추가 가능 -->
+        <td th:text="${kindergarden.TELNO}"></td>
+        <td th:text="${kindergarden.HPADDR}"></td>
+        <td th:text="${kindergarden.OPERTIME}"></td>
     </tr>
     </tbody>
 </table>
-
 </body>
 </html>

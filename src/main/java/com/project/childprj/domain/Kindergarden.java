@@ -1,11 +1,8 @@
 package com.project.childprj.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.Date;
+import com.fasterxml.jackson.databind.JsonNode;
 
 @Data
 @NoArgsConstructor
@@ -13,12 +10,69 @@ import java.util.Date;
 @Builder
 public class Kindergarden {
     private Long id;
-    private String KINDERNAME;
-    private String ESTABLISH;
-    private String LDGRNAME;
-    private Date ODATE;
-    private String ADDR;
-    private String TELNO;
-    private String HPADDR;
-    private String OPERTIME;
+    private String KINDERNAME;  // 유치원명
+    private String ESTABLISH;   // 설립유형
+    private String LDGRNAME;    // 원장명
+    private String ADDR;        // 주소
+    private String TELNO;       // 전화번호
+    private String HPADDR;      // 홈페이지
+    private String OPERTIME;    // 운영시간
+    
+	public String getKINDERNAME() {
+		return KINDERNAME;
+	}
+	public void setKINDERNAME(String kindername) {
+		KINDERNAME = kindername;
+	}
+	public String getESTABLISH() {
+		return ESTABLISH;
+	}
+	public void setESTABLISH(String establish) {
+		ESTABLISH = establish;
+	}
+	public String getLDGRNAME() {
+		return LDGRNAME;
+	}
+	public void setLDGRNAME(String ldgrname) {
+		LDGRNAME = ldgrname;
+	}
+	public String getADDR() {
+		return ADDR;
+	}
+	public void setADDR(String addr) {
+		ADDR = addr;
+	}
+	public String getTELNO() {
+		return TELNO;
+	}
+	public void setTELNO(String telno) {
+		TELNO = telno;
+	}
+	public String getHPADDR() {
+		return HPADDR;
+	}
+	public void setHPADDR(String hpaddr) {
+		HPADDR = hpaddr;
+	}
+	public String getOPERTIME() {
+		return OPERTIME;
+	}
+	public void setOPERTIME(String opertime) {
+		OPERTIME = opertime;
+	}
+    
+	// api의 row에서 객체의 각각 필드에 설정
+	public static Kindergarden fromJson(JsonNode row) {
+		Kindergarden kindergarden = new Kindergarden();
+		kindergarden.setKINDERNAME(row.get("KINDERNAME").asText());
+		kindergarden.setESTABLISH(row.get("ESTABLISH").asText());
+		kindergarden.setLDGRNAME(row.get("LDGRNAME").asText());
+		kindergarden.setADDR(row.get("ADDR").asText());
+		kindergarden.setTELNO(row.get("TELNO").asText());
+		kindergarden.setHPADDR(row.get("HPADDR").asText());
+		kindergarden.setOPERTIME(row.get("OPERTIME").asText());
+		
+		return kindergarden;
+	}
+    
 }

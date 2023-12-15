@@ -48,7 +48,7 @@ CREATE TABLE child_house
 
 CREATE TABLE kindergarden
 (
-	id int NOT NULL,
+	id int NOT NULL AUTO_INCREMENT,
 	KINDERNAME varchar(255),
 	ESTABLISH varchar(255),
 	LDGRNAME varchar(255),

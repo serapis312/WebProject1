@@ -17,14 +17,14 @@
     </resultMap>
     <insert id="insertKindergarden" parameterType="com.project.childprj.domain.Kindergarden">
         INSERT INTO kindergarden (
-            ID, KINDERNAME, ESTABLISH, LDGRNAME, ODATE, ADDR, TELNO, HPADDR, OPERTIME
+            KINDERNAME, ESTABLISH, LDGRNAME, ODATE, ADDR, TELNO, HPADDR, OPERTIME
         )
         VALUES (
-                   #{id}, #{KINDERNAME}, #{ESTABLISH}, #{LDGRNAME}, #{ODATE}, #{ADDR}, #{TELNO}, #{HPADDR}, #{OPERTIME}
+                   #{KINDERNAME}, #{ESTABLISH}, #{LDGRNAME}, NOW(), #{ADDR}, #{TELNO}, #{HPADDR}, #{OPERTIME}
                )
     </insert>
 
-    <select id="selectAllKindergardens" resultType="com.project.childprj.domain.Kindergarden">
+    <select id="selectAllKindergarden" resultType="com.project.childprj.domain.Kindergarden">
         SELECT * FROM kindergarden;
     </select>
 </mapper>
