@@ -1,4 +1,4 @@
-package com.project.childprj.domain;
+package com.project.childprj.domain.mypage;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,5 +14,4 @@ public class UserImage {
     private Long userId;
     private String sourceName;
     private String fileName;
-    private boolean isImage;
 }

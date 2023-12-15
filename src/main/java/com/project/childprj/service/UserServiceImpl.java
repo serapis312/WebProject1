@@ -1,9 +1,10 @@
 package com.project.childprj.service;
 
-import com.project.childprj.domain.*;
+import com.project.childprj.domain.mypage.NickName;
+import com.project.childprj.domain.mypage.UserImage;
+import com.project.childprj.domain.user.*;
 import com.project.childprj.repository.AuthorityRepository;
 import com.project.childprj.repository.UserRepository;
-import jakarta.servlet.http.HttpSession;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,8 +53,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
     public boolean isExist(String loginId) {
         User user = findByLoginId(loginId);
+        return (user != null);
+    }
+
+    @Override
+    public boolean isExistById(Long id) {
+        User user = findById(id);
         return (user != null);
     }
 
@@ -91,42 +103,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int uploadProfile(MultipartFile file, Long id) {
+    public int uploadProfile(MultipartFile file, Long userId) {
         int result = 0;
-        // 물리적인 파일 저장
+        // 물리적인 파일 저장 (파일이 없거나 이미지가 아니면 null 리턴)
         UserImage image = upload(file);
 
-        // 성공하면 파일이 이미지 인 경우 db 에도 저장
+        // 성공한 경우 db 에도 저장
         if(image != null) {
-            setImage(image);
-            if(image.isImage()) {
-                image.setUserId(id); // FK 설정
-                result = userRepository.saveImage(image); // INSERT
-                // 원래 있던 이미지 삭제
 
+            // 기존에 이미지가 있었다면 원래 있던 이미지 삭제
+            if(userRepository.findUserImage(userId) != null){
+                UserImage originUserImage = userRepository.findUserImage(userId);
+                delFile(originUserImage);  // 물리적으로 파일 삭제
+                userRepository.delImage(originUserImage);  // DB 에서 삭제
             }
+
+            // 새로운 이미지 DB 에 저장
+            image.setUserId(userId); // FK 설정
+            result = userRepository.saveImage(image); // INSERT
         }
 
         return result;
     }
 
-    // 이미지 파일 여부 세팅
-    private void setImage(UserImage userImage) {
-        String realPath = new File(uploadDir).getAbsolutePath();
-
-        BufferedImage imgData = null;
-        File f = new File(realPath, userImage.getFileName());
-
-        try {
-            imgData = ImageIO.read(f);
-        } catch (IOException e) {
-            System.out.println("파일존재안함: " + f.getAbsolutePath() + " [" + e.getMessage() + "]");
-        }
-
-        if(imgData != null) {
-            userImage.setImage(true);
-        }
-
+    @Override
+    public UserImage findUserImage(Long userId) {
+        return userRepository.findUserImage(userId);
     }
 
     // 물리적으로 파일 저장. 중복된 이름 rename 처리
@@ -136,6 +138,10 @@ public class UserServiceImpl implements UserService {
         // 담긴 파일이 없으면 pass~
         String originalFilename = multipartFile.getOriginalFilename();
         if(originalFilename == null || originalFilename.length() == 0) return null;
+
+        // 파일이 이미지가 아니면 pass~
+        String mimeType = multipartFile.getContentType();
+        if(mimeType == null || !mimeType.contains("image")) return null;
 
         // 원본 파일 명
         String sourceName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
@@ -183,18 +189,27 @@ public class UserServiceImpl implements UserService {
         return userImage;
     }
 
+    private void delFile(UserImage image) {
+        String saveDirectory = new File(uploadDir).getAbsolutePath();
+
+        File f = new File(saveDirectory, image.getFileName());  // 물리적으로 저장된 파일들이 삭제 대상
+
+        if(f.exists()){
+            if(f.delete()){
+                System.out.println("삭제 성공");
+            } else {
+                System.out.println("삭제 실패");
+            }
+        } else {
+            System.out.println("파일이 존재하지 않습니다.");
+        }
+
+    }
 
 
     @Override
-    public int updateUser(User user, HttpSession session) {
-        String loginId = (String) session.getAttribute("username");
-        System.out.println("loginId = " + loginId);
-//        User originUser = userRepository.findByLoginId(loginId);
-//        if(!passwordEncoder.matches(user.getPassword(), originUser.getPassword())) {
-//            return 0;
-//        }
-
-        return userRepository.update(user);
+    public int updateNickName(NickName nickName) {
+        return userRepository.updateNickName(nickName);
     }
 
     @Override
@@ -204,8 +219,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String findLoginIdByNameAndEmail(String name, String email) {
-        User user = userRepository.findByNameAndEmail(name, email);
+    public String findLoginIdByNameAndEmail(NameAndEmail nameAndEmail) {
+        User user = userRepository.findByNameAndEmail(nameAndEmail);
         String result;
         if (user != null) {
             result = user.getLoginId();
@@ -217,22 +232,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isExistByNameAndLoginId(NameAndLoginId nameAndLoginId) {
-        User user = userRepository.findByNameAndLoginId(nameAndLoginId.getName(), nameAndLoginId.getLoginId());
+        User user = userRepository.findByNameAndLoginId(nameAndLoginId);
         return (user != null);
     }
 
     @Override
     public boolean isExistByNameAndEmail(NameAndEmail nameAndEmail) {
-        User user = userRepository.findByNameAndEmail(nameAndEmail.getName(), nameAndEmail.getEmail());
+        User user = userRepository.findByNameAndEmail(nameAndEmail);
         return (user != null);
     }
 
     @Override
-    public int changePasswordByLoginId(NameAndLoginId nameAndLoginId, String newPassword, String re_password) {
+    public int changePasswordByLoginId(NameAndLoginId nameAndLoginId, NewPassword newPasswordInstance) {
         if(!isExistByNameAndLoginId(nameAndLoginId)) {
             return 0;
         }
-        User user = userRepository.findByNameAndLoginId(nameAndLoginId.getName(), nameAndLoginId.getLoginId());
+        User user = userRepository.findByNameAndLoginId(nameAndLoginId);
+        String newPassword = newPasswordInstance.getNewPassword();
+        String re_password = newPasswordInstance.getRe_password();
+
         if(newPassword.equals(re_password)) {
             user.setPassword(passwordEncoder.encode(newPassword));
         }
@@ -240,14 +258,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int changePasswordByEmail(NameAndEmail nameAndEmail, String newPassword, String re_password) {
+    public int changePasswordByEmail(NameAndEmail nameAndEmail, NewPassword newPasswordInstance) {
         if(!isExistByNameAndEmail(nameAndEmail)) {
             return 0;
         }
-        User user = userRepository.findByNameAndEmail(nameAndEmail.getName(), nameAndEmail.getEmail());
+        User user = userRepository.findByNameAndEmail(nameAndEmail);
+        String newPassword = newPasswordInstance.getNewPassword();
+        String re_password = newPasswordInstance.getRe_password();
+
         if(newPassword.equals(re_password)) {
             user.setPassword(passwordEncoder.encode(newPassword));
         }
+        return userRepository.updatePassword(user);
+    }
+
+    @Override
+    public int changePassword(String password, MypagePassword mypagePassword) {
+        User user = userRepository.findById(mypagePassword.getUserId());
+
+        if(!passwordEncoder.matches(password, user.getPassword())) {
+            return 0;
+        }
+
+        user.setPassword(passwordEncoder.encode(password));
+
         return userRepository.updatePassword(user);
     }
 

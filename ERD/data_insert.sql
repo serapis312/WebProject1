@@ -3,12 +3,14 @@ DELETE FROM post;
 DELETE FROM post_comment;
 DELETE FROM user_authority;
 DELETE FROM user_authorities;
+DELETE FROM user_img;
 
 ALTER TABLE user AUTO_INCREMENT = 1;
 ALTER TABLE post AUTO_INCREMENT = 1;
 ALTER TABLE post_comment AUTO_INCREMENT = 1;
 ALTER TABLE user_authority AUTO_INCREMENT = 1;
 ALTER TABLE user_authorities AUTO_INCREMENT = 1;
+ALTER TABLE user_img AUTO_INCREMENT = 1;
 
 -- 샘플 사용자
 INSERT INTO user(loginId, nickname, name, password, email) VALUES

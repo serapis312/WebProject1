@@ -1,9 +1,7 @@
 package com.project.childprj.controller;
 
-import com.project.childprj.domain.*;
+import com.project.childprj.domain.user.*;
 import com.project.childprj.service.UserService;
-import com.project.childprj.util.U;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -25,7 +22,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/login")
-    public void login(Model model){}
+    public void login(){}
 
     // onAuthenticationFailure 에서 로그인 실패시 forwarding 용
     // request 에 담겨진 attribute 는 Thymeleaf 에서 그대로 표현 가능.
@@ -69,7 +66,7 @@ public class UserController {
             return "redirect:/user/find";
         }
 
-        String message = userService.findLoginIdByNameAndEmail(nameAndEmail.getName(), nameAndEmail.getEmail());
+        String message = userService.findLoginIdByNameAndEmail(nameAndEmail);
         model.addAttribute("message", message);
 
         return "/user/findLoginIdByEmailOk";
@@ -95,9 +92,11 @@ public class UserController {
         if(!userService.isExistByNameAndLoginId(nameAndLoginId)) {
             return "/user/findNot";
         }
+        String loginId = nameAndLoginId.getLoginId();
 
         model.addAttribute("name", nameAndLoginId.getName());
-        model.addAttribute("loginId", nameAndLoginId.getLoginId());
+        model.addAttribute("loginId", loginId);
+        model.addAttribute("userId", userService.findByLoginId(loginId).getId());
         return "/user/changePasswordUseLoginId";
     }
 
@@ -121,9 +120,11 @@ public class UserController {
         if(!userService.isExistByNameAndEmail(nameAndEmail)) {
             return "/user/findNot";
         }
+        String email = nameAndEmail.getEmail();
 
         model.addAttribute("name", nameAndEmail.getName());
-        model.addAttribute("email", nameAndEmail.getEmail());
+        model.addAttribute("email", email);
+        model.addAttribute("userId", userService.findByEmail(email));
         return "/user/changePasswordUseEmail";
     }
 
@@ -131,11 +132,9 @@ public class UserController {
     public void changePasswordUseLoginId(){}
 
     @PostMapping("/changePasswordUseLoginId")
-    public String changePasswordUseLoginIdOk(@Valid Password password, BindingResult result, NameAndLoginId nameAndLoginId, Model model, RedirectAttributes redirectAttributes){
+    public String changePasswordUseLoginIdOk(@Valid NewPassword newPasswordInstance, BindingResult result, NameAndLoginId nameAndLoginId, Model model, RedirectAttributes redirectAttributes){
         // 검증 에러가 있었다면 redirect 한다.
         if(result.hasErrors()){
-            redirectAttributes.addFlashAttribute("name", nameAndLoginId.getName());
-            redirectAttributes.addFlashAttribute("loginId", nameAndLoginId.getLoginId());
 
             List<FieldError> errList = result.getFieldErrors();
             for(FieldError err : errList){
@@ -150,10 +149,7 @@ public class UserController {
 
         int cnt = 0;
 
-        String newPassword = password.getNewPassword();
-        String re_password = password.getRe_password();
-
-        cnt = userService.changePasswordByLoginId(nameAndLoginId, newPassword, re_password);
+        cnt = userService.changePasswordByLoginId(nameAndLoginId, newPasswordInstance);
 
         model.addAttribute("result", cnt);
         return "/user/changePasswordOk";
@@ -163,7 +159,7 @@ public class UserController {
     public void changePasswordUseEmail(){}
 
     @PostMapping("/changePasswordUseEmail")
-    public String changePasswordUseEmailOk(@Valid Password password, BindingResult result, NameAndEmail nameAndEmail, Model model, RedirectAttributes redirectAttributes){
+    public String changePasswordUseEmailOk(@Valid NewPassword newPasswordInstance, BindingResult result, NameAndEmail nameAndEmail, Model model, RedirectAttributes redirectAttributes){
         // 검증 에러가 있었다면 redirect 한다.
         if(result.hasErrors()){
             redirectAttributes.addFlashAttribute("name", nameAndEmail.getName());
@@ -181,10 +177,7 @@ public class UserController {
 
         int cnt = 0;
 
-        String newPassword = password.getNewPassword();
-        String re_password = password.getRe_password();
-
-        cnt = userService.changePasswordByEmail(nameAndEmail, newPassword, re_password);
+        cnt = userService.changePasswordByEmail(nameAndEmail, newPasswordInstance);
 
         model.addAttribute("result", cnt);
         return "/user/changePasswordOk";

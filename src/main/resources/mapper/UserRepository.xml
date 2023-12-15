@@ -6,72 +6,86 @@
 <mapper namespace="com.project.childprj.repository.UserRepository">
     <sql id="SELECT_BASE">
         SELECT
-        id "id"
-        , loginId "loginId"
-        , password "password"
-        , nickName "nickName"
-        , name "name"
-        , email "email"
-        , createDate "createDate"
+            id "id"
+            , loginId "loginId"
+            , password "password"
+            , nickName "nickName"
+            , name "name"
+            , email "email"
+            , createDate "createDate"
         FROM user
         WHERE 1 = 1
     </sql>
 
-    <select id="findById" resultType="com.project.childprj.domain.User">
+    <select id="findById" resultType="com.project.childprj.domain.user.User">
         <include refid="SELECT_BASE"/>
         AND id = #{id}
     </select>
 
-    <select id="findByLoginId" resultType="com.project.childprj.domain.User">
+    <select id="findByLoginId" resultType="com.project.childprj.domain.user.User">
         <include refid="SELECT_BASE"/>
         AND loginId = #{loginId}
     </select>
 
-    <select id="findByEmail" resultType="com.project.childprj.domain.User">
+    <select id="findByEmail" resultType="com.project.childprj.domain.user.User">
         <include refid="SELECT_BASE"/>
         AND email = #{email}
     </select>
 
-    <select id="findByNickName" resultType="com.project.childprj.domain.User">
+    <select id="findByNickName" resultType="com.project.childprj.domain.user.User">
         <include refid="SELECT_BASE"/>
         AND nickName = #{nickName}
     </select>
 
-    <select id="findByNameAndEmail" resultType="com.project.childprj.domain.User">
+    <select id="findByNameAndEmail" resultType="com.project.childprj.domain.user.User" parameterType="com.project.childprj.domain.user.NameAndEmail">
         <include refid="SELECT_BASE"/>
         AND name = #{name}
         AND email = #{email}
     </select>
 
-    <select id="findByNameAndLoginId" resultType="com.project.childprj.domain.User">
+    <select id="findByNameAndLoginId" resultType="com.project.childprj.domain.user.User" parameterType="com.project.childprj.domain.user.NameAndLoginId">
         <include refid="SELECT_BASE"/>
         AND name = #{name}
         AND loginId = #{loginId}
     </select>
 
-    <update id="updatePassword" flushCache="true" parameterType="com.project.childprj.domain.User">
+    <update id="updatePassword" flushCache="true" parameterType="com.project.childprj.domain.user.User">
         UPDATE user SET password = #{password}
         WHERE id = #{id}
     </update>
 
-    <insert id="save" flushCache="true" parameterType="com.project.childprj.domain.User"
+    <insert id="save" flushCache="true" parameterType="com.project.childprj.domain.user.User"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO user (loginId, password, nickName, name, email)
         VALUES (#{loginId}, #{password}, #{nickName}, #{name}, #{email})
     </insert>
 
-    <insert id="saveImage" flushCache="true" parameterType="com.project.childprj.domain.UserImage"
+    <select id="findUserImage" resultType="com.project.childprj.domain.mypage.UserImage">
+        SELECT
+            id "id"
+            , sourceName "sourceName"
+            , fileName "fileName"
+            , userId "userId"
+        FROM user_img
+        WHERE userId = #{userId}
+    </select>
+
+    <insert id="saveImage" flushCache="true" parameterType="com.project.childprj.domain.mypage.UserImage"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO user_img (sourceName, fileName, userId)
         VALUES (#{sourceName}, #{fileName}, #{userId})
     </insert>
 
-    <update id="update" flushCache="true" parameterType="com.project.childprj.domain.User">
-        UPDATE user SET loginId = #{loginId}, password = #{password}, nickName = #{nickName}, name = #{name}, email = #{email}
-        WHERE id = #{id}
+    <delete id="delImage" flushCache="true"  parameterType="com.project.childprj.domain.mypage.UserImage">
+        DELETE FROM user_img WHERE userId = #{userId}
+    </delete>
+
+    <update id="updateNickName" flushCache="true" parameterType="com.project.childprj.domain.mypage.NickName">
+        UPDATE user SET nickName = #{nickName}
+        WHERE id = #{userId}
     </update>
 
-    <delete id="delete" flushCache="true" parameterType="com.project.childprj.domain.User">
+    <delete id="delete" flushCache="true" parameterType="com.project.childprj.domain.user.User">
         DELETE FROM user WHERE id = #{id}
     </delete>
 

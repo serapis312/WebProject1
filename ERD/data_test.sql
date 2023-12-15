@@ -12,3 +12,6 @@ SELECT *
  
  SELECT *
   FROM user_authorities;
+ 
+ SELECT *
+ FROM user_img;

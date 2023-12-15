@@ -1,4 +1,4 @@
-package com.project.childprj.domain;
+package com.project.childprj.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

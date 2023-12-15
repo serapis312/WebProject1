@@ -1,4 +1,4 @@
-package com.project.childprj.domain;
+package com.project.childprj.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Password {
+public class MypagePassword {
+    String nowPassword;
     String newPassword;
     String re_password;
+    Long userId;
 }

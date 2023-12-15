@@ -1,7 +1,8 @@
-package com.project.childprj.domain;
+package com.project.childprj.domain.user;
 
 import com.project.childprj.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -13,12 +14,15 @@ public class GenericValidator implements Validator {
     @Autowired
     UserService userService;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Override
     public boolean supports(Class<?> clazz) {
         return User.class.isAssignableFrom(clazz)
                 || NameAndEmail.class.isAssignableFrom(clazz)
                 || NameAndLoginId.class.isAssignableFrom(clazz)
-                || Password.class.isAssignableFrom(clazz);
+                || NewPassword.class.isAssignableFrom(clazz);
     }
 
     @Override
@@ -33,8 +37,8 @@ public class GenericValidator implements Validator {
         if(target instanceof NameAndLoginId) {
             ValidationUtils.invokeValidator(new NameAndLoginIdValidator(), target, errors);
         }
-        if(target instanceof Password) {
-            ValidationUtils.invokeValidator(new PasswordValidator(), target, errors);
+        if(target instanceof NewPassword) {
+            ValidationUtils.invokeValidator(new NewPasswordValidator(passwordEncoder, userService), target, errors);
         }
 
     }

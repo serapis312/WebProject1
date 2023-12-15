@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.childprj.repository.AuthorityRepository">
-    <select id="findByAuthName" resultType="com.project.childprj.domain.Authority">
+    <select id="findByAuthName" resultType="com.project.childprj.domain.user.Authority">
         SELECT
             id "id"
             , authName "authName"
@@ -12,7 +12,7 @@
         WHERE authName = #{authName}
     </select>
 
-    <select id="findByUser" resultType="com.project.childprj.domain.Authority" parameterType="com.project.childprj.domain.User">
+    <select id="findByUser" resultType="com.project.childprj.domain.user.Authority" parameterType="com.project.childprj.domain.user.User">
         SELECT a.id "id", a.authName "authName"
         FROM user_authority a, user_authorities u
         WHERE a.id = u.authorityId  AND  u.userId = #{id}

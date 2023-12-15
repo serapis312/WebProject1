@@ -1,4 +1,4 @@
-package com.project.childprj.domain;
+package com.project.childprj.domain.mypage;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NameAndEmail {
-    String name;
-    String email;
+public class NickName {
+    String nickName;
+    Long userId;
 }

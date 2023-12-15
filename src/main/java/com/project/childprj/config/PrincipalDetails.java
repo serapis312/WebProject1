@@ -1,7 +1,7 @@
 package com.project.childprj.config;
 
-import com.project.childprj.domain.Authority;
-import com.project.childprj.domain.User;
+import com.project.childprj.domain.user.Authority;
+import com.project.childprj.domain.user.User;
 import com.project.childprj.service.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

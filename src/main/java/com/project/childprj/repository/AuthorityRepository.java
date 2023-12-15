@@ -1,7 +1,7 @@
 package com.project.childprj.repository;
 
-import com.project.childprj.domain.Authority;
-import com.project.childprj.domain.User;
+import com.project.childprj.domain.user.Authority;
+import com.project.childprj.domain.user.User;
 
 import java.util.List;
 

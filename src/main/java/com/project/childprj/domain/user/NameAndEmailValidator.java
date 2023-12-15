@@ -1,4 +1,4 @@
-package com.project.childprj.domain;
+package com.project.childprj.domain.user;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

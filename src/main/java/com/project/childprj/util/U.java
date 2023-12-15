@@ -1,7 +1,7 @@
 package com.project.childprj.util;
 
 import com.project.childprj.config.PrincipalDetails;
-import com.project.childprj.domain.User;
+import com.project.childprj.domain.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.context.SecurityContextHolder;
