@@ -1,17 +1,20 @@
 package com.project.childprj.KindergardenDTO;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 // todo: jsonparser로 json 을 가져와서 json으로 parsing
 // 필요한 파라미터만 가져와서 데이터베이스에 저장해야함
 public class KindergardenDTO {
-//    private Long id;
-@JsonProperty("KINDERNAME")
-private String kinderName;
+    //    private Long id;
+    @JsonProperty("KINDERNAME")
+    private String kinderName;
 
     @JsonProperty("ESTABLISH")
     private String establish;
@@ -30,6 +33,8 @@ private String kinderName;
 
     @JsonProperty("OPERTIME")
     private String operTime;
+
+    // Getter and Setter methods
 
     public String getKinderName() {
         return kinderName;
@@ -87,20 +92,38 @@ private String kinderName;
         this.operTime = operTime;
     }
 
-    
+    public static List<KindergardenDTO> fromJson(String jsonData) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(jsonData);
+
+        ArrayNode rows = (ArrayNode) rootNode.get("childSchoolInfo").get("row");
+        List<KindergardenDTO> result = new ArrayList<>();
+        for (JsonNode row : rows) {
+            KindergardenDTO kindergardenDTO = new KindergardenDTO();
+            kindergardenDTO.setKinderName(row.get("KINDERNAME").asText());
+            kindergardenDTO.setEstablish(row.get("ESTABLISH").asText());
+            kindergardenDTO.setHpaddr(row.get("HPADDR").asText());
+            kindergardenDTO.setLdgrName(row.get("LDGRNAME").asText());
+            kindergardenDTO.setAddr(row.get("ADDR").asText());
+            kindergardenDTO.setTelNo(row.get("TELNO").asText());
+            kindergardenDTO.setOperTime(row.get("OPERTIME").asText());
+        }
+
+        return result;
+    }
+
     // api의 rows에서 객체의 각각 필드에 설정
     public static KindergardenDTO fromJson(JsonNode row) {
-    	KindergardenDTO kindergardenDTO = new KindergardenDTO();
-		kindergardenDTO.setKinderName(row.get("KINDERNAME").asText());
-		kindergardenDTO.setEstablish(row.get("ESTABLISH").asText());
-		kindergardenDTO.setHpaddr(row.get("HPADDR").asText());
-		kindergardenDTO.setLdgrName(row.get("LDGRNAME").asText());
-		kindergardenDTO.setAddr(row.get("ADDR").asText());
-		kindergardenDTO.setTelNo(row.get("TELNO").asText());
-		kindergardenDTO.setOperTime(row.get("OPERTIME").asText());
+        KindergardenDTO kindergardenDTO = new KindergardenDTO();
+        kindergardenDTO.setKinderName(row.get("KINDERNAME").asText());
+        kindergardenDTO.setEstablish(row.get("ESTABLISH").asText());
+        kindergardenDTO.setHpaddr(row.get("HPADDR").asText());
+        kindergardenDTO.setLdgrName(row.get("LDGRNAME").asText());
+        kindergardenDTO.setAddr(row.get("ADDR").asText());
+        kindergardenDTO.setTelNo(row.get("TELNO").asText());
+        kindergardenDTO.setOperTime(row.get("OPERTIME").asText());
 
-		
-    	return kindergardenDTO;
+        return kindergardenDTO;
     }
-   
+
 }

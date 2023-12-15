@@ -53,7 +53,7 @@ public class KindergardenService {
 			if (jsonData != null && jsonData.length() > 0) {
 				JsonNode rootNode = Utils.jsonToJsonNode(jsonData);
 				// KindergardenInfo > row 데이터를 꺼냄
-				ArrayNode rows = (ArrayNode) rootNode.get("KindergardenInfo").get("row");
+				ArrayNode rows = (ArrayNode) rootNode.get("childSchoolInfo").get("row");
 				for (JsonNode row : rows) {
 					Kindergarden kindergarden = Kindergarden.fromJson(row);
 					result.add(kindergarden);

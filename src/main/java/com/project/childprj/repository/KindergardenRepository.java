@@ -7,6 +7,6 @@ import java.util.List;
 
 @Repository
 public interface KindergardenRepository {
-    void insertKindergarden(Kindergarden kindergarden);
     List<Kindergarden> selectAllKindergarden();
+    void insertKindergarden(Kindergarden kindergarden);
 }

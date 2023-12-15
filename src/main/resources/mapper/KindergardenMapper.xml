@@ -15,6 +15,11 @@
         <result property="HPADDR" column="HPADDR" />
         <result property="OPERTIME" column="OPERTIME" />
     </resultMap>
+
+    <select id="selectAllKindergarden" resultType="com.project.childprj.domain.Kindergarden">
+        SELECT * FROM kindergarden;
+    </select>
+
     <insert id="insertKindergarden" parameterType="com.project.childprj.domain.Kindergarden">
         INSERT INTO kindergarden (
             KINDERNAME, ESTABLISH, LDGRNAME, ODATE, ADDR, TELNO, HPADDR, OPERTIME
@@ -24,7 +29,4 @@
                )
     </insert>
 
-    <select id="selectAllKindergarden" resultType="com.project.childprj.domain.Kindergarden">
-        SELECT * FROM kindergarden;
-    </select>
 </mapper>
