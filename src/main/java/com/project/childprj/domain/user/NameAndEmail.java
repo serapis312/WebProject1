@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class NameAndEmail {
-    String name;
-    String email;
+    private String name;
+    private String email;
 }

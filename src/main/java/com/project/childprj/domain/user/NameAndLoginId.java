@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class NameAndLoginId {
-    String name;
-    String loginId;
+    private String name;
+    private String loginId;
 }

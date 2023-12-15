@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class NickName {
-    String nickName;
-    Long userId;
+    private String nickName;
+    private Long userId;
 }

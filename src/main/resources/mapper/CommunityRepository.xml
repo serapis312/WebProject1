@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.childprj.repository.CommunityRepository">
+
+    <insert id="save" flushCache="true" parameterType="com.project.childprj.domain.community.Post"
+            useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO post
+            (title, content, userId)
+        VALUES
+            (#{title}, #{content}, #{user.id})
+    </insert>
+
+    <insert id="addRecommend" flushCache="true">
+        INSERT INTO recommend
+            (userId, postId)
+        VALUES
+            (#{userId}, #{postId})
+    </insert>
+
+    <update id="incViewCnt" flushCache="true">
+        UPDATE post
+        SET viewCnt = viewCnt + 1
+        WHERE id = #{id}
+    </update>
+
+    <!-- 반복해서 사용될 쿼리문은 sql 태그로 정의 하고, include 태그로 가져다 쓸수 있다 -->
+    <sql id="SELECT_BASE">
+        SELECT
+        p.id "p_id",
+        p.title "p_title",
+        p.content "p_content",
+        p.viewCnt "p_viewCnt",
+        p.createDate "p_createDate",
+        u.id "u_id",
+        u.loginId "u_loginId",
+        u.nickName "u_nickName"
+        u.name "u_name",
+        u.email "u_email",
+        u.createDate "u_createDate"
+        FROM
+        post p, user u
+        WHERE
+        p.userId = u.id
+    </sql>
+
+    <resultMap id="mapUser" type="com.project.childprj.domain.user.User">
+        <result column="u_id" property="id"/>
+        <result column="u_loginId" property="loginId"/>
+        <result column="u_nickName" property="nickName"/>
+        <result column="u_name" property="name"/>
+        <result column="u_email" property="email"/>
+        <result column="u_createDate" property="createDate"/>
+    </resultMap>
+
+    <resultMap id="mapPost" type="com.project.childprj.domain.community.Post">
+        <result column="p_id" property="id"/>
+        <result column="p_title" property="title"/>
+        <result column="p_content" property="content"/>
+        <result column="p_viewCnt" property="viewCnt"/>
+        <result column="p_createDate" property="createDate"/>
+        <collection property="user" resultMap="mapUser"/>
+    </resultMap>
+
+    <select id="findById" resultMap="mapPost">
+        <include refid="SELECT_BASE"/>
+        AND p.id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="mapPost">
+        <include refid="SELECT_BASE"/>
+        ORDER BY p.id DESC
+    </select>
+
+    <update id="update" flushCache="true"
+            parameterType="com.project.childprj.domain.community.Post">
+        UPDATE post
+        SET title = #{title}, content = #{content}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" flushCache="true"
+            parameterType="com.project.childprj.domain.community.Post">
+        DELETE FROM post WHERE id = #{id}
+    </delete>
+
+    <!-- 페이징 용 쿼리 -->
+
+
+
+</mapper>

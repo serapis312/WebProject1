@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MypagePassword {
-    String nowPassword;
-    String newPassword;
-    String re_password;
-    Long userId;
+    private String nowPassword;
+    private String newPassword;
+    private String re_password;
+    private Long userId;
 }

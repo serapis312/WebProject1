@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class CheckPassword {
-    String originPassword;
-    String re_password;
-    Long userId;
+    private String originPassword;
+    private String re_password;
+    private Long userId;
 }
