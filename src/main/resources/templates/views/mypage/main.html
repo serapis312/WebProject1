@@ -75,11 +75,11 @@
             <form id="changePassword" method="POST" th:action="@{/mypage/changePassword}">
                 <input type="hidden" th:value="${user.id}" name="userId">
                 <label>현재 비밀번호</label>
-                <input class="form-control col-xs-3" type="password" name="password">
+                <input class="form-control col-xs-3" type="password" name="nowPassword" id="nowPassword">
                 <label>새로운 비밀번호</label>
-                <input class="form-control col-xs-3" type="password" name="newPassword">
+                <input class="form-control col-xs-3" type="password" name="newPassword" id="newPassword">
                 <label>새로운 비밀번호 확인</label>
-                <input class="form-control col-xs-3" type="password" name="re_password">
+                <input class="form-control col-xs-3" type="password" name="re_password" id="re_password">
                 <button type="submit">변경완료</button>
                 <button type="button" id="btnCancelPassword">변경취소</button>
             </form>

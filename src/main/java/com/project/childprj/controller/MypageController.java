@@ -59,7 +59,7 @@ public class MypageController {
             return "redirect:/mypage/main";
         }
 
-        model.addAttribute("result", userService.changePassword(mypagePassword.getNewPassword(), mypagePassword));
+        model.addAttribute("result", userService.changePassword(mypagePassword));
         return "mypage/changePasswordOk";
     }
 

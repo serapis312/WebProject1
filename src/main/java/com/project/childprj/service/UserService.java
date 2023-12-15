@@ -64,7 +64,7 @@ public interface UserService {
     int changePasswordByEmail(NameAndEmail nameAndEmail, NewPassword newPassword);
 
     // 비밀번호 변경 (현재 비밀번호 이용)
-    int changePassword(String password, MypagePassword mypagePassword);
+    int changePassword(MypagePassword mypagePassword);
 
     // 로그인 한 유저 비밀번호와 비밀번호확인 입력 후 회원탈퇴버튼 누르면 해당 user 삭제
     int deleteUser(User user);

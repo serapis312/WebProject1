@@ -273,14 +273,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int changePassword(String password, MypagePassword mypagePassword) {
+    public int changePassword(MypagePassword mypagePassword) {
         User user = userRepository.findById(mypagePassword.getUserId());
 
-        if(!passwordEncoder.matches(password, user.getPassword())) {
-            return 0;
-        }
-
-        user.setPassword(passwordEncoder.encode(password));
+        user.setPassword(passwordEncoder.encode(mypagePassword.getNewPassword()));
 
         return userRepository.updatePassword(user);
     }
