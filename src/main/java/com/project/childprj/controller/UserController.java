@@ -39,16 +39,6 @@ public class UserController {
     @GetMapping("/find")
     public void find(){}
 
-//    @GetMapping("/find")
-//    public String find(Model model){
-//        model.addAttribute("nameAndEmail", new NameAndEmail());
-//        model.addAttribute("nameAndLoginId", new NameAndLoginId());
-//        return "/user/findOld";
-//    }
-//
-//    @GetMapping("/findOld")
-//    public void findOld(){}
-
     @PostMapping("/findLoginIdByEmail")
     public String findLoginIdByEmailOk(@Valid NameAndEmail nameAndEmail, BindingResult result, Model model, RedirectAttributes redirectAttributes){
         // 검증 에러가 있었다면 redirect 한다.

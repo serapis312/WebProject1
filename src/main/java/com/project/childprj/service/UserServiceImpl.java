@@ -291,6 +291,11 @@ public class UserServiceImpl implements UserService {
         if(!passwordEncoder.matches(user.getPassword(), originUser.getPassword())) {
             return 0;
         }
+        
+        // 탈퇴할 유저의 물리적인 프로필사진 삭제
+        UserImage userImage = userRepository.findUserImage(user.getId());
+        delFile(userImage);
+        
         return userRepository.delete(user);
     }
 
