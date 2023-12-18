@@ -140,8 +140,18 @@ public class UserServiceImpl implements UserService {
         if(originalFilename == null || originalFilename.length() == 0) return null;
 
         // 파일이 이미지가 아니면 pass~
-        String mimeType = multipartFile.getContentType();
-        if(mimeType == null || !mimeType.contains("image")) return null;
+        BufferedImage bufferedImage = null;
+
+        try {
+            bufferedImage = ImageIO.read(multipartFile.getInputStream());
+
+            if(bufferedImage == null){
+                return null;
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         // 원본 파일 명
         String sourceName = StringUtils.cleanPath(multipartFile.getOriginalFilename());

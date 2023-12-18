@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 public class Post {
     private Long id;
-    private String  title;
+    private String title;
     private String content;
     private Long viewCnt;
     private LocalDateTime createDate;

@@ -32,10 +32,11 @@ public class SecurityConfig {
                  **********************************************/
                 .authorizeHttpRequests(auth -> auth
                         // URL 과 접근권한 세팅(들)
-                        // ↓ /board/detail/** URL로 들어오는 요청은 '인증'만 필요.
-                        .requestMatchers("/mypage/**").authenticated()
-                        // ↓ "/board/write/**", "/board/update/**", "/board/delete/**" URL로 들어오는 요청은 '인증' 뿐 아니라 ROLE_MEMBER 나 ROLE_ADMIN 권한을 갖고 있어야 한다. ('인가')
-                        .requestMatchers("/board/write/**", "/board/update/**", "/board/delete/**").hasAnyRole("MEMBER", "ADMIN")
+                        // ↓ /mypage/**, /community/detail/**, /product/detail/** URL로 들어오는 요청은 '인증'만 필요.
+                        .requestMatchers("/mypage/**", "/community/detail/**", "/product/detail/**").authenticated()
+                        // ↓ "/community/write/**", "/community/update/**", "/community/delete/**" URL로 들어오는 요청은 '인증' 뿐 아니라 ROLE_MEMBER 나 ROLE_ADMIN 권한을 갖고 있어야 한다. ('인가')
+                        // ↓ "/community/write/**", "/community/update/**", "/community/delete/**" URL로 들어오는 요청은 '인증' 뿐 아니라 ROLE_MEMBER 나 ROLE_ADMIN 권한을 갖고 있어야 한다. ('인가')
+                        .requestMatchers("/community/write/**", "/community/update/**", "/community/delete/**").hasAnyRole("MEMBER", "ADMIN")
                         // ↓ 그 밖의 다른 요청은 모두 permit!
                         .anyRequest().permitAll()
                 )

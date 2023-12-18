@@ -87,7 +87,85 @@
     </delete>
 
     <!-- 페이징 용 쿼리 -->
+    <select id="selectFromRow" resultMap="mapPost">
+        <include refid="SELECT_BASE"/>
+        ORDER BY p.id DESC
+        LIMIT #{param1}, #{param2}
+    </select>
 
+    <select id="countAll" resultType="int">
+        SELECT count(*) FROM post
+    </select>
 
+    <!-- 첨부파일 용 쿼리 -->
+
+    <insert id="saveImage" flushCache="true" parameterType="com.project.childprj.domain.community.Attachment">
+        INSERT INTO post_img(sourceName, fileName, postId)
+        VALUES
+        (#{sourceName}, #{fileName}, #{postId})
+    </insert>
+
+    <!-- 반복해서 사용될 쿼리문은 sql 태그로 정의 include 태그로 가져다 쓸수 있다 -->
+    <sql id="SELECTFILE">
+        SELECT id, sourceName, fileName, postId
+        FROM post_img
+        WHERE 1 = 1
+    </sql>
+
+    <select id="findImageByPost" resultType="com.project.childprj.domain.community.Attachment">
+        <include refid="SELECTFILE"/>
+        AND
+        postId = #{param1}
+        ORDER BY id ASC
+    </select>
+
+    <select id="findImageById" resultType="com.project.childprj.domain.community.Attachment">
+        <include refid="SELECTFILE"/>
+        AND id = #{id}
+    </select>
+
+    <delete id="deleteImage" flushCache="true">
+        DELETE FROM post_img WHERE id = #{id}
+    </delete>
+
+    <!-- 댓글 용 쿼리 -->
+
+    <resultMap id="mapComment" type="com.project.childprj.domain.community.Comment">
+        <result column="c_id" property="id"/>
+        <result column="c_content" property="content"/>
+        <result column="c_createDate" property="createDate"/>
+        <result column="c_postId" property="postId"/>
+        <collection property="user" resultMap="mapUser"/>
+    </resultMap>
+
+    <select id="findCommentByPost" resultMap="mapComment">
+        SELECT
+        c.id "c_id",
+        c.content "c_content",
+        c.createDate "c_createDate",
+        c.postId "c_postId",
+        u.id "u_id",
+        u.loginId "u_loginId",
+        u.nickName "u_nickName"
+        u.name "u_name",
+        u.email "u_email",
+        u.createDate "u_createDate"
+        FROM post_comment c, user u
+        WHERE
+        c.userId = u.id
+        AND c.postId = #{postId}
+        ORDER BY c.id DESC
+    </select>
+
+    <insert id="saveComment" flushCache="true"
+            parameterType="com.project.childprj.domain.community.Comment"
+            useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO post_comment(userId, postId, content)
+        VALUES(#{user.id}, #{postId}, #{content})
+    </insert>
+
+    <delete id="deleteCommentById" flushCache="true">
+        DELETE FROM post_comment WHERE id = #{id}
+    </delete>
 
 </mapper>

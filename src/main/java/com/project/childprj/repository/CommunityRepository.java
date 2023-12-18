@@ -1,5 +1,7 @@
 package com.project.childprj.repository;
 
+import com.project.childprj.domain.community.Attachment;
+import com.project.childprj.domain.community.Comment;
 import com.project.childprj.domain.community.Post;
 
 import java.util.List;
@@ -35,5 +37,31 @@ public interface CommunityRepository {
 
     // 전체 글의 개수
     int countAll();
+
+
+    // 첨부파일
+    // 첨부파일 DB 저장
+    int saveImage(Attachment image);
+
+    // 특정 글(postId) 의 첨부파일 목록
+    List<Attachment> findImageByPost(Long postId);
+
+    // 특정 첨부파일(id) 한개 select
+    Attachment findImageById(Long id);
+
+    // 특정 첨부 파일(file)을 DB에서 삭제
+    int deleteImage(Attachment image);
+
+
+    // 댓글
+    // 특정 글(post_id) 의 댓글 목록
+    List<Comment> findCommentByPost(Long postId);
+
+    // 댓글 작성 <-- Comment
+    int saveComment(Comment comment);
+
+    // 특정 댓글 (id) 삭제
+    int deleteCommentById(Long id);
+
 
 }
