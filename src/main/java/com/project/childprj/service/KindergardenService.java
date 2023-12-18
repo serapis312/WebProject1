@@ -1,5 +1,6 @@
 package com.project.childprj.service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,10 +33,11 @@ public class KindergardenService {
 	}
 
 	@Transactional
-	public void insertKindergarden(Kindergarden kindergarden) {
-		sqlSession.insert("insertKindergarden", kindergarden);
+	public int insertKindergarden(Kindergarden kindergarden) {
+		// ALTER TABLE `mychild`.`kindergarden` ADD UNIQUE INDEX `KINDERNAME_UNIQUE` (`KINDERNAME` ASC) VISIBLE;
+		// KINDERNAME을 유니크 키로 지정. 동일한 KINDERNAME이 등록될 경우 예외 발생.
+		return sqlSession.insert("insertKindergarden", kindergarden);
 	}
-	
 	// 유치원 목록 조회 API 연동 서비스
 	public List<Kindergarden> getKindergarden(Integer startIndex, Integer endIndex) throws JsonProcessingException {
 		String type = "json"; // 요청 파일 타입
@@ -62,13 +64,18 @@ public class KindergardenService {
 					// DB 저장
 					// KindergardenMapper.xml에서 id 제거, ODATE 값 NOW()로 변경
 					// tables_create.sql DDL문에 id AUTO_INCREMENT 추가
-//					this.insertKindergarden(kindergarden);
+					this.insertKindergarden(kindergarden);
 				}
 			}
 		}
 
 		return result;
 	}
+
+	public Kindergarden getKindergarden(String kindername) {
+		return this.sqlSession.selectOne("selectKindergarden", kindername);
+	}
+
 
 	public List<Kindergarden> getAllKindergarden() {
 		return sqlSession.selectList("selectAllKindergarden");

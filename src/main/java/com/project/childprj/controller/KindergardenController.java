@@ -2,7 +2,9 @@ package com.project.childprj.controller;
 
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.project.childprj.util.Utils;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,11 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.project.childprj.KindergardenDTO.KindergardenDTO;
 import com.project.childprj.domain.Kindergarden;
 import com.project.childprj.service.KindergardenService;
 
-@Slf4j
 @Controller
 @RequestMapping("/protect")
 public class KindergardenController {
@@ -39,7 +39,7 @@ public class KindergardenController {
     private String kinderKey;
 
     @GetMapping("/api/kindergarden/{start_index}/{end_index}")
-    public ResponseEntity<List<KindergardenDTO>> getKindergardenData(
+    public ResponseEntity<Integer> getKindergardenData(
             @PathVariable("start_index") Integer startIndex,
             @PathVariable("end_index") Integer endIndex
     ) {
@@ -55,10 +55,16 @@ public class KindergardenController {
         try {
             if (response.getStatusCode().is2xxSuccessful()) {
                 String jsonData = response.getBody();
-
                 if (jsonData != null && jsonData.length() > 0) {
-                    List<KindergardenDTO> kindergardenDTO = KindergardenDTO.fromJson(jsonData);
-                    return ResponseEntity.ok(kindergardenDTO);
+                    int result = 0;
+                    JsonNode rootNode = Utils.jsonToJsonNode(jsonData);
+                    // childSchoolInfo > row 데이터를 꺼냄
+                    ArrayNode rows = (ArrayNode) rootNode.get("childSchoolInfo").get("row");
+                    for (JsonNode row : rows) {
+                        Kindergarden kindergarden = Kindergarden.fromJson(row);
+                        result += kindergardenService.insertKindergarden(kindergarden);
+                    }
+                    return ResponseEntity.ok(result);
                 } else {
                     // API 응답이 비어있는 경우에 대한 처리
                     return ResponseEntity.status(204).body(null); // No Content
@@ -74,19 +80,26 @@ public class KindergardenController {
         }
     }
 
-    // Thymeleaf 사용해서 list 보여줌
+
     @GetMapping("/api/kindergarden/{start_index}/{end_index}/list")
     public String showList(Model model,
                            @PathVariable("start_index") Integer startIndex,
                            @PathVariable("end_index") Integer endIndex) throws JsonProcessingException {
         // 여기에서 유치원 목록을 가져오는 서비스 메서드를 호출하고 모델에 추가하는 로직 추가
-        System.out.println(startIndex);
-        log.info("Req -> {}, {}", startIndex, endIndex);
-    	List<Kindergarden> kindergarden = kindergardenService.getKindergarden(startIndex, endIndex);
-//        List<Kindergarden> kindergarden = kindergardenService.getAllKindergarden();
+//    	List<Kindergarden> kindergarden = kindergardenService.getKindergarden(startIndex, endIndex);
+        List<Kindergarden> kindergarden = kindergardenService.getAllKindergarden();
         model.addAttribute("kindergarden", kindergarden);
 
         return "kindergardenList";
+    }
+
+    // 상세 조회
+    @GetMapping("/api/kindergarden")
+    public String showDetail(Model model, @RequestParam("kindername") String kindername) {
+        Kindergarden kindergarden = kindergardenService.getKindergarden(kindername);
+        model.addAttribute("kindergarden", kindergarden);
+
+        return "kindergardenDetail";
     }
 
 

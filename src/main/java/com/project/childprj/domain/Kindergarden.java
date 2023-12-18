@@ -1,14 +1,19 @@
 package com.project.childprj.domain;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.data.annotation.Id;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Kindergarden {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String KINDERNAME;  // 유치원명
     private String ESTABLISH;   // 설립유형
@@ -73,6 +78,13 @@ public class Kindergarden {
 		kindergarden.setOPERTIME(row.get("OPERTIME").asText());
 		
 		return kindergarden;
+	}
+
+	@Override
+	public String toString() {
+		return "Kindergarden [id=" + id + ", KINDERNAME=" + KINDERNAME + ", ESTABLISH=" + ESTABLISH + ", LDGRNAME="
+				+ LDGRNAME + ", ADDR=" + ADDR + ", TELNO=" + TELNO + ", HPADDR=" + HPADDR + ", OPERTIME=" + OPERTIME
+				+ "]";
 	}
     
 }

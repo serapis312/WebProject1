@@ -48,16 +48,16 @@ CREATE TABLE child_house
 
 CREATE TABLE kindergarden
 (
-	id int NOT NULL AUTO_INCREMENT,
-	KINDERNAME varchar(255),
-	ESTABLISH varchar(255),
-	LDGRNAME varchar(255),
-	ODATE date,
-	ADDR varchar(255),
-	TELNO varchar(20),
-	HPADDR varchar(255),
-	OPERTIME varchar(255),
-	PRIMARY KEY (id)
+    id int NOT NULL AUTO_INCREMENT,
+    KINDERNAME varchar(255),
+    ESTABLISH varchar(255),
+    LDGRNAME varchar(255),
+    ODATE date,
+    ADDR varchar(255),
+    TELNO varchar(20),
+    HPADDR varchar(255),
+    OPERTIME varchar(255),
+    PRIMARY KEY (id)
 );
 
 

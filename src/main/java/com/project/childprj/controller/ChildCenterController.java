@@ -26,7 +26,7 @@ public class ChildCenterController {
 
 	private final ChildCenterService childCenterService;
 	
-	@GetMapping("/get/child-center/list")
+	@GetMapping("/get/childCenter/list")
     public String showList(Model model){
 
 		int startIndex = 1;

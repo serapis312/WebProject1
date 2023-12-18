@@ -1,4 +1,4 @@
-package com.project.childprj.KindergardenDTO;
+package com.project.childprj.DTO;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,10 +9,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-// todo: jsonparser로 json 을 가져와서 json으로 parsing
 // 필요한 파라미터만 가져와서 데이터베이스에 저장해야함
 public class KindergardenDTO {
-    //    private Long id;
     @JsonProperty("KINDERNAME")
     private String kinderName;
 
@@ -111,7 +109,6 @@ public class KindergardenDTO {
 
         return result;
     }
-
     // api의 rows에서 객체의 각각 필드에 설정
     public static KindergardenDTO fromJson(JsonNode row) {
         KindergardenDTO kindergardenDTO = new KindergardenDTO();
