@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="shortcut icon" th:href="@{/img/favicon.png}" type="image/x-icon" />
+        <link rel="stylesheet" th:href="@{/css/common.css}" />
+        <link rel="stylesheet" th:href="@{/css/communityList.css}" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+        <title>커뮤니티</title>
+    </head>
+    <body>
+        <!-- header -->
+        <th:block th:insert="~{fragment/header::header}"></th:block>
+
+        <!-- section -->
+        <div id="communityList-wrap">
+            <div id="txt-section">
+                질문하고 소통해요! &nbsp;
+                <span>커뮤니티</span>
+                <img src="/img/chat.png" height="30px" />
+            </div>
+
+            <div id="list-section">
+                <div id="listHeader-wrap">
+                    <div id="writeBtn">
+                        <a th:href="@{/community/communityWrite}">작성하기</a>
+                    </div>
+                    <div id="frm-section">
+                        <form name="searchFrm" action="">
+                            <input type="text" placeholder="검색어를 입력하세요" />
+                            <button type="submit">
+                                <img src="/img/search.png" height="25px" />
+                            </button>
+                        </form>
+                        <form name="orderFrm" action="">
+                            <input type="hidden" />
+                            <select name="" id="orderWay">
+                                <option value="최신순">최신순</option>
+                                <option value="추천순">추천순</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="list-wrap">
+                    <div id="thead">
+                        <p>NO</p>
+                        <p>제목</p>
+                        <p>작성자</p>
+                        <p>조회수</p>
+                        <p>추천수</p>
+                        <p>작성일</p>
+                    </div>
+
+                    <ul id="tbody">
+                        <li class="list-content">
+                            <p class="post-no">1</p>
+                            <p class="post-title">
+                                <a href="">안녕하세요!안녕하세요!안녕하세요!안녕하세요!</a>
+                            </p>
+                            <p class="post-writer">뽀로로맘</p>
+                            <p class="post-viewCnt">13</p>
+                            <p class="post-rcmCnt">3</p>
+                            <p class="post-date">23.11.30</p>
+                        </li>
+                        <li class="list-content">
+                            <p class="post-no">1</p>
+                            <p class="post-title">
+                                <a href="">안녕하세요!</a>
+                            </p>
+                            <p class="post-writer">뽀로로맘뽀로로맘뽀로로맘</p>
+                            <p class="post-viewCnt">13</p>
+                            <p class="post-rcmCnt">3</p>
+                            <p class="post-date">23.11.30</p>
+                        </li>
+                        <li class="list-content">
+                            <p class="post-no">1</p>
+                            <p class="post-title">
+                                <a href="">안녕하세요!</a>
+                            </p>
+                            <p class="post-writer">뽀로로맘</p>
+                            <p class="post-viewCnt">13</p>
+                            <p class="post-rcmCnt">3</p>
+                            <p class="post-date">23.11.30</p>
+                        </li>
+                        <li class="list-content">
+                            <p class="post-no">1</p>
+                            <p class="post-title">
+                                <a href="">안녕하세요!</a>
+                            </p>
+                            <p class="post-writer">뽀로로맘</p>
+                            <p class="post-viewCnt">13</p>
+                            <p class="post-rcmCnt">3</p>
+                            <p class="post-date">23.11.30</p>
+                        </li>
+                        <li class="list-content">
+                            <p class="post-no">1</p>
+                            <p class="post-title">
+                                <a href="">안녕하세요!</a>
+                            </p>
+                            <p class="post-writer">뽀로로맘</p>
+                            <p class="post-viewCnt">13</p>
+                            <p class="post-rcmCnt">3</p>
+                            <p class="post-date">23.11.30</p>
+                        </li>
+                    </ul>
+                </div>
+                <div id="pagination-wrap">
+                    <ul id="pagination-content">
+                        <li><a href="#"><img src="/img/prev.png" height="12px"></a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#"><img src="/img/next.png" height="12px"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <th:block th:insert="~{fragment/footer::footer}"></th:block>
+    </body>
+</html>
