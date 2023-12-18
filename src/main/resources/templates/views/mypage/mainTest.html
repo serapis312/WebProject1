@@ -91,7 +91,7 @@
         </div>
         <div class="form-group mt-3">
             <label for="createDate">가입일</label>
-            <input type="text" class="form-control" id="createDate" name="createDate" th:value="${#strings.substring(user.createDate, 0, 10)}" disabled>
+            <input type="text" class="form-control" id="createDate" name="createDate" th:value="${#temporals.format(user.createDate, 'yyyy-MM-dd HH:mm:ss')}" disabled>
         </div>
         <form method="GET" th:action="@{/mypage/delete}">
             <input type="hidden" name="userId" th:value="${user.id}">

@@ -36,7 +36,7 @@
         p.createDate "p_createDate",
         u.id "u_id",
         u.loginId "u_loginId",
-        u.nickName "u_nickName"
+        u.nickName "u_nickName",
         u.name "u_name",
         u.email "u_email",
         u.createDate "u_createDate"

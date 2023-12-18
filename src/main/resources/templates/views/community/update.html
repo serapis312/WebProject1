@@ -27,7 +27,7 @@
 
     <body style="margin-bottom: 200px">
     <!--/* 인증 헤더 */-->
-    <th:block th:insert="~{common/header::header}"></th:block>
+<!--    <th:block th:insert="~{common/header::header}"></th:block>-->
 
     <div class="container mt-3">
         <h2>수정</h2>
@@ -42,7 +42,7 @@
             <input type="hidden" name="id" th:value="${post.id}"/>
             <div class="mb-3">
                 <label>작성자:</label>
-                <span class="form-control" th:text="${post.user.username}"></span>
+                <span class="form-control" th:text="${post.user.loginId}"></span>
             </div>
             <div class="mb-3 mt-3">
                 <label for="subject">제목:</label>

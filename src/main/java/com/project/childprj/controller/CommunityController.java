@@ -39,8 +39,7 @@ public class CommunityController {
         if(result.hasErrors()){
 
             // redirect시 기존에 입력했던 값들은 보이게 하기
-            redirectAttrs.addFlashAttribute("user", post.getUser());
-            redirectAttrs.addFlashAttribute("subject", post.getTitle());
+            redirectAttrs.addFlashAttribute("title", post.getTitle());
             redirectAttrs.addFlashAttribute("content", post.getContent());
 
             List<FieldError> errList = result.getFieldErrors();

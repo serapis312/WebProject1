@@ -16,10 +16,9 @@ public class PostValidator implements Validator {
         Post post = (Post) target;
 
         String title = post.getTitle();
-        String content = post.getContent();
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, title, "글 제목은 필수입니다.");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, content, "글 내용은 필수입니다.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "글 제목은 필수입니다.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "content", "글 내용은 필수입니다.");
         if(title.length() > 50) {
             errors.rejectValue("title", "글 제목은 50자 이하입니다");
         }
