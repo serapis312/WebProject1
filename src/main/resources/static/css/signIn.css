@@ -43,6 +43,7 @@
     background-color: var(--cloud-color);
     color: white;
     border-radius: 3px;
+    border: none;
     height: 70px;
     margin: 15px 0;
     font-weight: 700;

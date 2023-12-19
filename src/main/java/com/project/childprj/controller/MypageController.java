@@ -56,6 +56,7 @@ public class MypageController {
                 break;
             }
 
+            redirectAttributes.addFlashAttribute("flag", 0);
             return "redirect:/mypage/main";
         }
 
@@ -69,6 +70,7 @@ public class MypageController {
         if(result.hasErrors()){
             redirectAttributes.addFlashAttribute("userId", nickName.getUserId());
             redirectAttributes.addFlashAttribute("nickName", nickName.getNickName());
+            redirectAttributes.addFlashAttribute("flagNickName", 0);
 
             List<FieldError> errList = result.getFieldErrors();
             for(FieldError err : errList){
@@ -95,16 +97,16 @@ public class MypageController {
     public String deleteOk(@Valid CheckPassword checkPassword, BindingResult result, Model model, RedirectAttributes redirectAttributes){
         // 검증 에러가 있었다면 redirect 한다.
         if(result.hasErrors()){
-            redirectAttributes.addAttribute("userId", checkPassword.getUserId());
+            redirectAttributes.addFlashAttribute("flagDelete", 0);
 
             List<FieldError> errList = result.getFieldErrors();
             for(FieldError err : errList){
                 // 가장 처음에 발견된 에러만 보내기
-                redirectAttributes.addFlashAttribute("error", err.getCode());
+                redirectAttributes.addFlashAttribute("error_delete", err.getCode());
                 break;
             }
 
-            return "redirect:/mypage/delete";
+            return "redirect:/mypage/main";
         }
 
         User user = userService.findById(checkPassword.getUserId());

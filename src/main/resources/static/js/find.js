@@ -25,3 +25,12 @@ for (let i = 0; i < 3; i++) {
         clickHiddenMenuBtn(i);
     };
 }
+
+if(indexFind != null && indexFind != "") {
+    openBtnArr[indexFind].style.display = `none`;
+    closeBtnArr[indexFind].style.display = `block`;
+    hiddenMenuArr[indexFind].style.display = `block`;
+    stateArr[indexFind] = true;
+}
+
+

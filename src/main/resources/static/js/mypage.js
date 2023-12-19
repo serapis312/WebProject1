@@ -8,11 +8,14 @@ const $changePwBtn = document.querySelector(".mypage-content-content > .change-p
 const $changePwCompleteBtn = document.querySelector(".change-pw-complete");
 const $changePwWrap = document.querySelector(".change-pw-wrap");
 
-const $changePicBtn = document.querySelector(".picture-change-btn");
-
 const $dropUser = document.querySelector(".drop-user");
 
 const $body = document.querySelector("body");
+
+const $btnCancelChangeNickName = document.querySelector("#btnCancelChangeNickName");
+const $errorMessageNickName = document.querySelector("#errorMessage_nickName");
+
+const $btnCancelChangePassword = document.querySelector("#btnCancelChangePassword");
 
 // 닉네임 변경
 const clickNickNameChangeBtn = () => {
@@ -20,19 +23,32 @@ const clickNickNameChangeBtn = () => {
     $nicknameChangeBtn.style.display = `none`;
     $completeBtn.style.display = `block`;
     $nicknameInput.style.display = `block`;
+    $btnCancelChangeNickName.style.display = `block`;
 };
 
-const clickNickNameChangeCompleteBtn = () => {
+const clickBtnCancelChangeNickName = () => {
     $nickname.style.display = `block`;
     $nicknameChangeBtn.style.display = `block`;
     $completeBtn.style.display = `none`;
     $nicknameInput.style.display = `none`;
-
-    $nickname.innerHTML = $nicknameInput.value;
-    $nicknameInput.placeholder = $nicknameInput.value;
-
-    alert("닉네임 변경 완료");
+    $btnCancelChangeNickName.style.display = `none`;
+    $errorMessageNickName.innerHTML= "";
 };
+
+if (flagNickName == 0) {
+    $nickname.style.display = `none`;
+    $nicknameChangeBtn.style.display = `none`;
+    $completeBtn.style.display = `block`;
+    $nicknameInput.style.display = `block`;
+    $btnCancelChangeNickName.style.display = `block`;
+} else if (flagNickName == 1) {
+    $nickname.style.display = `block`;
+    $nicknameChangeBtn.style.display = `block`;
+    $completeBtn.style.display = `none`;
+    $nicknameInput.style.display = `none`;
+    $btnCancelChangeNickName.style.display = `none`;
+}
+
 
 // 비밀번호 변경
 const clickPasswordChangeBtn = () => {
@@ -41,17 +57,21 @@ const clickPasswordChangeBtn = () => {
     $changePwWrap.style.display = `block`;
 };
 
-const clickPasswordChangeCompleteBtn = () => {
+const clickBtnCancelChangePassword = () => {
+    console.log("비밀번호 변경 취소");
     $changePwBtn.style.display = `block`;
     $changePwWrap.style.display = `none`;
-
-    alert("비밀번호 변경 완료");
 };
+
+if(flag == 1) {
+    $changePwBtn.style.display = `block`;
+    $changePwWrap.style.display = `none`;
+} else if(flag == 0) {
+    $changePwBtn.style.display = `none`;
+    $changePwWrap.style.display = `block`;
+}
 
 // 프사 변경
-const clickChangePicBtn = () => {
-    alert("프사 변경하기!!");
-};
 
 // 회원 탈퇴
 const clickDropUserBtn = () => {
@@ -63,11 +83,25 @@ const clickDropUserBtn = () => {
 };
 
 $nicknameChangeBtn.addEventListener("click", clickNickNameChangeBtn);
-$nicknameChangeCompleteBtn.addEventListener("click", clickNickNameChangeCompleteBtn);
 
 $changePwBtn.addEventListener("click", clickPasswordChangeBtn);
-$changePwCompleteBtn.addEventListener("click", clickPasswordChangeCompleteBtn);
-
-$changePicBtn.addEventListener("click", clickChangePicBtn);
 
 $dropUser.addEventListener("click", clickDropUserBtn);
+
+$btnCancelChangeNickName.addEventListener("click", clickBtnCancelChangeNickName)
+
+$btnCancelChangePassword.addEventListener("click", clickBtnCancelChangePassword)
+
+// 프로필사진 변경
+$(function(){
+    $("#btnChangeImage").click(function(){
+        $("#upfile").show();
+        $("#btnChangeImage").hide();
+    });
+
+    $("#btnCancelImage").click(function(){
+        $("#upfile").hide();
+        $("#btnChangeImage").show();
+    });
+
+});

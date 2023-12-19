@@ -36,10 +36,10 @@ public class CheckPasswordValidator implements Validator {
         Long userId = checkPassword.getUserId();
 
         // password
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "originPassword", "password 는 필수입니다");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "re_password", "password확인은 필수입니다");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "originPassword", "비밀번호는 필수입니다");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "re_password", "비밀번호확인은 필수입니다");
         if (originPassword.length() < 8) {
-            errors.rejectValue("originPassword", "비밀번호(password)는 8글자 이상 입력해야 됩니다");
+            errors.rejectValue("originPassword", "비밀번호는 8글자 이상 입력해야 됩니다");
         }
         // 입력 password, re_password 가 동일한지 비교
         if (!originPassword.equals(re_password)) {

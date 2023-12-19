@@ -36,10 +36,10 @@ public class NewPasswordValidator implements Validator {
         Long userId = newPasswordInstance.getUserId();
 
         // password
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "newPassword", "password 는 필수입니다");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "re_password", "password 확인은 필수입니다");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "newPassword", "신규 비밀번호는 필수입니다");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "re_password", "비밀번호 확인은 필수입니다");
         if (newPassword.length() < 8) {
-            errors.rejectValue("newPassword", "비밀번호(password)는 8글자 이상 입력해야 됩니다");
+            errors.rejectValue("newPassword", "비밀번호는 8글자 이상 입력해야 됩니다");
         }
         // 입력 password, re_password 가 동일한지 비교
         if(!newPassword.equals(re_password)){
@@ -49,7 +49,7 @@ public class NewPasswordValidator implements Validator {
         if(userService.findById(userId) != null) {
             User originUser = userService.findById(userId);
             if(passwordEncoder.matches(newPassword, originUser.getPassword())) {
-                errors.rejectValue("newPassword", "현재 비밀번호와 새로운 비밀번호가 똑같습니다");
+                errors.rejectValue("newPassword", "현재 비밀번호와 신규 비밀번호가 똑같습니다");
             }
         }
 

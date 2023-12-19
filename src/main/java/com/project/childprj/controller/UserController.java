@@ -2,6 +2,8 @@ package com.project.childprj.controller;
 
 import com.project.childprj.domain.user.*;
 import com.project.childprj.service.UserService;
+import com.project.childprj.util.U;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,74 +19,18 @@ import java.util.List;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    @RequestMapping("/home")
-    public void test(){
-    }
-
-    @RequestMapping("/together/togetherList")
-    public void test1(){
-    }
-    @RequestMapping("/protect/protectList")
-    public void test2(){
-    }
-    @RequestMapping("/community/communityList")
-    public void test3(){
-    }
-    @RequestMapping("/community/communityDetail")
-    public void test4(){
-    }
-    @RequestMapping("/community/communityWrite")
-    public void test5(){
-    }
-    @RequestMapping("/community/communityUpdate")
-    public void test6(){
-    }
-    @RequestMapping("/market/marketList")
-    public void test7(){
-    }
-    @RequestMapping("/market/marketDetail")
-    public void test8(){
-    }
-    @RequestMapping("/market/marketWrite")
-    public void test9(){
-    }
-    @RequestMapping("/market/marketUpdate")
-    public void test10(){
-    }
-
-    @RequestMapping("/together/zzim")
-    public void test11(){
-    }
-    @RequestMapping("/user/mypage")
-    public void test12(){
-    }
-    @RequestMapping("/user/signIn")
-    public void test13(){
-    }
-    @RequestMapping("/user/signUp")
-    public void test14(){
-    }
-    @RequestMapping("/user/signUpAgree")
-    public void test15(){
-    }
-    @RequestMapping("/user/find")
-    public void test16(){
-    }
-    @RequestMapping("/protect/protectDetail")
-    public void test17(){
-    }
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/login")
+    @GetMapping("/signIn")
     public void login(){}
 
     // onAuthenticationFailure 에서 로그인 실패시 forwarding 용
     // request 에 담겨진 attribute 는 Thymeleaf 에서 그대로 표현 가능.
     @PostMapping("/loginError")
     public String loginError(){
-        return "user/login";
+        return "user/signIn";
     }
 
     @RequestMapping("/rejectAuth")
@@ -93,23 +39,26 @@ public class UserController {
     }
 
     @GetMapping("/find")
-    public void find(){}
+    public void find(@RequestParam(name = "index", defaultValue = "") String index, Model model){
+        model.addAttribute("index", index);
+    }
 
     @PostMapping("/findLoginIdByEmail")
-    public String findLoginIdByEmailOk(@Valid NameAndEmail nameAndEmail, BindingResult result, Model model, RedirectAttributes redirectAttributes){
+    public String findLoginIdByEmailOk(@Valid NameAndEmail nameAndEmail, BindingResult result, @RequestParam(name = "index") String index,  Model model, RedirectAttributes redirectAttributes){
         // 검증 에러가 있었다면 redirect 한다.
         if(result.hasErrors()){
             redirectAttributes.addFlashAttribute("idName", nameAndEmail.getName());
             redirectAttributes.addFlashAttribute("idEmail", nameAndEmail.getEmail());
+            model.addAttribute("index", index);
 
             List<FieldError> errList = result.getFieldErrors();
             for(FieldError err : errList){
                 // 가장 처음에 발견된 에러만 보내기
-                redirectAttributes.addFlashAttribute("error", err.getCode());
+                redirectAttributes.addFlashAttribute("error_findId", err.getCode());
                 break;
             }
 
-            return "redirect:/user/find";
+            return "redirect:/user/find?index=" + index;
         }
 
         String message = userService.findLoginIdByNameAndEmail(nameAndEmail);
@@ -118,24 +67,31 @@ public class UserController {
         return "/user/findLoginIdByEmailOk";
     }
 
+    @GetMapping("/findNot")
+    public void findNot(@RequestParam(name = "index") String index, Model model){
+        model.addAttribute("index", index);
+    }
+
     @PostMapping("/changePasswordByLoginId")
-    public String changePasswordByLoginId(@Valid NameAndLoginId nameAndLoginId, BindingResult result, Model model, RedirectAttributes redirectAttributes){
+    public String changePasswordByLoginId(@Valid NameAndLoginId nameAndLoginId, BindingResult result, @RequestParam(name = "index") String index, Model model, RedirectAttributes redirectAttributes){
         // 검증 에러가 있었다면 redirect 한다.
         if(result.hasErrors()){
             redirectAttributes.addFlashAttribute("namebyLoginId", nameAndLoginId.getName());
             redirectAttributes.addFlashAttribute("loginId", nameAndLoginId.getLoginId());
+            model.addAttribute("index", index);
 
             List<FieldError> errList = result.getFieldErrors();
             for(FieldError err : errList){
                 // 가장 처음에 발견된 에러만 보내기
-                redirectAttributes.addFlashAttribute("error", err.getCode());
+                redirectAttributes.addFlashAttribute("error_findById", err.getCode());
                 break;
             }
 
-            return "redirect:/user/find";
+            return "redirect:/user/find?index=" + index;
         }
 
         if(!userService.isExistByNameAndLoginId(nameAndLoginId)) {
+            model.addAttribute("index", index);
             return "/user/findNot";
         }
         String loginId = nameAndLoginId.getLoginId();
@@ -147,23 +103,25 @@ public class UserController {
     }
 
     @PostMapping("/changePasswordByEmail")
-    public String changePasswordByEmail(@Valid NameAndEmail nameAndEmail, BindingResult result, Model model, RedirectAttributes redirectAttributes){
+    public String changePasswordByEmail(@Valid NameAndEmail nameAndEmail, BindingResult result, @RequestParam(name = "index") String index, Model model, RedirectAttributes redirectAttributes){
         // 검증 에러가 있었다면 redirect 한다.
         if(result.hasErrors()){
             redirectAttributes.addFlashAttribute("nameByEmail", nameAndEmail.getName());
             redirectAttributes.addFlashAttribute("passwordEmail", nameAndEmail.getEmail());
+            model.addAttribute("index", index);
 
             List<FieldError> errList = result.getFieldErrors();
             for(FieldError err : errList){
                 // 가장 처음에 발견된 에러만 보내기
-                redirectAttributes.addFlashAttribute("error", err.getCode());
+                redirectAttributes.addFlashAttribute("error_findByEmail", err.getCode());
                 break;
             }
 
-            return "redirect:/user/find";
+            return "redirect:/user/find?index=" + index;
         }
 
         if(!userService.isExistByNameAndEmail(nameAndEmail)) {
+            model.addAttribute("index", index);
             return "/user/findNot";
         }
         String email = nameAndEmail.getEmail();
@@ -175,10 +133,18 @@ public class UserController {
     }
 
     @GetMapping("/changePasswordUseLoginId")
-    public void changePasswordUseLoginId(){}
+    public String changePasswordUseLoginId(){
+        if(U.getRequest().getHeader("REFERER") == null) {
+            return "redirect:/user/find";
+        } else if(U.getRequest().getHeader("REFERER").equals("http://localhost:8090/user/changePasswordByLoginId")) {
+            return "/user/changePasswordUseLoginId";
+        }
+
+        return "/user/changePasswordUseLoginId";
+    }
 
     @PostMapping("/changePasswordUseLoginId")
-    public String changePasswordUseLoginIdOk(@Valid NewPassword newPasswordInstance, BindingResult result, NameAndLoginId nameAndLoginId, Model model, RedirectAttributes redirectAttributes){
+    public String changePasswordUseLoginIdOk(@Valid NewPassword newPasswordInstance, @Valid NameAndLoginId nameAndLoginId, BindingResult result, Model model, RedirectAttributes redirectAttributes){
         // 검증 에러가 있었다면 redirect 한다.
         if(result.hasErrors()){
 
@@ -186,7 +152,7 @@ public class UserController {
             for(FieldError err : errList){
                 // 가장 처음에 발견된 에러만 보내기
                 System.out.println("패스워드 에러는 " + err + " 입니다");
-                redirectAttributes.addFlashAttribute("error", err.getCode());
+                redirectAttributes.addFlashAttribute("error_changePasswordByLoginId", err.getCode());
                 break;
             }
 
@@ -202,10 +168,18 @@ public class UserController {
     }
 
     @GetMapping("/changePasswordUseEmail")
-    public void changePasswordUseEmail(){}
+    public String changePasswordUseEmail(){
+        if(U.getRequest().getHeader("REFERER") == null) {
+            return "redirect:/user/find";
+        } else if(U.getRequest().getHeader("REFERER").equals("http://localhost:8090/user/changePasswordByEmail")) {
+            return "/user/changePasswordUseEmail";
+        }
+
+        return "/user/changePasswordUseEmail";
+    }
 
     @PostMapping("/changePasswordUseEmail")
-    public String changePasswordUseEmailOk(@Valid NewPassword newPasswordInstance, BindingResult result, NameAndEmail nameAndEmail, Model model, RedirectAttributes redirectAttributes){
+    public String changePasswordUseEmailOk(@Valid NewPassword newPasswordInstance, @Valid NameAndEmail nameAndEmail, BindingResult result, Model model, RedirectAttributes redirectAttributes){
         // 검증 에러가 있었다면 redirect 한다.
         if(result.hasErrors()){
             redirectAttributes.addFlashAttribute("name", nameAndEmail.getName());
@@ -214,7 +188,7 @@ public class UserController {
             List<FieldError> errList = result.getFieldErrors();
             for(FieldError err : errList){
                 // 가장 처음에 발견된 에러만 보내기
-                redirectAttributes.addFlashAttribute("error", err.getCode());
+                redirectAttributes.addFlashAttribute("error_changePasswordByEmail", err.getCode());
                 break;
             }
 
@@ -229,11 +203,22 @@ public class UserController {
         return "/user/changePasswordOk";
     }
 
-    @GetMapping("/register")
-    public void register(){}
+    @GetMapping("/signUpAgree")
+    public void signUpAgree(){}
 
-    @PostMapping("/register")
-    public String registerOk(@Valid User user,
+    @GetMapping("/signUp")
+    public String signUp(){
+        if(U.getRequest().getHeader("REFERER") == null) {
+            return "redirect:/user/signUpAgree";
+        } else if(U.getRequest().getHeader("REFERER").equals("http://localhost:8090/user/signUpAgree")) {
+            return "/user/signUp";
+        }
+
+        return "/user/signUp";
+    }
+
+    @PostMapping("/signUp")
+    public String signUpOk(@Valid User user,
                              BindingResult result,
                              Model model,
                              RedirectAttributes redirectAttributes){
@@ -252,13 +237,13 @@ public class UserController {
                 break;
             }
 
-            return "redirect:/user/register";
+            return "redirect:/user/signUp";
         }
 
         // 검증 에러 없었으면 회원 등록 진행
         int cnt = userService.register(user);
         model.addAttribute("result", cnt);
-        return "/user/registerOk";
+        return "/user/signUpOk";
     }
 
     @Autowired

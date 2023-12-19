@@ -20,13 +20,17 @@
                         <a th:href="@{/together/zzim}"><img class="headerBtn heart" src="/img/zzimBtn.png" height="35px" /></a>
                     </li>
                     <li>
-                        <a th:href="@{/user/mypage}"><img class="headerBtn" src="/img/me.png" height="35px" /></a>
+                        <a th:href="@{/mypage/main}"><img class="headerBtn" src="/img/me.png" height="35px" /></a>
                     </li>
-                    <li>
-                        <a th:href="@{/user/signIn}"><img class="headerBtn" src="/img/loginBtn.png" height="35px" /></a>
+
+                    <!-- 로그인 안했을때는 로그인 보여주기 -->
+                    <li sec:authorize="isAnonymous()">
+                        <a th:href="@{/user/signIn}"><img class="rightHeaderBtn" src="/img/loginBtn.png" height="35px" /></a>
                     </li>
-                    <li>
-                        <img class="headerBtn logoutBtn" src="/img/logoutBtn.png" height="35px" />
+
+                    <!-- 로그인 했을때는 로그아웃 form 보여주기 -->
+                    <li sec:authorize="isAuthenticated()">
+                        <a type="submit" methods="POST" th:href="@{/user/logout}"><img class="logoutBtn rightHeaderBtn" src="/img/logoutBtn.png" height="35px" /></a>
                     </li>
                 </ul>
             </div>

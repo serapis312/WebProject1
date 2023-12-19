@@ -31,7 +31,7 @@ public class NameAndEmailValidator implements Validator {
         }
 
         // email
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "email 은 필수입니다");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "이메일은 필수입니다");
         if (!Pattern.matches("^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}+$", email)) {
             errors.rejectValue("email", "이메일 양식에 맞지 않습니다. 다시 작성해주세요");
         }

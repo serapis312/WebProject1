@@ -99,6 +99,7 @@
     background-color: var(--cloud-color);
     color: white;
     border-radius: 3px;
+    border: none;
     height: 45px;
     font-weight: 700;
     font-size: 13px;

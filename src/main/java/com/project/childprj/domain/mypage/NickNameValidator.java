@@ -32,9 +32,9 @@ public class NickNameValidator implements Validator {
 
         // nickName
         if (userService.isExistByNickName(nickName)) {
-            errors.rejectValue("nickName", "이미 존재하는 닉네임(nickName) 입니다");
+            errors.rejectValue("nickName", "이미 존재하는 닉네임 입니다");
         }
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nickName", "nickName 은 필수입니다");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nickName", "닉네임은 필수입니다");
         if (nickName.length() > 50) {
             errors.rejectValue("nickName", "닉네임은 50글자 이하 입력해야 됩니다");
         }

@@ -22,7 +22,7 @@ public class NameAndLoginIdValidator implements Validator {
         String loginId = nameAndLoginId.getLoginId();
 
         // name
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name 은 필수입니다");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "이름은 필수입니다");
         if (name.length() > 50) {
             errors.rejectValue("name", "이름은 50글자 이하 입력해야 됩니다");
         }
@@ -33,12 +33,12 @@ public class NameAndLoginIdValidator implements Validator {
         // loginId
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "loginId", "loginId 는 필수입니다");
         if (loginId.length() < 8) {
-            errors.rejectValue("loginId", "아이디(loginId)는 8글자 이상 입력해야 됩니다");
+            errors.rejectValue("loginId", "아이디는 8글자 이상 입력해야 됩니다");
         } else if (loginId.length() > 50) {
-            errors.rejectValue("loginId", "아이디(loginId)는 50글자 이하 입력해야 됩니다");
+            errors.rejectValue("loginId", "아이디는 50글자 이하 입력해야 됩니다");
         }
         if (!Pattern.matches("^[a-z0-9]+$", loginId)) {
-            errors.rejectValue("loginId", "아이디(loginId)는 영문 소문자, 숫자만 입력해야 됩니다");
+            errors.rejectValue("loginId", "아이디는 영문 소문자, 숫자만 입력해야 됩니다");
         }
 
     }

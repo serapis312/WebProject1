@@ -35,6 +35,7 @@
 .signup-btn {
     background-color: var(--cloud-color);
     color: white;
+    border: none;
     border-radius: 3px;
     height: 60px;
     margin: 15px 0 0;
