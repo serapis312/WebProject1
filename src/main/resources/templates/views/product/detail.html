@@ -23,16 +23,16 @@
                 <div class="market-header-wrap">
                     <div class="market-header">
                         <img src="/img/핑구.jpg" width="40px" class="talk-writer-pic" />
-                        <div class="talk-writer-nickname">바삭한 감자전</div>
+                        <div class="talk-writer-nickname">[[${product.user.nickname}]]</div>
                     </div>
                     <div class="market-header">
                         <div class="talk-inform-look">
                             <div>조회수</div>
-                            <div class="market-inform-lookCnt">13</div>
+                            <div class="market-inform-lookCnt">[[${product.viewCnt}]]</div>
                         </div>
                         <div class="market-inform-date">
                             <div>작성일</div>
-                            <div class="market-inform-date">2023.12.05</div>
+                            <div class="market-inform-date">[[${#temporals.format(product.createDate, 'yyyy-MM-dd')}]]</div>
                         </div>
                     </div>
                 </div>
@@ -41,14 +41,14 @@
                     <div class="market-main-title-wrap">
                         <div class="market-writer-title-right">
                             <div class="market-writer-price">나눔</div>
-                            <div>아기옷 나눔합니다</div>
+                            <div>[[${product.productName}]]</div>
                         </div>
                         <div class="market-writer-title-right">
                             <img src="/img/place.png" height="33px" alt="" />
-                            <div class="market-writer-region">서울 강남구</div>
+                            <div class="market-writer-region">[[${product.region}]]</div>
                         </div>
                     </div>
-                    <div class="market-main-content">아기가 커서 이제 못 입는 옷들 나눔합니다 댓글 주세요 ^^</div>
+                    <div class="market-main-content">[[${product.content}]]</div>
                     <div class="market-main-btn">
                         <a th:href="@{/market/marketWrite}" class="market-btn">작성</a>
                         <a th:href="@{/market/marketUpdate}" class="market-btn">수정</a>
