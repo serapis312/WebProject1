@@ -16,8 +16,6 @@ DROP TABLE IF EXISTS together;
 DROP TABLE IF EXISTS user_authorities;
 DROP TABLE IF EXISTS user_img;
 DROP TABLE IF EXISTS user;
-ALTER TABLE `zzim` DROP FOREIGN KEY `zzim_ibfk_1`;
-
 DROP TABLE IF EXISTS user_authority;
 
 
@@ -25,27 +23,8 @@ DROP TABLE IF EXISTS user_authority;
 
 /* Create Tables */
 
-CREATE TABLE child_house
-(
-	id int NOT NULL,
-	SIGUNNAME varchar(255),
-	CRNAME varchar(255),
-	CRTYPENAME varchar(255),
-	CRSTATUSNAME varchar(255),
-	CRADDR varchar(255),
-	CRTELNO varchar(255),
-	CRHOME varchar(255),
-	NRTRROOMCNT int,
-	PLGRDCO int,
-	CCTVINSTLCNT int,
-	CHCRTESCNT int,
-	CRCAPAT int,
-	CRCHCNT int,
-	LA decimal(65,20),
-	LO decimal(65,20),
-	CRCARGBNAME varchar(255),
-	PRIMARY KEY (id)
-);
+
+ALTER TABLE `mychild`.child_house  ADD UNIQUE INDEX `CRNAME_UNIQUE` (`CRNAME` ASC) VISIBLE;
 
 
 CREATE TABLE kindergarden
@@ -61,6 +40,9 @@ CREATE TABLE kindergarden
     OPERTIME varchar(255),
     PRIMARY KEY (id)
 );
+
+ALTER TABLE `mychild`.`kindergarden` ADD UNIQUE INDEX `KINDERNAME_UNIQUE` (`KINDERNAME` ASC) VISIBLE;
+
 
 
 CREATE TABLE post
@@ -138,34 +120,6 @@ CREATE TABLE recommend
 );
 
 
-CREATE TABLE together
-(
-	id int NOT NULL AUTO_INCREMENT,
-	CODENAME varchar(255),
-	GUNAME varchar(255),
-	TITLE varchar(255),
-	DATE varchar (255),
-	PLACE varchar(255),
-	ORG_NAME varchar(255),
-	USE_TRGT varchar(255),
-	USE_FEE varchar(255),
-	PLAYER varchar(1000),
-	PROGRAM varchar(1000),
-	ETC_DESC varchar(255),
-	ORG_LINK varchar(1000),
-	MAIN_IMG varchar(255),
-	RGSTDATE varchar(255),
-	TICKET varchar(255),
-	STRTDATE varchar(255),
-	END_DATE varchar(255),
-	THEMECODE varchar(255),
-	LOT double(65,20),
-	LAT double(65,20),
---	IS_FREE TINYINT(1),
-	HMPG_ADDR varchar(255),
-	zzimCnt int DEFAULT 0,
-	PRIMARY KEY (id)
-);
 
 
 CREATE TABLE user
@@ -285,7 +239,7 @@ ALTER TABLE post_comment
 	ADD FOREIGN KEY (userId)
 	REFERENCES user (id)
 	ON UPDATE RESTRICT
-	ON DELETE RESTRICT
+	ON DELETE CASCADE
 ;
 
 
@@ -301,7 +255,7 @@ ALTER TABLE product_comment
 	ADD FOREIGN KEY (userId)
 	REFERENCES user (id)
 	ON UPDATE RESTRICT
-	ON DELETE RESTRICT
+	ON DELETE CASCADE
 ;
 
 
@@ -343,8 +297,6 @@ ALTER TABLE user_authorities
 	ON UPDATE RESTRICT
 	ON DELETE CASCADE
 ;
-
-SELECT * FROM together ;
 
 
 
