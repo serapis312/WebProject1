@@ -24,9 +24,6 @@ DROP TABLE IF EXISTS user_authority;
 /* Create Tables */
 
 
-ALTER TABLE `mychild`.child_house  ADD UNIQUE INDEX `CRNAME_UNIQUE` (`CRNAME` ASC) VISIBLE;
-
-
 CREATE TABLE kindergarden
 (
     id int NOT NULL AUTO_INCREMENT,
@@ -40,8 +37,6 @@ CREATE TABLE kindergarden
     OPERTIME varchar(255),
     PRIMARY KEY (id)
 );
-
-ALTER TABLE `mychild`.`kindergarden` ADD UNIQUE INDEX `KINDERNAME_UNIQUE` (`KINDERNAME` ASC) VISIBLE;
 
 
 

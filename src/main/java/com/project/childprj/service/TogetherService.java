@@ -66,7 +66,7 @@ public class TogetherService {
 
             return result;
         }
-    public Together gettogether(String codename) {
+    public Together getTogether(String codename) {
         return this.sqlSession.selectOne("selectTogether", codename);
     }
 

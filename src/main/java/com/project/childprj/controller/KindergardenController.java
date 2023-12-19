@@ -105,7 +105,7 @@ public class KindergardenController {
 
     @PostMapping("/save/api/kindergarden")
     public String insertKindergarden(
-            @RequestParam("name") String name,
+            @RequestParam("kindername") String kindername,
             @RequestParam("establish") String establish,
             @RequestParam("ldgrName") String ldgrName,
             @RequestParam("addr") String addr,
@@ -114,7 +114,7 @@ public class KindergardenController {
             @RequestParam("operTime") String operTime
     ) {
         Kindergarden kindergarden = new Kindergarden();
-        kindergarden.setKINDERNAME(name);
+        kindergarden.setKINDERNAME(kindername);
         kindergarden.setESTABLISH(establish);
         kindergarden.setLDGRNAME(ldgrName);
         kindergarden.setADDR(addr);
@@ -123,7 +123,7 @@ public class KindergardenController {
         kindergarden.setOPERTIME(operTime);
 
         kindergardenService.insertKindergarden(kindergarden);
-        return "redirect:/index";
+        return "kindergardenDetail";
     }
 }
 

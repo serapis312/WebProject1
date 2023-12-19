@@ -19,8 +19,6 @@ public class ChildHouseDTO {
 
     @JsonProperty("CRTYPENAME")
     private String crTypeName;    // 어린이집유형
-    @JsonProperty("CRSTATUSNAME")
-    private String crStatusName;    // 운영현황
 
     @JsonProperty("CRADDR")
     private String crAddr;        // 상세주소
@@ -33,16 +31,6 @@ public class ChildHouseDTO {
 
     @JsonProperty("NRTRROOMCNT")
     private Integer nrtrRoomCnt;   // 보육실수
-
-    @JsonProperty("PLGRDCO")
-    private Integer plgrdCo;
-
-    @JsonProperty("CCTVINSTLCNT")
-    private Integer cctvInstlCnt;
-
-
-    @JsonProperty("CHCRTESCNT")
-    private Integer chcrtesCnt;
 
     @JsonProperty("CRCAPAT")
     private Integer crCapat;      // 정원
@@ -71,8 +59,6 @@ public class ChildHouseDTO {
         return crTypeName;
     }
 
-    public String getCrStatusName(){ return crStatusName; }
-
     public String getCrAddr() { return crAddr; }
 
     public String getCrTelNo() {
@@ -85,11 +71,6 @@ public class ChildHouseDTO {
 
     public Integer getNrtrRoomCnt() { return nrtrRoomCnt; }
 
-    public Integer getPlgrdCo() {  return plgrdCo; }
-
-    public Integer getCctvInstlCnt() { return cctvInstlCnt; }
-
-    public Integer getChcrtesCnt() { return chcrtesCnt; }
     public Integer getCrCapat() { return crCapat; }
 
     public Integer getCrChCnt() { return crChCnt; }
@@ -113,8 +94,6 @@ public class ChildHouseDTO {
         this.crTypeName = crTypeName;
     }
 
-    public void setCrStatusName(String crStatusName){ this.crStatusName = crStatusName; }
-
     public void setCrAddr(String crAddr) {
         this.crAddr = crAddr;
     }
@@ -130,12 +109,6 @@ public class ChildHouseDTO {
     public void setNrtrRoomCnt(Integer nrtrRoomCnt) {
         this.nrtrRoomCnt = nrtrRoomCnt;
     }
-
-    public void setPlgrdCo(Integer plgrdCo) { this.plgrdCo = plgrdCo; }
-
-    public void setCctvInstlCnt(Integer cctvInstlCnt) { this.cctvInstlCnt = cctvInstlCnt; }
-
-    public void setChcrtesCnt(Integer chcrtesCnt) { this.chcrtesCnt = chcrtesCnt; }
 
     public void setCrCapat(Integer crCapat) {
         this.crCapat = crCapat;
@@ -168,14 +141,10 @@ public class ChildHouseDTO {
             childHouseDTO.setSigunName(row.get("SIGUNNAME").asText());
             childHouseDTO.setCrName(row.get("CRNAME").asText());
             childHouseDTO.setCrTypeName(row.get("CRTYPENAME").asText());
-            childHouseDTO.setCrStatusName(row.get("CRSTATUSNAME").asText());
             childHouseDTO.setCrAddr(row.get("CRADDR").asText());
             childHouseDTO.setCrTelNo(row.get("CRTELNO").asText());
             childHouseDTO.setCrHome(row.get("CRHOME").asText());
             childHouseDTO.setNrtrRoomCnt(row.get("NRTRROOMCNT").asInt());
-            childHouseDTO.setPlgrdCo(row.get("PLGRDCO").asInt());
-            childHouseDTO.setCctvInstlCnt(row.get("CCTVINSTLCNT").asInt());
-            childHouseDTO.setChcrtesCnt(row.get("CHCRTESCNT").asInt());
             childHouseDTO.setCrCapat(row.get("CRCAPAT").asInt());
             childHouseDTO.setCrChCnt(row.get("CRCHCNT").asInt());
             childHouseDTO.setLatitude(row.get("LA").asDouble());
@@ -195,9 +164,6 @@ public class ChildHouseDTO {
         childHouseDTO.setCrTelNo(row.get("CRTELNO").asText());
         childHouseDTO.setCrHome(row.get("CRHOME").asText());
         childHouseDTO.setNrtrRoomCnt(row.get("NRTRROOMCNT").asInt());
-        childHouseDTO.setPlgrdCo(row.get("PLGRDCO").asInt());
-        childHouseDTO.setCctvInstlCnt(row.get("CCTVINSTLCNT").asInt());
-        childHouseDTO.setChcrtesCnt(row.get("CHCRTESCNT").asInt());
         childHouseDTO.setCrCapat(row.get("CRCAPAT").asInt());
         childHouseDTO.setCrChCnt(row.get("CRCHCNT").asInt());
         childHouseDTO.setLatitude(row.get("LA").asDouble());

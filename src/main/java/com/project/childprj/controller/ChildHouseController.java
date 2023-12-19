@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -81,15 +79,16 @@ public class ChildHouseController {
         return "childHouseList";
     }
 
-    @GetMapping("/api/childhouse/detail")
-    public String showDetail(Model model, @PathVariable("crname") String crname) {
-        // 여기에서 데이터베이스에서 어린이집 상세 정보를 가져오는 서비스 메서드를 호출하고 모델에 추가하는 로직 추가
-        ChildHouse childHouseDetail = (ChildHouse) childHouseService.getChildHouseByCrName(crname);
-        model.addAttribute("childHouseDetail", childHouseDetail);
+    @GetMapping("/api/childhouse/{start_index}/{end_index}/detail")
+    public String showDetail(Model model,
+                           @PathVariable("start_index") Integer startIndex,
+                           @PathVariable("end_index") Integer endIndex) throws JsonProcessingException {
+//         여기에서 유치원 목록을 가져오는 서비스 메서드를 호출하고 모델에 추가하는 로직 추가
+        List<ChildHouse> childHouse = childHouseService.getChildHouse(startIndex, endIndex);
+//        List<ChildHouse> childHouse = childHouseService.getAllChildHouse();
+        model.addAttribute("childHouse", childHouse);
 
-        return "childHouseDetail"; // 이 부분은 상세 정보를 보여줄 뷰 페이지로 설정
+        return "childHouseDetail";
     }
-
-    // todo: postmapping 써서 목록과 상세 나누기
 
 }

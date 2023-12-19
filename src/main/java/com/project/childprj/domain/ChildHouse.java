@@ -22,16 +22,12 @@ public class ChildHouse {
     private String SIGUNNAME; //시군구명
     private String CRNAME;  // 어린이집명
     private String CRTYPENAME;   // 어린이집유형
-    private String CRSTATUSNAME;    // 운영현황
     private String CRADDR;    // 상세주소
     private String CRTELNO;        // 전화번호
     private String CRHOME;      // 홈페이지
     private Integer NRTRROOMCNT;    // 보육실수
-    private Integer PLGRDCO;    // 놀이터수
 
 
-    private Integer CCTVINSTLCNT;   // cctv 수
-    private Integer CHCRTESCNT; // 보육교직원수
     private Integer CRCAPAT;    // 정원
     private Integer CRCHCNT;    // 현원
     private Double LA;          // 위도
@@ -61,9 +57,6 @@ public class ChildHouse {
         return CRTYPENAME;
     }
     public void setCRTYPENAME(String crtypename) { CRTYPENAME = crtypename;}
-
-    public String getCRSTATUSNAME(){ return CRSTATUSNAME; }
-    public void setCRSTATUSNAME(String crstatusname) { CRSTATUSNAME = crstatusname;}
 
     public String getCRADDR() {
         return CRADDR;
@@ -96,27 +89,6 @@ public class ChildHouse {
 
     public void setNRTRROOMCNT(Integer nrtrroomcnt) {
         NRTRROOMCNT = nrtrroomcnt;
-    }
-
-    public Integer getPLGRDCO() { return PLGRDCO; }
-
-    public void setPLGRDCO(Integer PLGRDCO) {
-        this.PLGRDCO = PLGRDCO;
-    }
-    public Integer getCCTVINSTLCNT() {
-        return CCTVINSTLCNT;
-    }
-
-    public void setCCTVINSTLCNT(Integer CCTVINSTLCNT) {
-        this.CCTVINSTLCNT = CCTVINSTLCNT;
-    }
-
-    public Integer getCHCRTESCNT() {
-        return CHCRTESCNT;
-    }
-
-    public void setCHCRTESCNT(Integer CHCRTESCNT) {
-        this.CHCRTESCNT = CHCRTESCNT;
     }
 
     public Integer getCRCAPAT() {
@@ -165,14 +137,10 @@ public class ChildHouse {
         childHouse.setSIGUNNAME(row.get("SIGUNNAME").asText());
         childHouse.setCRNAME(row.get("CRNAME").asText());
         childHouse.setCRTYPENAME(row.get("CRTYPENAME").asText());
-        childHouse.setCRSTATUSNAME(row.get("CRSTATUSNAME").asText());
         childHouse.setCRADDR(row.get("CRADDR").asText());
         childHouse.setCRTELNO(row.get("CRTELNO").asText());
         childHouse.setCRHOME(row.get("CRHOME").asText());
         childHouse.setNRTRROOMCNT(row.get("NRTRROOMCNT").asInt());
-        childHouse.setPLGRDCO(row.get("PLGRDCO").asInt());
-        childHouse.setCCTVINSTLCNT(row.get("CCTVINSTLCNT").asInt());
-        childHouse.setCHCRTESCNT(row.get("CHCRTESCNT").asInt());
         childHouse.setCRCAPAT(row.get("CRCAPAT").asInt());
         childHouse.setCRCHCNT(row.get("CRCHCNT").asInt());
         childHouse.setLA(row.get("LA").asDouble());

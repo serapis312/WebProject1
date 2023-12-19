@@ -9,7 +9,6 @@
         <result property="SIGUNNAME" column="SIGUNNAME" />
         <result property="CRNAME" column="CRNAME" />
         <result property="CRTYPENAME" column="CRTYPENAME" />
-        <result property="CRSTATUSNAME" column="CRSTATUSNAME" />
         <result property="CRADDR" column="CRADDR" />
         <result property="CRTELNO" column="CRTELNO" />
         <result property="CRHOME" column="CRHOME" />
@@ -25,12 +24,12 @@
     </resultMap>
     <insert id="insertChildHouse" parameterType="com.project.childprj.domain.ChildHouse">
         INSERT INTO child_house (
-            SIGUNNAME, CRNAME, CRTYPENAME, CRSTATUSNAME, CRADDR, CRTELNO, CRHOME, NRTRROOMCNT,
-            PLGRDCO, CCTVINSTLCNT, CHCRTESCNT, CRCAPAT, CRCHCNT, LA, LO, CRCARGBNAME
+            SIGUNNAME, CRNAME, CRTYPENAME, CRADDR, CRTELNO, CRHOME, NRTRROOMCNT,
+             CRCAPAT, CRCHCNT, LA, LO, CRCARGBNAME
         )
         VALUES (
-                   #{SIGUNNAME}, #{CRNAME}, #{CRTYPENAME}, #{CRSTATUSNAME}, #{CRADDR}, #{CRTELNO}, #{CRHOME}, #{NRTRROOMCNT},
-                #{PLGRDCO}, #{CCTVINSTLCNT}, #{CHCRTESCNT}, #{CRCAPAT}, #{CRCHCNT}, #{LA}, #{LO} , #{CRCARGBNAME}
+                   #{SIGUNNAME}, #{CRNAME}, #{CRTYPENAME}, #{CRADDR}, #{CRTELNO}, #{CRHOME}, #{NRTRROOMCNT},
+               #{CRCAPAT}, #{CRCHCNT}, #{LA}, #{LO} , #{CRCARGBNAME}
                )
     </insert>
     <select id="selectAllChildHouse" resultType="com.project.childprj.domain.ChildHouse">
