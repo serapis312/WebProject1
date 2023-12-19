@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.childprj.repository.TogetherRepository">
+    <resultMap id="togetherResultMap" type="com.project.childprj.domain.Together">
+        <id property="id" column="id" />
+        <result property="CODENAME" column="CODENAME" />
+        <result property="GUNAME" column="GUNAME" />
+        <result property="TITLE" column="TITLE" />
+        <result property="DATE" column="DATE" />
+        <result property="PLACE" column="PLACE" />
+        <result property="ORG_NAME" column="ORG_NAME" />
+        <result property="USE_TRGT" column="USE_TRGT" />
+        <result property="USE_FEE" column="USE_FEE" />
+        <result property="PLAYER" column="PLAYER" />
+        <result property="PROGRAM" column="PROGRAM" />
+        <result property="ETC_DESC" column="ETC_DESC" />
+        <result property="ORG_LINK" column="ORG_LINK" />
+        <result property="MAIN_IMG" column="MAIN_IMG" />
+        <result property="RGSTDATE" column="RGSTDATE" />
+        <result property="TICKET" column="TICKET" />
+        <result property="STRTDATE" column="STRTDATE" />
+        <result property="END_DATE" column="END_DATE" />
+        <result property="THEMECODE" column="THEMECODE" />
+        <result property="LOT" column="LOT" />
+        <result property="LAT" column="LAT" />
+        <result property="ISFREE" column="ISFREE" />
+        <result property="HMPG_ADDR" column="HMPG_ADDR" />
+
+    </resultMap>
+
+    <insert id="insertTogether" parameterType="com.project.childprj.domain.Together">
+        INSERT INTO together (
+        CODENAME, GUNAME, TITLE, DATE, PLACE, ORG_NAME, USE_TRGT, USE_FEE, PLAYER, PROGRAM, ETC_DESC, ORG_LINK,
+        MAIN_IMG, RGSTDATE, TICKET, STRTDATE, END_DATE, THEMECODE, LOT, LAT, ISFREE, HMPG_ADDR
+        )
+        VALUES (
+        #{CODENAME}, #{GUNAME}, #{TITLE}, #{DATE}, #{PLACE},  #{ORG_NAME}, #{USE_TRGT}, #{USE_FEE}, #{PLAYER}, #{PROGRAM}, #{ETC_DESC}, #{ORG_LINK},
+        #{MAIN_IMG}, #{RGSTDATE}, #{TICKET}, #{STRTDATE}, #{END_DATE}, #{THEMECODE}, #{LOT}, #{LAT}, #{ISFREE},
+        #{HMPG_ADDR}
+        )
+    </insert>
+
+    <select id="selectAllTogether" resultType="com.project.childprj.domain.Together">
+        SELECT * FROM together;
+    </select>
+
+
+    <select id="selectTogether" resultType="com.project.childprj.domain.Together" parameterType="string">
+        SELECT * FROM together WHERE CODENAME = #{codename}
+    </select>
+
+</mapper>

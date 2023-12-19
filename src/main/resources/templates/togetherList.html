@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Together List</title>
+</head>
+<body>
+<h1>Together List</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>분류</th>
+        <th>자치구</th>
+        <th>공연/행사명</th>
+        <th>날짜/시간</th>
+        <th>장소</th>
+        <th>기관명</th>
+        <th>이용대상</th>
+        <th>이용요금</th>
+        <th>출연자정보</th>
+        <th>프로그램소개</th>
+        <th>기타내용</th>
+        <th>홈페이지주소</th>
+        <th>대표이미지</th>
+        <th>신청일</th>
+        <th>시민/기관</th>
+        <th>시작일</th>
+        <th>종료일</th>
+        <th>테마분류</th>
+        <th>위도</th>
+        <th>경도</th>
+        <th>유무료</th>
+        <th>문화포털상세URL</th>
+        <th>찜</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Thymeleaf 반복문을 사용하여 유치원 목록을 출력 -->
+    <tr th:each="together : ${together}">
+            <td th:text="${together.CODENAME}"></td>
+            <td th:text="${together.GUNAME}"></td>
+            <td th:text="${together.TITLE}"></td>
+            <td th:text="${together.DATE}"></td>
+            <td th:text="${together.PLACE}"></td>
+            <td th:text="${together.ORG_NAME}"></td>
+            <td th:text="${together.USE_TRGT}"></td>
+            <td th:text="${together.USE_FEE}"></td>
+            <td th:text="${together.PLAYER}"></td>
+            <td th:text="${together.PROGRAM}"></td>
+            <td th:text="${together.ETC_DESC}"></td>
+            <td th:text="${together.ORG_LINK}"></td>
+            <td th:text="${together.MAIN_IMG}"></td>
+            <td th:text="${together.RGSTDATE}"></td>
+            <td th:text="${together.TICKET}"></td>
+            <td th:text="${together.STRTDATE}"></td>
+            <td th:text="${together.END_DATE}"></td>
+            <td th:text="${together.THEMECODE}"></td>
+            <td th:text="${together.LOT}"></td>
+            <td th:text="${together.LAT}"></td>
+            <td th:text="${together.ISFREE}"></td>
+            <td th:text="${together.HMPG_ADDR}"></td>
+            <td th:text="${together.ZZIMCNT}"></td>
+        </tr>
+        </tbody>
+</table>
+</body>
+</html>

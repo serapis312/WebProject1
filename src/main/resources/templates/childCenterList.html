@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아동센터 목록</title>
+</head>
+<body>
+
+<h2>아동센터 목록</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>No</th>
+        <th>아동센터 명</th>
+        <th>분류</th>
+        <th>자치구</th>
+        <th>연령</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 유치원 데이터를 반복해서 표시 -->
+    <tr th:each="childCenter, stat : ${childCenter}">
+        <td th:text="${stat.count}"></td>
+        <td th:text="${childCenter.FCLTY_NM}"></td>
+        <td th:text="${childCenter.SVC_CL_NM}"></td>
+        <td th:text="${childCenter.ATDRC_NM}"></td>
+        <td th:text="${childCenter.AGE_SE_NM}"></td>
+        
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -16,6 +16,8 @@ DROP TABLE IF EXISTS together;
 DROP TABLE IF EXISTS user_authorities;
 DROP TABLE IF EXISTS user_img;
 DROP TABLE IF EXISTS user;
+ALTER TABLE `zzim` DROP FOREIGN KEY `zzim_ibfk_1`;
+
 DROP TABLE IF EXISTS user_authority;
 
 
@@ -138,28 +140,28 @@ CREATE TABLE recommend
 
 CREATE TABLE together
 (
-	id int NOT NULL,
+	id int NOT NULL AUTO_INCREMENT,
 	CODENAME varchar(255),
 	GUNAME varchar(255),
 	TITLE varchar(255),
-	DATE date,
+	DATE varchar (255),
 	PLACE varchar(255),
 	ORG_NAME varchar(255),
 	USE_TRGT varchar(255),
 	USE_FEE varchar(255),
-	PLAYER varchar(255),
-	PROGRAM text,
-	ETC_DESC text,
-	ORG_LINK varchar(255),
+	PLAYER varchar(1000),
+	PROGRAM varchar(255),
+	ETC_DESC varchar(255),
+	ORG_LINK varchar(1000),
 	MAIN_IMG varchar(255),
-	RGSTDATE date,
+	RGSTDATE varchar(255),
 	TICKET varchar(255),
-	STRTDATE date,
-	END_DATE date,
+	STRTDATE varchar(255),
+	END_DATE varchar(255),
 	THEMECODE varchar(255),
-	LOT decimal(65,20),
-	LAT decimal(65,20),
-	IS_FREE boolean,
+	LOT double(65,20),
+	LAT double(65,20),
+	IS_FREE TINYINT(1),
 	HMPG_ADDR varchar(255),
 	zzimCnt int DEFAULT 0,
 	PRIMARY KEY (id)
@@ -341,6 +343,8 @@ ALTER TABLE user_authorities
 	ON UPDATE RESTRICT
 	ON DELETE CASCADE
 ;
+
+SELECT * FROM together ;
 
 
 
