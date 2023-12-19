@@ -81,6 +81,15 @@ public class ChildHouseController {
         return "childHouseList";
     }
 
+    @GetMapping("/api/childhouse/detail")
+    public String showDetail(Model model, @PathVariable("crname") String crname) {
+        // 여기에서 데이터베이스에서 어린이집 상세 정보를 가져오는 서비스 메서드를 호출하고 모델에 추가하는 로직 추가
+        ChildHouse childHouseDetail = (ChildHouse) childHouseService.getChildHouseByCrName(crname);
+        model.addAttribute("childHouseDetail", childHouseDetail);
+
+        return "childHouseDetail"; // 이 부분은 상세 정보를 보여줄 뷰 페이지로 설정
+    }
+
     // todo: postmapping 써서 목록과 상세 나누기
 
 }

@@ -76,4 +76,6 @@ public class ChildHouseService {
     }
 
 
+    public List<ChildHouse>  getChildHouseByCrName(String crname) { return sqlSession.selectList("selectAllChildHouse"); }
+
 }
