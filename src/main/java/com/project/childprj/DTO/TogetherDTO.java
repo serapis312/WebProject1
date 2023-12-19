@@ -59,8 +59,8 @@ public class TogetherDTO {
 
 
 
-   @JsonProperty("ISFREE")
-   private boolean isfree;
+//   @JsonProperty("ISFREE")
+//   private boolean isfree;
    @JsonProperty("HMPG_ADDR")
    private String hmpg_addr;
 
@@ -222,13 +222,13 @@ public class TogetherDTO {
       this.lat = lat;
    }
 
-   public boolean isIsfree() {
-      return isfree;
-   }
-
-   public void setIsfree(boolean isfree) {
-      this.isfree = isfree;
-   }
+//   public boolean isIsfree() {
+//      return isfree;
+//   }
+//
+//   public void setIsfree(boolean isfree) {
+//      this.isfree = isfree;
+//   }
    public String getHmpg_addr() {
       return hmpg_addr;
    }
@@ -266,7 +266,7 @@ public class TogetherDTO {
          togetherDTO.setThemecode(row.get("THEMECODE").asText());
          togetherDTO.setLot(row.get("LOT").asDouble());
          togetherDTO.setLat(row.get("LAT").asDouble());
-         togetherDTO.setIsfree(row.get("ISFREE").asBoolean());
+//         togetherDTO.setIsfree(row.get("ISFREE").asBoolean());
          togetherDTO.setHmpg_addr(row.get("HMPG_ADDR").asText());
 
 
@@ -297,7 +297,7 @@ public class TogetherDTO {
       togetherDTO.setThemecode(row.get("THEMECODE").asText());
       togetherDTO.setLot(row.get("LOT").asDouble());
       togetherDTO.setLat(row.get("LAT").asDouble());
-      togetherDTO.setIsfree(row.get("ISFREE").asBoolean());
+//      togetherDTO.setIsfree(row.get("ISFREE").asBoolean());
       togetherDTO.setHmpg_addr(row.get("HMPG_ADDR").asText());
 
 

@@ -60,9 +60,7 @@ public class Together {
 
     private double LAT;
 
-
-
-    private boolean ISFREE;
+//    private boolean ISFREE;
 
     private String HMPG_ADDR;
 
@@ -227,13 +225,13 @@ public class Together {
         this.LAT = LAT;
     }
 
-    public boolean isISFREE() {
-        return ISFREE;
-    }
-
-    public void setISFREE(boolean ISFREE) {
-        this.ISFREE = ISFREE;
-    }
+//    public boolean isISFREE() {
+//        return ISFREE;
+//    }
+//
+//    public void setISFREE(boolean ISFREE) {
+//        this.ISFREE = ISFREE;
+//    }
 
     public String getHMPG_ADDR() {
         return HMPG_ADDR;
@@ -271,7 +269,7 @@ public class Together {
         together.setTHEMECODE(getTextValue(row, "THEMECODE"));
         together.setLOT(getDoubleValue(row, "LOT"));
         together.setLAT(getDoubleValue(row, "LAT"));
-        together.setISFREE(getBooleanValue(row, "ISFREE"));
+//        together.setISFREE(getBooleanValue(row, "ISFREE"));
         together.setHMPG_ADDR(getTextValue(row, "HMPG_ADDR"));
 
         return together;
@@ -287,10 +285,10 @@ public class Together {
         return (node != null && !node.isNull()) ? node.asDouble() : 0.0;
     }
 
-    private static boolean getBooleanValue(JsonNode row, String fieldName) {
-        JsonNode node = row.get(fieldName);
-        return (node != null && !node.isNull() && node.isBoolean()) ? node.asBoolean() : false;
-    }
+//    private static boolean getBooleanValue(JsonNode row, String fieldName) {
+//        JsonNode node = row.get(fieldName);
+//        return (node != null && !node.isNull() && node.isBoolean()) ? node.asBoolean() : false;
+//    }
 
 
 
@@ -303,7 +301,7 @@ public class Together {
                 + TITLE + ", DATE=" + DATE + ",  PLACE=" + PLACE + ", ORG_NAME=" + ORG_NAME + ", USE_TRGT=" + USE_TRGT + ", USE_FEE=" + USE_FEE
                 + ", PLAYER=" + PLAYER + ", PROGRAM=" + PROGRAM + ", ETC_DESC=" + ETC_DESC + ", ORG_LINK=" + ORG_LINK + ", MAIN_IMG=" + MAIN_IMG
                 + ", RGSTDATE=" + RGSTDATE + ", TICKET=" + TICKET + ", STRTDATE=" + STRTDATE + ", END_DATE=" + END_DATE + ", THEMECODE=" + THEMECODE
-                + ", LOT=" + LOT + ", LAT=" + LAT + ", ISFREE=" + ISFREE + ", HMPG_ADDR=" +HMPG_ADDR + "]";
+                + ", LOT=" + LOT + ", LAT=" + LAT + ", HMPG_ADDR=" +HMPG_ADDR + "]";
     }
 
 }

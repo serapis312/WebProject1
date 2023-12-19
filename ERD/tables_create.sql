@@ -150,7 +150,7 @@ CREATE TABLE together
 	USE_TRGT varchar(255),
 	USE_FEE varchar(255),
 	PLAYER varchar(1000),
-	PROGRAM varchar(255),
+	PROGRAM varchar(1000),
 	ETC_DESC varchar(255),
 	ORG_LINK varchar(1000),
 	MAIN_IMG varchar(255),
@@ -161,7 +161,7 @@ CREATE TABLE together
 	THEMECODE varchar(255),
 	LOT double(65,20),
 	LAT double(65,20),
-	IS_FREE TINYINT(1),
+--	IS_FREE TINYINT(1),
 	HMPG_ADDR varchar(255),
 	zzimCnt int DEFAULT 0,
 	PRIMARY KEY (id)
