@@ -4,6 +4,7 @@ import com.project.childprj.domain.community.Attachment;
 import com.project.childprj.domain.community.Post;
 import com.project.childprj.domain.community.QryCommentList;
 import com.project.childprj.domain.community.QryResult;
+import com.project.childprj.domain.mypage.UserImage;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,8 +15,14 @@ public interface CommunityService {
     // 글 작성
     int write(Post post, Map<String, MultipartFile> files);
 
+    // 특정 userId 의 프로필 이미지 가져오기
+    UserImage findUserImageByUserId(Long userId);
+
     // 추천하기 추가
     int addRecommend(Long userId, Long postId);
+
+    // 해당 게시물의 추천수 구하기
+    int findRecommendCnt(Long postId);
 
     // 특정 id 의 글 조회
     // 트랜잭션 처리
@@ -44,7 +51,6 @@ public interface CommunityService {
     // 첨부파일 관련 서비스
     // 특정 id 의 첨부이미지 가져오기
     Attachment findImageById(Long id);
-
 
     // 댓글 관련 서비스
     // 특정 글(id) 의 댓글 목록

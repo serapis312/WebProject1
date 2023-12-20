@@ -13,12 +13,27 @@
             (#{title}, #{content}, #{user.id})
     </insert>
 
+    <select id="findUserImage" resultType="com.project.childprj.domain.mypage.UserImage">
+        SELECT
+            id "id"
+            , sourceName "sourceName"
+            , fileName "fileName"
+            , userId "userId"
+        FROM user_img
+        WHERE userId = #{userId}
+    </select>
+
     <insert id="addRecommend" flushCache="true">
         INSERT INTO recommend
             (userId, postId)
         VALUES
             (#{userId}, #{postId})
     </insert>
+
+    <select id="findRecommendCnt" resultType="int">
+        SELECT count(*) FROM recommend
+        WHERE postId = #{postId}
+    </select>
 
     <update id="incViewCnt" flushCache="true">
         UPDATE post
@@ -136,6 +151,12 @@
         <result column="c_createDate" property="createDate"/>
         <result column="c_postId" property="postId"/>
         <collection property="user" resultMap="mapUser"/>
+        <collection property="userImage" resultMap="mapUserImage"/>
+    </resultMap>
+
+    <resultMap id="mapUserImage" type="com.project.childprj.domain.mypage.UserImage">
+        <result column="i_id" property="id"/>
+        <result column="i_fileName" property="fileName"/>
     </resultMap>
 
     <select id="findCommentByPost" resultMap="mapComment">
@@ -146,13 +167,16 @@
         c.postId "c_postId",
         u.id "u_id",
         u.loginId "u_loginId",
-        u.nickName "u_nickName"
+        u.nickName "u_nickName",
         u.name "u_name",
         u.email "u_email",
-        u.createDate "u_createDate"
-        FROM post_comment c, user u
+        u.createDate "u_createDate",
+        i.id "i_id",
+        i.fileName "i_fileName"
+        FROM post_comment c, user u, user_img i
         WHERE
         c.userId = u.id
+        AND u.id = i.userId
         AND c.postId = #{postId}
         ORDER BY c.id DESC
     </select>

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.project.childprj.domain.mypage.UserImage;
 import com.project.childprj.domain.user.User;
 import lombok.*;
 
@@ -20,6 +21,9 @@ public class Comment {
     private Long id;  // PK
 
     @ToString.Exclude
+    private UserImage userImage;  // 프로필 이미지
+
+    @ToString.Exclude
     private User user;   // 댓글 작성자 (FK)
     @JsonIgnore
     private Long postId;   // 어느글의 댓글 (FK)
@@ -29,8 +33,8 @@ public class Comment {
     // java.time.* 객체 포맷팅을 위한 annotation
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    @JsonProperty("regdate")
+    @JsonFormat(pattern = "yyyy.MM.dd HH:mm:ss", timezone = "Asia/Seoul")
+    @JsonProperty("createDate")
     private LocalDateTime createDate;  // 댓글 작성일시
 
 }

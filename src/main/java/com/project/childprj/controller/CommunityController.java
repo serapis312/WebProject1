@@ -2,7 +2,10 @@ package com.project.childprj.controller;
 
 import com.project.childprj.domain.community.Post;
 import com.project.childprj.domain.community.PostValidator;
+import com.project.childprj.domain.mypage.UserImage;
 import com.project.childprj.service.CommunityService;
+import com.project.childprj.service.UserService;
+import com.project.childprj.util.U;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,10 +27,13 @@ public class CommunityController {
     @Autowired
     private CommunityService communityService;
 
-    @GetMapping("/write")
-    public void write(){}
+    @GetMapping("/communityWrite")
+    public void write(Model model){
+        UserImage userImage = communityService.findUserImageByUserId(U.getLoggedUser().getId());
+        model.addAttribute("userImage", userImage);
+    }
 
-    @PostMapping("/write")
+    @PostMapping("/communityWrite")
     public String writeOk(
             @RequestParam Map<String, MultipartFile> files,
             @Valid Post post
@@ -47,7 +53,7 @@ public class CommunityController {
                 redirectAttrs.addFlashAttribute("error_" + err.getField(), err.getCode());
             }
 
-            return "redirect:/community/write";
+            return "redirect:/community/communityWrite";
         }
 
         model.addAttribute("result", communityService.write(post, files));
@@ -55,29 +61,41 @@ public class CommunityController {
 
     }
 
-    @GetMapping("/detail/{id}")
-    public String detail(@PathVariable Long id, Model model){
+    @GetMapping("/communityDetail/{id}")
+    public String detail(@PathVariable(name = "id") Long id, Model model){
         model.addAttribute("post", communityService.detail(id));
-        return "community/detail";
+        model.addAttribute("recommendCnt", communityService.findRecommendCnt(id));
+
+        Post post = communityService.selectById(id);
+        UserImage userImage = communityService.findUserImageByUserId(post.getUser().getId());
+        model.addAttribute("userImage", userImage);
+        return "community/communityDetail";
     }
 
+    @PostMapping("/recommend")
+    public void recommend(){}
 
-    @GetMapping("/list")
-    public void list(Integer page, Model model){
+    @GetMapping("/communityList")
+    public void list(@RequestParam(name = "page", defaultValue = "1") Integer page, Model model){
         communityService.list(page, model);
     }
 
 
-    @GetMapping("/update/{id}")
-    public String update(@PathVariable Long id, Model model){
+    @GetMapping("/communityUpdate/{id}")
+    public String update(@PathVariable(name = "id") Long id, Model model){
         model.addAttribute("post", communityService.selectById(id));
-        return "community/update";
+
+        Post post = communityService.selectById(id);
+        UserImage userImage = communityService.findUserImageByUserId(post.getUser().getId());
+        model.addAttribute("userImage", userImage);
+
+        return "community/communityUpdate";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/communityUpdate")
     public String updateOk(
-            @RequestParam Map<String, MultipartFile> files    // 새로 추가될 첨부파일들
-            , Long[] delfile       // 삭제될 첨부파일들
+            @RequestParam(required = false) Map<String, MultipartFile> files    // 새로 추가될 첨부파일들
+            , @RequestParam(required = false) Long[] delfile       // 삭제될 첨부파일들
             , @Valid Post post
             , BindingResult result
             , Model model
@@ -86,7 +104,7 @@ public class CommunityController {
         if(result.hasErrors()){
 
             // redirect시 기존에 입력했던 값들은 보이게 하기
-            redirectAttrs.addFlashAttribute("subject", post.getTitle());
+            redirectAttrs.addFlashAttribute("title", post.getTitle());
             redirectAttrs.addFlashAttribute("content", post.getContent());
 
             List<FieldError> errList = result.getFieldErrors();
@@ -94,9 +112,8 @@ public class CommunityController {
                 redirectAttrs.addFlashAttribute("error_" + err.getField(), err.getCode());
             }
 
-            return "redirect:/community/update/" + post.getId();
+            return "redirect:/community/communityUpdate/" + post.getId();
         }
-
 
         model.addAttribute("result", communityService.update(post, files, delfile));
         return "community/updateOk";

@@ -57,71 +57,39 @@
                     </div>
 
                     <ul id="tbody">
-                        <li class="list-content">
-                            <p class="post-no">1</p>
+                        <li class="list-content" th:each="post : ${list}">
+                            <p class="post-no" th:text="${post.id}"></p>
                             <p class="post-title">
-                                <a href="">안녕하세요!안녕하세요!안녕하세요!안녕하세요!</a>
+                                <a th:href="@{'/community/communityDetail/' + ${post.id}}" th:text="${post.title}"></a>
                             </p>
-                            <p class="post-writer">뽀로로맘</p>
-                            <p class="post-viewCnt">13</p>
-                            <p class="post-rcmCnt">3</p>
-                            <p class="post-date">23.11.30</p>
-                        </li>
-                        <li class="list-content">
-                            <p class="post-no">1</p>
-                            <p class="post-title">
-                                <a href="">안녕하세요!</a>
-                            </p>
-                            <p class="post-writer">뽀로로맘뽀로로맘뽀로로맘</p>
-                            <p class="post-viewCnt">13</p>
-                            <p class="post-rcmCnt">3</p>
-                            <p class="post-date">23.11.30</p>
-                        </li>
-                        <li class="list-content">
-                            <p class="post-no">1</p>
-                            <p class="post-title">
-                                <a href="">안녕하세요!</a>
-                            </p>
-                            <p class="post-writer">뽀로로맘</p>
-                            <p class="post-viewCnt">13</p>
-                            <p class="post-rcmCnt">3</p>
-                            <p class="post-date">23.11.30</p>
-                        </li>
-                        <li class="list-content">
-                            <p class="post-no">1</p>
-                            <p class="post-title">
-                                <a href="">안녕하세요!</a>
-                            </p>
-                            <p class="post-writer">뽀로로맘</p>
-                            <p class="post-viewCnt">13</p>
-                            <p class="post-rcmCnt">3</p>
-                            <p class="post-date">23.11.30</p>
-                        </li>
-                        <li class="list-content">
-                            <p class="post-no">1</p>
-                            <p class="post-title">
-                                <a href="">안녕하세요!</a>
-                            </p>
-                            <p class="post-writer">뽀로로맘</p>
-                            <p class="post-viewCnt">13</p>
-                            <p class="post-rcmCnt">3</p>
-                            <p class="post-date">23.11.30</p>
+                            <p class="post-writer" th:text="${post.user.nickName}"></p>
+                            <p class="post-viewCnt" th:text="${post.viewCnt}"></p>
+                            <p class="post-rcmCnt">0</p>
+                            <p class="post-date" th:text="${#temporals.format(post.createDate, 'yyyy.MM.dd')}"></p>
                         </li>
                     </ul>
                 </div>
-                <div id="pagination-wrap">
-                    <ul id="pagination-content">
-                        <li><a href="#"><img src="/img/prev.png" height="12px"></a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#"><img src="/img/next.png" height="12px"></a></li>
-                    </ul>
-                </div>
+
+<!--                <div id="pagination-wrap">-->
+<!--                    <ul id="pagination-content">-->
+<!--                        <li><a href="#"><img src="/img/prev.png" height="12px"></a></li>-->
+<!--                        <li><a href="#">1</a></li>-->
+<!--                        <li><a href="#">2</a></li>-->
+<!--                        <li><a href="#">3</a></li>-->
+<!--                        <li><a href="#">4</a></li>-->
+<!--                        <li><a href="#">5</a></li>-->
+<!--                        <li><a href="#"><img src="/img/next.png" height="12px"></a></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+
+                <!-- pagination -->
+                <th:block th:insert="~{community/pagination::pagination}"></th:block>
+                <!-- pagination -->
+
             </div>
         </div>
+
+
 
         <!-- footer -->
         <th:block th:insert="~{fragment/footer::footer}"></th:block>

@@ -3,6 +3,7 @@ package com.project.childprj.repository;
 import com.project.childprj.domain.community.Attachment;
 import com.project.childprj.domain.community.Comment;
 import com.project.childprj.domain.community.Post;
+import com.project.childprj.domain.mypage.UserImage;
 
 import java.util.List;
 
@@ -10,8 +11,14 @@ public interface CommunityRepository {
     // 새글 작성
     int save(Post post);
 
+    // 특정 userId의 UserImage 찾기
+    UserImage findUserImage(Long userId);
+
     // 특정 글에 특정 유저가 추천하기 추가
     int addRecommend(Long userId, Long postId);
+
+    // 특정 게시물의 추천수 구하기
+    int findRecommendCnt(Long postId);
 
     // 특정 id 글 내용 읽기 (SELECT)
     // 만약 해당 id 의 글 없으면 null 리턴함

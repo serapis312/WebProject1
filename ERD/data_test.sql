@@ -15,3 +15,9 @@ SELECT *
  
  SELECT *
  FROM user_img;
+ 
+SELECT *
+FROM post_img;
+
+SELECT *
+FROM post;

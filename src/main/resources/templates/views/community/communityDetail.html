@@ -3,12 +3,25 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
+<script th:unless="${post}">
+    alert("해당 정보가 삭제되거나 없습니다");
+    history.back();
+</script>
+
+<th:block th:if="${post}" th:with="logged_user=${#authentication.principal.user}">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="shortcut icon" th:href="@{/img/favicon.png}" type="image/x-icon" />
         <link rel="stylesheet" th:href="@{/css/common.css}" />
         <link rel="stylesheet" th:href="@{/css/communityDetail.css}" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+        <script th:inline="javascript">
+            // ↓ 댓글 작성시 필요
+            const logged_id = [[${logged_user.id}]];
+        </script>
         <script defer th:src="@{/js/communityDetail.js}" ></script>
         <title>커뮤니티 상세</title>
     </head>
@@ -17,91 +30,122 @@
         <th:block th:insert="~{fragment/header::header}"></th:block>
 
         <!-- main -->
-        <div class="main">
+        <div class="main" th:with="post = ${post}">
+            <form name="frmDelete" th:action="@{/community/delete}" method="post">
+                <input type="hidden" name="id" th:value="${post.id}">
+            </form>
+
             <div class="talk-wrapper">
                 <!-- community header -->
                 <div class="talk-header-wrap">
                     <div class="talk-header">
-                        <img src="/img/핑구.jpg" width="40px" class="talk-writer-pic" />
-                        <div class="talk-writer-nickname">바삭한 감자전</div>
+                        <img th:unless="${userImage}" th:src="@{/img/핑구.jpg}" width="40px" class="talk-writer-pic" />
+                        <img th:if="${userImage}" th:src="@{/upload/} + ${userImage.fileName}" width="40px" class="talk-writer-pic" />
+                        <div class="talk-writer-nickname" th:text="${post.user.nickName}"></div>
                     </div>
                     <div class="talk-header">
                         <div class="talk-inform-look">
                             <div>조회수</div>
-                            <div class="talk-inform-lookCnt">13</div>
+                            <div class="talk-inform-lookCnt" th:text="${post.viewCnt}"></div>
                         </div>
                         <div class="talk-inform-recom">
                             <div>추천수</div>
-                            <div class="talk-inform-recomCnt"></div>
+                            <div class="talk-inform-recomCnt" th:text="${recommendCnt}"></div>
                         </div>
                         <div class="talk-inform-date">
                             <div>작성일</div>
-                            <div class="talk-inform-date">2023.12.05</div>
+                            <div class="talk-inform-date" th:text="${#temporals.format(post.createDate, 'yyyy.MM.dd')}"></div>
                         </div>
                     </div>
                 </div>
                 <!-- community main -->
                 <div class="talk-main">
-                    <div class="talk-main-title">안녕하세요!</div>
-                    <div class="talk-main-content">안녕하세요 반갑습니다 바삭한 감자전입니다 :D</div>
+                    <div class="talk-main-title" th:text="${post.title}"></div>
+                    <div class="talk-main-content" th:utext="${post.content}"></div>
                     <div class="talk-main-btn">
                         <div class="talk-left-btn-wrap">
-                            <a href="" class="raise-btn talk-btn">추천</a>
+                            <a class="raise-btn talk-btn">추천</a>
                         </div>
                         <div class="talk-right-btn-wrap">
-                            <a th:href="@{/community/communityWrite}" class="talk-btn">작성</a>
-                            <a th:href="@{/community/communityUpdate}" class="talk-btn">수정</a>
-                            <a href="" class="talk-btn">삭제</a>
-                            <a th:href="@{/community/communityList}" class="talk-btn">목록</a>
+                            <form method="POST" th:action="@{/community/delete}">
+                                <a th:href="@{/community/communityWrite}" class="talk-btn">작성</a>
+                                <a th:href="@{/community/communityUpdate/} + ${post.id}" class="talk-btn" th:if="${logged_user.id == post.user.id}">수정</a>
+                                <a class="talk-btn" id="btnDel" th:if="${logged_user.id == post.user.id}">삭제</a>
+                                <a th:href="@{/community/communityList}" class="talk-btn">목록</a>
+                            </form>
                         </div>
                     </div>
                 </div>
 
                 <!-- community comment -->
-                <div class="talk-comment">
-                    <div class="talk-comment-wrap">
-                        <div class="talk-comment-content">
-                            <img class="comment-writer-pic" src="/img/핑구.jpg" height="40px" />
-                            <div class="comment-writer-nickname">말랑한 고구마</div>
-                            <div class="comment-writer-content">반갑습니다!</div>
-                            <div class="comment-writer-time">23.12.05</div>
+<!--                <div class="talk-comment">-->
+<!--                    <div class="talk-comment-wrap">-->
+<!--                        <div class="talk-comment-content">-->
+<!--                            <img class="comment-writer-pic" src="/img/핑구.jpg" height="40px" />-->
+<!--                            <div class="comment-writer-nickname">말랑한 고구마</div>-->
+<!--                            <div class="comment-writer-content">반갑습니다!</div>-->
+<!--                            <div class="comment-writer-time">23.12.05</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="talk-comment-wrap">-->
+<!--                        <div class="talk-comment-content">-->
+<!--                            <img class="comment-writer-pic" src="/img/핑구.jpg" height="40px" />-->
+<!--                            <div class="comment-writer-nickname">맑은아침햇살</div>-->
+<!--                            <div class="comment-writer-content">환영합니다!</div>-->
+<!--                            <div class="comment-writer-time">23.12.05</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="talk-comment-wrap">-->
+<!--                        <div class="talk-comment-content">-->
+<!--                            <img class="comment-writer-pic" src="/img/핑구.jpg" height="40px" />-->
+<!--                            <div class="comment-writer-nickname">마라탕먹고싶다</div>-->
+<!--                            <div class="comment-writer-content">안녕하세요!</div>-->
+<!--                            <div class="comment-writer-time">23.12.05</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="talk-comment-wrap">-->
+<!--                        <div class="talk-comment-content">-->
+<!--                            <img class="comment-writer-pic" src="/img/핑구.jpg" height="40px" />-->
+<!--                            <div class="comment-writer-nickname">솜사탕</div>-->
+<!--                            <div class="comment-writer-content">hello!</div>-->
+<!--                            <div class="comment-writer-time">23.12.05</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <form action="" class="talk-comment-content talk-comment-write-wrap">-->
+<!--                        <img class="comment-writer-pic" src="/img/핑구.jpg" height="40px" />-->
+<!--                        <div class="comment-writer-nickname">바삭한 감자전</div>-->
+<!--                        <input class="write-comment-input" type="text" placeholder="댓글을 입력하세요" />-->
+<!--                        <a href="" class="raise-btn talk-btn">작성</a>-->
+<!--                    </form>-->
+<!--                </div>-->
+
+                <!-- 첨부파일목록 -->
+                <div class="container mt-3 mb-3 border rounded">
+                    <div class="mb-3 mt-3">
+                        <label>첨부파일:</label>
+                        <!-- 첨부파일 이름, 다운로드 링크 -->
+                        <ul class="list-group mb-1">
+                            <li class="list-group-item" th:each="attachment : ${post.fileList}">
+                                <a th:href="@{/community/download(id=${attachment.id})}" th:text="${attachment.sourceName}"></a>
+                            </li>
+                        </ul>
+                        <!--/* 이미지 보여주기 */-->
+                        <div th:each="attachment : ${post.fileList}">
+                            <img th:src="@{'/upload/' + ${attachment.fileName}}" class="img-thumbnail" alt="Cinque Terre">
                         </div>
                     </div>
-                    <div class="talk-comment-wrap">
-                        <div class="talk-comment-content">
-                            <img class="comment-writer-pic" src="/img/핑구.jpg" height="40px" />
-                            <div class="comment-writer-nickname">맑은아침햇살</div>
-                            <div class="comment-writer-content">환영합니다!</div>
-                            <div class="comment-writer-time">23.12.05</div>
-                        </div>
-                    </div>
-                    <div class="talk-comment-wrap">
-                        <div class="talk-comment-content">
-                            <img class="comment-writer-pic" src="/img/핑구.jpg" height="40px" />
-                            <div class="comment-writer-nickname">마라탕먹고싶다</div>
-                            <div class="comment-writer-content">안녕하세요!</div>
-                            <div class="comment-writer-time">23.12.05</div>
-                        </div>
-                    </div>
-                    <div class="talk-comment-wrap">
-                        <div class="talk-comment-content">
-                            <img class="comment-writer-pic" src="/img/핑구.jpg" height="40px" />
-                            <div class="comment-writer-nickname">솜사탕</div>
-                            <div class="comment-writer-content">hello!</div>
-                            <div class="comment-writer-time">23.12.05</div>
-                        </div>
-                    </div>
-                    <form action="" class="talk-comment-content talk-comment-write-wrap">
-                        <img class="comment-writer-pic" src="/img/핑구.jpg" height="40px" />
-                        <div class="comment-writer-nickname">바삭한 감자전</div>
-                        <input class="write-comment-input" type="text" placeholder="댓글을 입력하세요" />
-                        <a href="" class="raise-btn talk-btn">작성</a>
-                    </form>
                 </div>
+                <!-- 첨부파일목록 -->
+
+                <!-- 댓글 -->
+                <th:block th:insert="~{community/comment::comment}"></th:block>
+                <!-- 댓글 -->
+
             </div>
         </div>
 
         <!-- footer -->
         <th:block th:insert="~{fragment/footer::footer}"></th:block>
     </body>
+</th:block>
 </html>

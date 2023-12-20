@@ -55,30 +55,43 @@ public class CommunityServiceImpl implements CommunityService {
         user = userRepository.findById(user.getId());
         post.setUser(user);    // 글 작성자 세팅
 
-        int cnt = communityRepository.save(post);
+        int cnt1 = communityRepository.save(post);
+
+        int cnt2 = isFileImageOrNull(files);
 
         // 첨부파일 추가 (이미지 파일만)
         addFiles(files, post.getId());
 
-        return cnt;
+        if(cnt1 == 1 && cnt2 == 1) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    @Override
+    public UserImage findUserImageByUserId(Long userId) {
+        return communityRepository.findUserImage(userId);
     }
 
     // 특정 글 (id) 의 첨부파일(들) 추가 (이미지 파일만)
     private void addFiles(Map<String, MultipartFile> files, Long id) {
-        if(files == null) return;
+        if(files == null) {
+            return;
+        }
 
         for(Map.Entry<String, MultipartFile> e : files.entrySet()){
             // name="upfile##" 인 경우만 첨부파일 등록 (이유, 다른 웹에디터와 섞이지 않도록..ex: summernote)
             if(!e.getKey().startsWith("upfile")) continue;
 
-            // 이미지파일이 아니면 첨부파일 등록 취소
+            // 이미지파일이 아니면 첨부파일 등록 안함
             BufferedImage bufferedImage = null;
 
             try {
                 bufferedImage = ImageIO.read(e.getValue().getInputStream());
 
                 if(bufferedImage == null){
-                    break;
+                    continue;
                 }
 
             } catch (IOException errors) {
@@ -95,6 +108,7 @@ public class CommunityServiceImpl implements CommunityService {
             }
 
         }
+
     }
 
     // 물리적으로 파일 저장. 중복된 이름 rename 처리
@@ -168,6 +182,11 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public int addRecommend(Long userId, Long postId) {
         return communityRepository.addRecommend(userId, postId);
+    }
+
+    @Override
+    public int findRecommendCnt(Long postId) {
+        return communityRepository.findRecommendCnt(postId);
     }
 
     @Override
@@ -264,7 +283,9 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public int update(Post post, Map<String, MultipartFile> files, Long[] delfile) {
-        int result = communityRepository.update(post);
+        int cnt1 = communityRepository.update(post);
+
+        int cnt2 = isFileImageOrNull(files);
 
         // 새로운 첨부파일 추가
         addFiles(files, post.getId());
@@ -280,7 +301,26 @@ public class CommunityServiceImpl implements CommunityService {
             }
         }
 
-        return result;
+        if(cnt1 == 1 && cnt2 == 1) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    // 첨부파일이 이미지가 아닐떄 0 리턴
+    private int isFileImageOrNull(Map<String, MultipartFile> files) {
+        for(Map.Entry<String, MultipartFile> e : files.entrySet()) {
+            if(U.isFileImage(e.getValue())) {
+                return 1;
+            }
+
+            if(e.getValue().isEmpty()) {
+                return 1;
+            }
+        }
+
+        return 0;
     }
 
     private void delFile(Attachment image) {
@@ -344,11 +384,13 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public QryResult writeComment(Long postId, Long userId, String content) {
         User user = userRepository.findById(userId);
+        UserImage userImage = communityRepository.findUserImage(userId);
 
         Comment comment = Comment.builder()
                 .user(user)
                 .content(content)
                 .postId(postId)
+                .userImage(userImage)
                 .build();
 
         communityRepository.saveComment(comment);
