@@ -20,7 +20,6 @@
         <!-- header -->
         <th:block th:insert="~{fragment/header::header}"></th:block>
 
-
         <!-- main -->
         <div class="main">
             <div class="talk-wrapper">
@@ -52,7 +51,7 @@
                         </div>
                     </div>
 
-                    <div class="market-write-wrap">
+                    <div class="market-write-wrap content-wrap">
                         <textarea id="content" name="content" th:utext="${content}"></textarea>
                         <p th:if="${err_content}" th:utext="${err_content}"></p>
                     </div>

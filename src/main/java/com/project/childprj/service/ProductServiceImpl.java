@@ -103,4 +103,12 @@ public class ProductServiceImpl implements ProductService {
     public int detailDelete(Long id) {
         return productRepository.detailDelete(id);
     }
+
+    // 글 수정
+    @Override
+    public int update(Product product) {
+        int result = productRepository.update(product);
+
+        return result;
+    }
 }

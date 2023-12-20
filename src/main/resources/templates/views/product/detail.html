@@ -3,16 +3,21 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="shortcut icon" th:href="@{/img/favicon.png}" type="image/x-icon" />
-        <link rel="stylesheet" th:href="@{/css/common.css}" />
-        <link rel="stylesheet" th:href="@{/css/marketDetail.css}" />
-        <script defer th:src="@{/js/marketDetail.js}"></script>
-        <title>알뜰시장 상세</title>
-    </head>
-    <body>
+    <script th:unless="${product}" th:inline="javascript">
+        location.href = "/product/list";
+    </script>
+
+    <block th:if="${product}">
+        <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <link rel="shortcut icon" th:href="@{/img/favicon.png}" type="image/x-icon" />
+            <link rel="stylesheet" th:href="@{/css/common.css}" />
+            <link rel="stylesheet" th:href="@{/css/marketDetail.css}" />
+            <script defer th:src="@{/js/marketDetail.js}"></script>
+            <title>알뜰시장 상세</title>
+        </head>
+        <body>
         <!-- header -->
         <th:block th:insert="~{fragment/header::header}"></th:block>
 
@@ -41,21 +46,23 @@
                     <div class="market-main-title-wrap">
                         <div class="market-writer-title-right">
                             <div class="market-writer-price"th:text="${product.price}"></div>
-<!--                            <div>[[${product.productName}]]</div>-->
                             <div th:text="${product.productName}"></div>
                         </div>
                         <div class="market-writer-title-right">
                             <img src="/img/place.png" height="33px" alt="" />
-<!--                            <div class="market-writer-region">[[${product.region}]]</div>-->
                             <div class="market-writer-region" th:text="${product.region}"></div>
                         </div>
                     </div>
-<!--                    <div class="market-main-content">[[${product.content}]]</div>-->
+
                     <div class="market-main-content" th:utext="${product.content}"></div>
+
                     <div class="market-main-btn">
                         <a th:href="@{/product/write}" class="market-btn">작성</a>
-                        <a th:href="@{/product/update}" class="market-btn">수정</a>
-                        <a href="" class="market-btn">삭제</a>
+                        <a th:href="@{'/product/update/' + ${product.id}}" class="market-btn">수정</a>
+                        <form method="POST" name="detailDelete" th:action="@{/product/detailDelete}">
+                            <input type="hidden" name="id" th:value="${product.id}">
+                            <input type="button" class="market-btn delBtn" value="삭제" onclick="clickDetailDelBtn()" />
+                        </form>
                         <a th:href="@{/product/list}" class="market-btn">목록</a>
                     </div>
                 </div>
@@ -106,5 +113,6 @@
 
         <!-- footer -->
         <th:block th:insert="~{fragment/footer::footer}"></th:block>
-    </body>
+        </body>
+    </block>
 </html>

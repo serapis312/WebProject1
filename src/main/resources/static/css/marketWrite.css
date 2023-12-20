@@ -43,8 +43,7 @@
 }
 .write-info > :nth-child(3) {
     width: 14%;
-    margin-left: 15px;
-    margin-right: 17px;
+    margin-left: 30px;
 }
 
 .write-info input,

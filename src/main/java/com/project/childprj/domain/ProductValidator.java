@@ -18,15 +18,19 @@ public class ProductValidator implements Validator {
         if (product.getPrice() == null) {
             errors.rejectValue("price", "가격은 필수입니다");
         } else {
-            errors.rejectValue("price", "나눔은 0을 입력해주세요");
+            System.out.println(((Object)product.getPrice()).getClass().getSimpleName().equals("Integer"));
         }
+
+//        else if (!((Object)product.getPrice()).getClass().getSimpleName().equals("Integer")) {
+//            errors.rejectValue("price", "나눔은 0을 입력해주세요");
+//        }
 
         if (product.getProductName() == null || product.getProductName().trim().isEmpty()) {
             errors.rejectValue("productName", "상품명은 필수입니다");
         }
 
         if (product.getRegion() == null || product.getRegion().trim().isEmpty()) {
-            errors.rejectValue("getRegion", "지역은 필수입니다");
+            errors.rejectValue("region", "지역은 필수입니다");
         }
 
         if (product.getContent() == null || product.getContent().trim().isEmpty()) {
