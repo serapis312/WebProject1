@@ -33,23 +33,33 @@
                 </div>
 
                 <!-- market write -->
-                <form name="market-write-form" action="" autocomplete="off">
+                <form name="market-write-form" autocomplete="off" th:action="@{/product/write}" method="post">
                     <div class="market-write-wrap write-info">
-                        <input type="text" id="price" placeholder="가격" name="price" />
-                        <input type="text" id="title" placeholder="제목을 입력해 주세요" name="title" />
-                        <div id="gu-select-wrap" class="gu-select-wrap">
-                            <input type="hidden" class="gu-input" value="" name="gu" />
-                            <div id="gu-select-btn">지역선택</div>
-                            <div id="gu-wrap" class="gu-wrap"></div>
+                        <input type="text" id="price" placeholder="가격" name="price" th:value="${price}" />
+                        <input type="text" id="title" placeholder="제목을 입력해 주세요" name="productName" th:value="${productName}" />
+                        <input type="text" id="region" placeholder="지역" name="region" th:value="${region}" />
+                    </div>
+
+                    <div class="err-wrap">
+                        <div>
+                            <p th:if="${err_price}" th:utext="${err_price}"></p>
+                        </div>
+                        <div>
+                            <p th:if="${err_productName}" th:utext="${err_productName}"></p>
+                        </div>
+                        <div>
+                            <p th:if="${err_region}" th:utext="${err_region}"></p>
                         </div>
                     </div>
 
                     <div class="market-write-wrap">
-                        <textarea id="content" name="content"></textarea>
+                        <textarea id="content" name="content" th:utext="${content}"></textarea>
+                        <p th:if="${err_content}" th:utext="${err_content}"></p>
                     </div>
+
                     <div class="write-btn-wrap">
                         <button type="submit" class="write-btn">작성완료</button>
-                        <a th:href="@{/js/marketList}" class="write-btn">목록</a>
+                        <a th:href="@{/product/list}" class="write-btn">목록</a>
                     </div>
                 </form>
             </div>

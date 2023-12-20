@@ -40,20 +40,23 @@
                 <div class="market-main">
                     <div class="market-main-title-wrap">
                         <div class="market-writer-title-right">
-                            <div class="market-writer-price">나눔</div>
-                            <div>[[${product.productName}]]</div>
+                            <div class="market-writer-price"th:text="${product.price}"></div>
+<!--                            <div>[[${product.productName}]]</div>-->
+                            <div th:text="${product.productName}"></div>
                         </div>
                         <div class="market-writer-title-right">
                             <img src="/img/place.png" height="33px" alt="" />
-                            <div class="market-writer-region">[[${product.region}]]</div>
+<!--                            <div class="market-writer-region">[[${product.region}]]</div>-->
+                            <div class="market-writer-region" th:text="${product.region}"></div>
                         </div>
                     </div>
-                    <div class="market-main-content">[[${product.content}]]</div>
+<!--                    <div class="market-main-content">[[${product.content}]]</div>-->
+                    <div class="market-main-content" th:utext="${product.content}"></div>
                     <div class="market-main-btn">
-                        <a th:href="@{/market/marketWrite}" class="market-btn">작성</a>
-                        <a th:href="@{/market/marketUpdate}" class="market-btn">수정</a>
+                        <a th:href="@{/product/write}" class="market-btn">작성</a>
+                        <a th:href="@{/product/update}" class="market-btn">수정</a>
                         <a href="" class="market-btn">삭제</a>
-                        <a th:href="@{/market/marketList}" class="market-btn">목록</a>
+                        <a th:href="@{/product/list}" class="market-btn">목록</a>
                     </div>
                 </div>
 
