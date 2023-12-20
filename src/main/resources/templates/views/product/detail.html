@@ -3,16 +3,21 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="shortcut icon" th:href="@{/img/favicon.png}" type="image/x-icon" />
-        <link rel="stylesheet" th:href="@{/css/common.css}" />
-        <link rel="stylesheet" th:href="@{/css/marketDetail.css}" />
-        <script defer th:src="@{/js/marketDetail.js}"></script>
-        <title>알뜰시장 상세</title>
-    </head>
-    <body>
+    <script th:unless="${product}" th:inline="javascript">
+        location.href = "/product/list";
+    </script>
+
+    <block th:if="${product}">
+        <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <link rel="shortcut icon" th:href="@{/img/favicon.png}" type="image/x-icon" />
+            <link rel="stylesheet" th:href="@{/css/common.css}" />
+            <link rel="stylesheet" th:href="@{/css/marketDetail.css}" />
+            <script defer th:src="@{/js/marketDetail.js}"></script>
+            <title>알뜰시장 상세</title>
+        </head>
+        <body>
         <!-- header -->
         <th:block th:insert="~{fragment/header::header}"></th:block>
 
@@ -23,16 +28,16 @@
                 <div class="market-header-wrap">
                     <div class="market-header">
                         <img src="/img/핑구.jpg" width="40px" class="talk-writer-pic" />
-                        <div class="talk-writer-nickname">바삭한 감자전</div>
+                        <div class="talk-writer-nickname">[[${product.user.nickname}]]</div>
                     </div>
                     <div class="market-header">
                         <div class="talk-inform-look">
                             <div>조회수</div>
-                            <div class="market-inform-lookCnt">13</div>
+                            <div class="market-inform-lookCnt">[[${product.viewCnt}]]</div>
                         </div>
                         <div class="market-inform-date">
                             <div>작성일</div>
-                            <div class="market-inform-date">2023.12.05</div>
+                            <div class="market-inform-date">[[${#temporals.format(product.createDate, 'yyyy-MM-dd')}]]</div>
                         </div>
                     </div>
                 </div>
@@ -40,20 +45,25 @@
                 <div class="market-main">
                     <div class="market-main-title-wrap">
                         <div class="market-writer-title-right">
-                            <div class="market-writer-price">나눔</div>
-                            <div>아기옷 나눔합니다</div>
+                            <div class="market-writer-price"th:text="${product.price}"></div>
+                            <div th:text="${product.productName}"></div>
                         </div>
                         <div class="market-writer-title-right">
                             <img src="/img/place.png" height="33px" alt="" />
-                            <div class="market-writer-region">서울 강남구</div>
+                            <div class="market-writer-region" th:text="${product.region}"></div>
                         </div>
                     </div>
-                    <div class="market-main-content">아기가 커서 이제 못 입는 옷들 나눔합니다 댓글 주세요 ^^</div>
+
+                    <div class="market-main-content" th:utext="${product.content}"></div>
+
                     <div class="market-main-btn">
-                        <a th:href="@{/market/marketWrite}" class="market-btn">작성</a>
-                        <a th:href="@{/market/marketUpdate}" class="market-btn">수정</a>
-                        <a href="" class="market-btn">삭제</a>
-                        <a th:href="@{/market/marketList}" class="market-btn">목록</a>
+                        <a th:href="@{/product/write}" class="market-btn">작성</a>
+                        <a th:href="@{'/product/update/' + ${product.id}}" class="market-btn">수정</a>
+                        <form method="POST" name="detailDelete" th:action="@{/product/detailDelete}">
+                            <input type="hidden" name="id" th:value="${product.id}">
+                            <input type="button" class="market-btn delBtn" value="삭제" onclick="clickDetailDelBtn()" />
+                        </form>
+                        <a th:href="@{/product/list}" class="market-btn">목록</a>
                     </div>
                 </div>
 
@@ -103,5 +113,6 @@
 
         <!-- footer -->
         <th:block th:insert="~{fragment/footer::footer}"></th:block>
-    </body>
+        </body>
+    </block>
 </html>

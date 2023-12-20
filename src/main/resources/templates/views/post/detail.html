@@ -67,12 +67,19 @@
                             <a class="raise-btn talk-btn">추천</a>
                         </div>
                         <div class="talk-right-btn-wrap">
+<<<<<<<< HEAD:src/main/resources/templates/views/community/communityDetail.html
                             <form method="POST" th:action="@{/community/delete}">
                                 <a th:href="@{/community/communityWrite}" class="talk-btn">작성</a>
                                 <a th:href="@{/community/communityUpdate/} + ${post.id}" class="talk-btn" th:if="${logged_user.id == post.user.id}">수정</a>
                                 <a class="talk-btn" id="btnDel" th:if="${logged_user.id == post.user.id}">삭제</a>
                                 <a th:href="@{/community/communityList}" class="talk-btn">목록</a>
                             </form>
+========
+                            <a th:href="@{/post/write}" class="talk-btn">작성</a>
+                            <a th:href="@{/post/update}" class="talk-btn">수정</a>
+                            <a href="" class="talk-btn">삭제</a>
+                            <a th:href="@{/post/list}" class="talk-btn">목록</a>
+>>>>>>>> seunggyu2:src/main/resources/templates/views/post/detail.html
                         </div>
                     </div>
                 </div>
