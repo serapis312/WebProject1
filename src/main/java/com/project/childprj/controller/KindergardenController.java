@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
@@ -90,7 +89,7 @@ public class KindergardenController {
         List<Kindergarden> kindergarden = kindergardenService.getAllKindergarden();
         model.addAttribute("kindergarden", kindergarden);
 
-        return "kindergardenList";
+        return "protect/protectList";
     }
 
     // 상세 조회
@@ -103,27 +102,5 @@ public class KindergardenController {
     }
 
 
-    @PostMapping("/save/api/kindergarden")
-    public String insertKindergarden(
-            @RequestParam("kindername") String kindername,
-            @RequestParam("establish") String establish,
-            @RequestParam("ldgrName") String ldgrName,
-            @RequestParam("addr") String addr,
-            @RequestParam("telNo") String telNo,
-            @RequestParam("hpAddr") String hpAddr,
-            @RequestParam("operTime") String operTime
-    ) {
-        Kindergarden kindergarden = new Kindergarden();
-        kindergarden.setKINDERNAME(kindername);
-        kindergarden.setESTABLISH(establish);
-        kindergarden.setLDGRNAME(ldgrName);
-        kindergarden.setADDR(addr);
-        kindergarden.setTELNO(telNo);
-        kindergarden.setHPADDR(hpAddr);
-        kindergarden.setOPERTIME(operTime);
-
-        kindergardenService.insertKindergarden(kindergarden);
-        return "kindergardenDetail";
-    }
 }
 

@@ -14,7 +14,7 @@ import org.springframework.data.annotation.Id;
 public class Kindergarden {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     private String KINDERNAME;  // 유치원명
     private String ESTABLISH;   // 설립유형
     private String LDGRNAME;    // 원장명

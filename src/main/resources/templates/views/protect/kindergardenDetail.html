@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유치원 정보</title>
+</head>
+<body>
+
+<h2>유치원 정보</h2>
+<div>
+	<span>유치원 이름 : </span>
+	<span th:text="${kindergarden.KINDERNAME}"></span>
+</div>
+<div>
+	<span>주소 : </span>
+	<span th:text="${kindergarden.ADDR}"></span>
+</div>
+<div>
+	<span>전화번호 : </span>
+	<span th:text="${kindergarden.TELNO}"></span>
+</div>
+<div>
+	<span>설립유형 : </span>
+	<span th:text="${kindergarden.ESTABLISH}"></span>
+</div>
+<div>
+	<span>운영시간 : </span>
+	<span th:text="${kindergarden.OPERTIME}"></span>
+</div>
+<div>
+	<span>대표자명 : </span>
+	<span th:text="${kindergarden.LDGRNAME}"></span>
+</div>
+<div>
+	<span>학급수 : </span>
+	<span></span>
+</div>
+<div>
+	<span>홈페이지 : </span>
+	<a th:href="${kindergarden.HPADDR}" th:text="${kindergarden.HPADDR}"/>
+</div>
+
+</body>
+</html>

@@ -67,25 +67,28 @@ public class ChildHouseController {
         }
     }
 
-    @GetMapping("/api/childhouse/{start_index}/{end_index}/list")
-    public String showList(Model model,
-                           @PathVariable("start_index") Integer startIndex,
-                           @PathVariable("end_index") Integer endIndex) throws JsonProcessingException {
+    @GetMapping("/api/childhouse/list")
+    public String showList(Model model) throws JsonProcessingException {
         // 여기에서 유치원 목록을 가져오는 서비스 메서드를 호출하고 모델에 추가하는 로직 추가
-    	List<ChildHouse> childHouse = childHouseService.getChildHouse(startIndex, endIndex);
-//        List<ChildHouse> childHouse = childHouseService.getAllChildHouse();
+
+        // 데이터베이스에 데이터를 추가
+//        List<ChildHouse> childHouse = childHouseService.getChildHouse(startIndex, endIndex);
+
+        // 저장된 데이터베이스를 가져와서 목록 보여줌
+        List<ChildHouse> childHouse = childHouseService.getAllChildHouse();
         model.addAttribute("childHouse", childHouse);
 
-        return "childHouseList";
+        return "protect/childHouseList";
     }
 
-    @GetMapping("/api/childhouse/{start_index}/{end_index}/detail")
+    @GetMapping("/api/childhouse/{crname}/detail")
     public String showDetail(Model model,
-                           @PathVariable("start_index") Integer startIndex,
-                           @PathVariable("end_index") Integer endIndex) throws JsonProcessingException {
+//                            @PathVariable("start_index") Integer startIndex,
+//                            @PathVariable("end_index") Integer endIndex,
+                             @PathVariable("crname") String crname) throws JsonProcessingException {
 //         여기에서 유치원 목록을 가져오는 서비스 메서드를 호출하고 모델에 추가하는 로직 추가
-        List<ChildHouse> childHouse = childHouseService.getChildHouse(startIndex, endIndex);
-//        List<ChildHouse> childHouse = childHouseService.getAllChildHouse();
+//        List<ChildHouse> childHouse = childHouseService.getChildHouse(startIndex, endIndex);
+        List<ChildHouse> childHouse = childHouseService.getAllChildHouse();
         model.addAttribute("childHouse", childHouse);
 
         return "childHouseDetail";

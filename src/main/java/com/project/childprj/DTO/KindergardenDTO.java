@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 
 // 필요한 파라미터만 가져와서 데이터베이스에 저장해야함
 public class KindergardenDTO {
+
     @JsonProperty("KINDERNAME")
     private String kinderName;
 

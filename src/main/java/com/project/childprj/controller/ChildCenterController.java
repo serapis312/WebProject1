@@ -24,7 +24,6 @@ public class ChildCenterController {
 		int startIndex = 1;
 		int endIndex = 200;
 
-
         List<Map<String, Object>> childCenter = childCenterService.getChildCenter(startIndex, endIndex);
         model.addAttribute("childCenter", childCenter);
 

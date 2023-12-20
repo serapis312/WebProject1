@@ -23,6 +23,23 @@ DROP TABLE IF EXISTS user_authority;
 
 /* Create Tables */
 
+CREATE TABLE child_house
+(
+    id int NOT NULL AUTO_INCREMENT,
+    SIGUNNAME varchar(255),
+    CRNAME varchar(255) UNIQUE ,
+    CRTYPENAME varchar(255),
+    CRADDR varchar(255),
+    CRTELNO varchar(255),
+    CRHOME varchar(1000),
+    NRTRROOMCNT int,
+    CRCAPAT int,
+    CRCHCNT int,
+    LA decimal(65,20),
+    LO decimal(65,20),
+    CRCARGBNAME varchar(255),
+    PRIMARY KEY (id)
+);
 
 CREATE TABLE kindergarden
 (
@@ -35,17 +52,38 @@ CREATE TABLE kindergarden
     TELNO varchar(20),
     HPADDR varchar(255),
     OPERTIME varchar(255),
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE (KINDERNAME)
 );
 
-
+CREATE TABLE together
+(
+    id int NOT NULL AUTO_INCREMENT,
+    CODENAME varchar(255),
+    GUNAME varchar(255),
+    TITLE varchar(255),
+    DATE varchar(255),
+    PLACE varchar(255),
+    ORG_NAME varchar(255),
+    USE_TRGT varchar(255),
+    USE_FEE varchar(255),
+    ORG_LINK varchar(1000),
+    MAIN_IMG varchar(255),
+    STRTDATE varchar(255),
+    END_DATE varchar(255),
+    LOT decimal(65,20),
+    LAT decimal(65,20),
+    zzimCnt int DEFAULT 0,
+    PRIMARY KEY (id)
+);
 
 CREATE TABLE post
 (
 	id int NOT NULL AUTO_INCREMENT,
 	title varchar(50) NOT NULL,
 	content longtext NOT NULL,
-	viewCnt int DEFAULT 0 DEFAULT 0,
+	viewCnt int DEFAULT 0,
+	recommendCnt int DEFAULT 0,
 	createDate datetime DEFAULT now(),
 	userId int NOT NULL,
 	PRIMARY KEY (id)
