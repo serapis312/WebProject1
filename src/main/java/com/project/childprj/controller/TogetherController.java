@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.project.childprj.domain.Together;
 import com.project.childprj.service.TogetherService;
 import com.project.childprj.util.Utils;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,8 +56,9 @@ public class TogetherController {
                     JsonNode rootNode = Utils.jsonToJsonNode(jsonData);
                     ArrayNode rows = (ArrayNode) rootNode.get("culturalEventInfo").get("row");
                     for (JsonNode row : rows) {
-                        Together together = Together.fromJson(row);
-                        result += togetherService.insertTogether(together);
+                        Together together = Together.fromJson(row);{
+                            result += togetherService.insertTogether(together);
+                        }
                     }
                     return ResponseEntity.ok(result);
 
@@ -64,10 +66,13 @@ public class TogetherController {
                     // API 응답이 비어있는 경우에 대한 처리
                     return ResponseEntity.status(204).body(null); // No Content
                 }
-            }else {
+
+                }else {
+
                     // 실패했을 경우에 대한 처리
                     return ResponseEntity.status(response.getStatusCode()).body(null);
                 }
+
             } catch(Exception e){
                 e.printStackTrace();
                 // 예외 처리
@@ -85,7 +90,7 @@ public class TogetherController {
             List<Together> together = togetherService.getAllTogether();
             model.addAttribute("together", together);
 
-            return "togetherList";
+            return "together/togetherList";
 
         }
 
@@ -131,5 +136,19 @@ public class TogetherController {
 //
 //            return "redirect:/index";
 //        }
+//    @GetMapping("/api/list")
+//    public String togetherList(Model model){
+//
+//        model.addAttribute("list",togetherService.getAllTogether());
+//        return "together/togetherList";
+//    }
+//    @GetMapping("/api/view")
+//    public String togetherView(Model model, int ID){
+//
+//
+//        Model together = model.addAttribute("together", togetherService.gettogether(ID));
+//
+//        return "togetherView";
+//    }
     }
 

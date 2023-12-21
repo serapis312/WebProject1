@@ -183,6 +183,7 @@ public class TogetherDTO {
    // api의 rows에서 객체의 각각 필드에 설정
    public static TogetherDTO fromJson(JsonNode row) {
       TogetherDTO togetherDTO = new TogetherDTO();
+
       togetherDTO.setCodename(row.get("CODENAME").asText());
       togetherDTO.setGuname(row.get("GUNAME").asText());
       togetherDTO.setTitle(row.get("TITLE").asText());

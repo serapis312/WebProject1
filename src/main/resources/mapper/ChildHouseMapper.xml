@@ -33,11 +33,7 @@
                 #{PLGRDCO}, #{CCTVINSTLCNT}, #{CHCRTESCNT}, #{CRCAPAT}, #{CRCHCNT}, #{LA}, #{LO} , #{CRCARGBNAME}
                )
     </insert>
-    <select id="selectAllChildHouse" resultType="com.project.childprj.domain.ChildHouse">
-        SELECT * FROM child_house;
-    </select>
-    <select id="selectKindergarden" resultType="com.project.childprj.domain.ChildHouse" parameterType="string">
-        SELECT * FROM child_house WHERE CRNAME = #{crName}
-    </select>
+
+
 
 </mapper>

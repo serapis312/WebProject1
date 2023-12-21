@@ -90,7 +90,7 @@ public class KindergardenController {
         List<Kindergarden> kindergarden = kindergardenService.getAllKindergarden();
         model.addAttribute("kindergarden", kindergarden);
 
-        return "kindergardenList";
+        return "protect/protectList";
     }
 
     // 상세 조회

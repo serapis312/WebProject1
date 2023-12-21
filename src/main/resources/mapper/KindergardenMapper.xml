@@ -32,4 +32,12 @@
     <select id="selectKindergarden" resultType="com.project.childprj.domain.Kindergarden" parameterType="string">
         SELECT * FROM kindergarden WHERE KINDERNAME = #{kindername}
     </select>
+
+    <delete id="deleteAllChildHouses">
+        DELETE FROM Kindergarden
+    </delete>
+
+    <update id="resetAutoIncrement">
+        ALTER TABLE Kindergarden AUTO_INCREMENT = 1
+    </update>
 </mapper>
