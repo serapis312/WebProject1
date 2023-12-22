@@ -1,13 +1,11 @@
 package com.project.childprj.domain;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import lombok.*;
 import org.springframework.data.annotation.Id;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 
 @Data
@@ -19,6 +17,7 @@ public class Together {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 
     private String CODENAME;
 
@@ -200,6 +199,7 @@ public class Together {
                 + ", LOT=" + LOT + ", LAT=" + LAT
                 + "]";
     }
+
 
 
 }
