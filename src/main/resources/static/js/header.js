@@ -30,18 +30,22 @@ function clickMenu(index) {
 
         toggleArr[0].style.display = `block`;
     }
+    if (index == 3) {   // 설정 초기화
+        menuArr[0].style.color = "";
+        menuArr[1].style.color = "";
+        menuArr[2].style.color = "";
+
+        toggleArr[0].style.display = `none`;
+        toggleArr[1].style.display = `none`;
+    }
 };
 
 // 토글 기능
 function toggleToMarket() {
-    toggleArr[0].style.display = `none`;
-    toggleArr[1].style.display = `block`;
     location.href = "/product/list";
 };
 
 function toggleToCommunity() {
-    toggleArr[1].style.display = `none`;
-    toggleArr[0].style.display = `block`;
     location.href = "/post/list";
 };
 
@@ -54,6 +58,16 @@ menuArr[2].addEventListener("click", clickMenu(2), true);
 // 토글 클릭 이벤트 리스너 추가
 toggleArr[0].addEventListener("click", toggleToMarket, true);
 toggleArr[1].addEventListener("click", toggleToCommunity, true);
+
+// 페이지 이동 후 토글스위치 변경
+if(location.href == "http://localhost:8090/post/list") {
+    toggleArr[1].style.display = `none`;
+    toggleArr[0].style.display = `block`;
+}
+if(location.href == "http://localhost:8090/product/list") {
+    toggleArr[0].style.display = `none`;
+    toggleArr[1].style.display = `block`;
+}
 
 // 찜목록이나 마이페이지에서는 헤더 설정 초기화
 if (location == "http://localhost:8090/together/zzim" || location == "http://localhost:8090/user/mypage" || location == "http://localhost:8090/user/signIn") {
