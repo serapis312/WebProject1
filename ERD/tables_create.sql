@@ -16,8 +16,6 @@ DROP TABLE IF EXISTS together;
 DROP TABLE IF EXISTS user_authorities;
 DROP TABLE IF EXISTS user_img;
 DROP TABLE IF EXISTS user;
-ALTER TABLE `zzim` DROP FOREIGN KEY `zzim_ibfk_1`;
-
 DROP TABLE IF EXISTS user_authority;
 
 
@@ -27,39 +25,58 @@ DROP TABLE IF EXISTS user_authority;
 
 CREATE TABLE child_house
 (
-	id int NOT NULL,
+	id int NOT NULL AUTO_INCREMENT,
 	SIGUNNAME varchar(255),
 	CRNAME varchar(255),
 	CRTYPENAME varchar(255),
-	CRSTATUSNAME varchar(255),
 	CRADDR varchar(255),
 	CRTELNO varchar(255),
-	CRHOME varchar(255),
+	CRHOME varchar(1000),
 	NRTRROOMCNT int,
-	PLGRDCO int,
-	CCTVINSTLCNT int,
-	CHCRTESCNT int,
 	CRCAPAT int,
 	CRCHCNT int,
 	LA decimal(65,20),
 	LO decimal(65,20),
 	CRCARGBNAME varchar(255),
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	UNIQUE (CRNAME)
 );
 
 
 CREATE TABLE kindergarden
 (
-    id int NOT NULL AUTO_INCREMENT,
-    KINDERNAME varchar(255),
-    ESTABLISH varchar(255),
-    LDGRNAME varchar(255),
-    ODATE date,
-    ADDR varchar(255),
-    TELNO varchar(20),
-    HPADDR varchar(255),
-    OPERTIME varchar(255),
-    PRIMARY KEY (id)
+	id int NOT NULL AUTO_INCREMENT,
+	KINDERNAME varchar(255),
+	ESTABLISH varchar(255),
+	LDGRNAME varchar(255),
+	ODATE date,
+	ADDR varchar(255),
+	TELNO varchar(20),
+	HPADDR varchar(1000),
+	OPERTIME varchar(255),
+	PRIMARY KEY (id),
+	UNIQUE (KINDERNAME)
+);
+
+CREATE TABLE together
+(
+	ID int NOT NULL AUTO_INCREMENT,
+	CODENAME varchar(255),
+	GUNAME varchar(255),
+	TITLE varchar(255),
+	DATE varchar(255),
+	PLACE varchar(255),
+	ORG_NAME varchar(255),
+	USE_TRGT varchar(255),
+	USE_FEE varchar(255),
+	ORG_LINK varchar(1000),
+	MAIN_IMG varchar(255),
+	STRTDATE varchar(255),
+	END_DATE varchar(255),
+	LOT decimal(65,20),
+	LAT decimal(65,20),
+	zzimCnt int DEFAULT 0,
+	PRIMARY KEY (id)
 );
 
 
@@ -138,34 +155,7 @@ CREATE TABLE recommend
 );
 
 
-CREATE TABLE together
-(
-	id int NOT NULL AUTO_INCREMENT,
-	CODENAME varchar(255),
-	GUNAME varchar(255),
-	TITLE varchar(255),
-	DATE varchar (255),
-	PLACE varchar(255),
-	ORG_NAME varchar(255),
-	USE_TRGT varchar(255),
-	USE_FEE varchar(255),
-	PLAYER varchar(1000),
-	PROGRAM varchar(1000),
-	ETC_DESC varchar(255),
-	ORG_LINK varchar(1000),
-	MAIN_IMG varchar(255),
-	RGSTDATE varchar(255),
-	TICKET varchar(255),
-	STRTDATE varchar(255),
-	END_DATE varchar(255),
-	THEMECODE varchar(255),
-	LOT double(65,20),
-	LAT double(65,20),
---	IS_FREE TINYINT(1),
-	HMPG_ADDR varchar(255),
-	zzimCnt int DEFAULT 0,
-	PRIMARY KEY (id)
-);
+
 
 
 CREATE TABLE user
@@ -343,8 +333,6 @@ ALTER TABLE user_authorities
 	ON UPDATE RESTRICT
 	ON DELETE CASCADE
 ;
-
-SELECT * FROM together ;
 
 
 
