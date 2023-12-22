@@ -33,10 +33,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // URL 과 접근권한 세팅(들)
                         // ↓ /mypage/**, /community/detail/**, /product/detail/** URL로 들어오는 요청은 '인증'만 필요.
-                        .requestMatchers("/user/mypage", "/post/detail/**", "/product/detail/**").authenticated()
-                        // ↓ "/community/write/**", "/community/update/**", "/community/delete/**" URL로 들어오는 요청은 '인증' 뿐 아니라 ROLE_MEMBER 나 ROLE_ADMIN 권한을 갖고 있어야 한다. ('인가')
-                        // ↓ "/community/write/**", "/community/update/**", "/community/delete/**" URL로 들어오는 요청은 '인증' 뿐 아니라 ROLE_MEMBER 나 ROLE_ADMIN 권한을 갖고 있어야 한다. ('인가')
-                        .requestMatchers("/post/write/**", "/post/update/**", "/post/delete/**").hasAnyRole("MEMBER", "ADMIN")
+                        .requestMatchers("/together/zzim","/user/mypage", "/post/detail/**", "/product/detail/**").authenticated()
+                        // ↓ "/post/write/**", "/post/update/**", "/post/delete/**" URL로 들어오는 요청은 '인증' 뿐 아니라 ROLE_MEMBER 나 ROLE_ADMIN 권한을 갖고 있어야 한다. ('인가')
+                        // ↓ "/product/write/**", "/product/update/**", "/product/delete/**" URL로 들어오는 요청은 '인증' 뿐 아니라 ROLE_MEMBER 나 ROLE_ADMIN 권한을 갖고 있어야 한다. ('인가')
+                        .requestMatchers("/post/write/**", "/post/update/**", "/post/delete/**"
+                                        , "product/write/**", "/product/update/**", "post/delete/**").hasAnyRole("MEMBER", "ADMIN")
                         // ↓ 그 밖의 다른 요청은 모두 permit!
                         .anyRequest().permitAll()
                 )
