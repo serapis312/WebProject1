@@ -405,7 +405,7 @@ public class PostServiceImpl implements PostService {
         return 0;
     }
 
-    // 첨부파일이 이미지가 아닐떄 0 리턴
+    // 첨부파일이 없거나 이미지일 경우 1 리턴 나머지 0 리턴
     private int isFileImageOrNull(Map<String, MultipartFile> files) {
         for(Map.Entry<String, MultipartFile> e : files.entrySet()) {
             if(U.isFileImage(e.getValue())) {

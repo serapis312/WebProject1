@@ -129,7 +129,7 @@
                         <!-- 첨부파일 이름, 다운로드 링크 -->
                         <ul class="list-group mb-1">
                             <li class="list-group-item" th:each="attachment : ${post.fileList}">
-                                <a th:href="@{/community/download(id=${attachment.id})}" th:text="${attachment.sourceName}"></a>
+                                <a th:href="@{/post/download(id=${attachment.id})}" th:text="${attachment.sourceName}"></a>
                             </li>
                         </ul>
                         <!--/* 이미지 보여주기 */-->

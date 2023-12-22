@@ -132,7 +132,7 @@
     <!-- 추천순 정렬만 -->
     <select id="selectByRecommend" resultMap="mapPost">
         <include refid="SELECT_BASE"/>
-        ORDER BY recommendCnt DESC
+        ORDER BY recommendCnt DESC, p.id DESC
         LIMIT #{param1}, #{param2}
     </select>
     <!-- 추천순 정렬과 검색 -->
@@ -140,7 +140,7 @@
         <include refid="SELECT_BASE"/>
         WHERE p.title like CONCAT('%',#{param3},'%')
         OR u.nickName like CONCAT('%',#{param4},'%')
-        ORDER BY recommendCnt DESC
+        ORDER BY recommendCnt DESC, p.id DESC
         LIMIT #{param1}, #{param2}
     </select>
     <!-- 최신순 정렬만 -->

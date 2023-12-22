@@ -114,8 +114,8 @@ public class PostController {
 
     @PostMapping("/update")
     public String updateOk(
-            @RequestParam Map<String, MultipartFile> files    // 새로 추가될 첨부파일들
-            , @RequestParam Long[] delfile       // 삭제될 첨부파일들
+            @RequestParam(required = false) Map<String, MultipartFile> files    // 새로 추가될 첨부파일들
+            , @RequestParam(required = false) Long[] delfile       // 삭제될 첨부파일들
             , @Valid Post post
             , BindingResult result
             , Model model
