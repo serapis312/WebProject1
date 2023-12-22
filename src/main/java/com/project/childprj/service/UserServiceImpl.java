@@ -1,7 +1,7 @@
 package com.project.childprj.service;
 
-import com.project.childprj.domain.mypage.NickName;
-import com.project.childprj.domain.mypage.UserImage;
+import com.project.childprj.domain.user.NickName;
+import com.project.childprj.domain.user.UserImage;
 import com.project.childprj.domain.user.*;
 import com.project.childprj.repository.AuthorityRepository;
 import com.project.childprj.repository.UserRepository;

@@ -1,7 +1,7 @@
-package com.project.childprj.domain.community;
+package com.project.childprj.domain.post;
 
 
-import com.project.childprj.domain.mypage.UserImage;
+import com.project.childprj.domain.user.UserImage;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;

@@ -1,4 +1,4 @@
-package com.project.childprj.domain.community;
+package com.project.childprj.domain.post;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

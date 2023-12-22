@@ -42,7 +42,7 @@
             </div>
 
             <!-- community write -->
-            <form method="post" th:action="@{/community/communityUpdate}" enctype="multipart/form-data">
+            <form method="post" th:action="@{/post/update}" enctype="multipart/form-data">
                 <input type="hidden" name="id" th:value="${post.id}"/>
                 <div class="community-write-wrap">
                     <input id="title" type="text" name="title" class="write-title" placeholder="제목을 입력해 주세요" th:value="${title} ? ${title} : ${post.title}"/>
@@ -91,45 +91,10 @@
 
                 <div class="write-btn-wrap">
                     <button type="submit" class="write-btn">수정완료</button>
-                    <a th:href="@{/community/communityList}" class="write-btn">목록</a>
+                    <a th:href="@{/post/list}" class="write-btn">목록</a>
                 </div>
             </form>
         </div>
-<<<<<<<< HEAD:src/main/resources/templates/views/community/communityUpdate.html
-========
-
-        <!-- community write -->
-        <form action="">
-            <div class="community-write-wrap">
-                <input id="title" type="text" class="write-title" placeholder="제목을 입력해 주세요"/>
-            </div>
-            <div class="community-write-wrap">
-                <textarea class="content-box" rows="5" id="content" placeholder="내용을 입력하세요" name="content" th:utext="${content}"></textarea>
-            </div>
-<!--            혹시 몰라서 첨부파일 랩 만들어 놓기-->
-<!--                <div class="community-write-wrap">-->
-<!--                    <a href="" class="attachment-btn write-btn">첨부파일</a>-->
-<!--                    <div class="attachment-file-wrap">-->
-<!--                        <img src="/img/핑구.jpg"/>-->
-<!--                        <img src="/img/핑구.jpg"/>-->
-<!--                        <img src="/img/핑구.jpg"/>-->
-<!--                        <img src="/img/핑구.jpg"/>-->
-<!--                        <img src="/img/핑구.jpg"/>-->
-<!--                        <img src="/img/핑구.jpg"/>-->
-<!--                        <img src="/img/핑구.jpg"/>-->
-<!--                        <img src="/img/핑구.jpg"/>-->
-<!--                        <img src="/img/핑구.jpg"/>-->
-<!--                        <img src="/img/핑구.jpg"/>-->
-<!--                        <img src="/img/핑구.jpg"/>-->
-<!--                    </div>-->
-<!--                </div>-->
-            <div class="write-btn-wrap">
-                <button type="submit" class="write-btn">수정완료</button>
-                <a th:href="@{/post/list}" class="write-btn">목록</a>
-            </div>
-        </form>
->>>>>>>> seunggyu2:src/main/resources/templates/views/post/update.html
-    </div>
 
     <!-- footer -->
     <th:block th:insert="~{fragment/footer::footer}"></th:block>

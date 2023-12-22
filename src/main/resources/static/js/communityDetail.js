@@ -22,6 +22,14 @@ $(function(){
         }
     });
 
+    // 추천하기
+    $("#addRecommend").click(function(){
+        let answer = confirm("추천하시겠습니까?");
+        if(answer) {
+            $("form[name='frmRecommend']").submit();
+        }
+    });
+
     // 현재 글의 id 값
     const id = $("input[name='id']").val().trim();
 
@@ -52,7 +60,7 @@ $(function(){
         };
 
         $.ajax({
-            url: "/community/comment/write",
+            url: "/post/comment/write",
             type: "POST",
             data: data,
             cache: false,
@@ -74,7 +82,7 @@ $(function(){
 // 특정 글 (post_id) 의 댓글 목록 읽어오기
 function loadComment(post_id){
     $.ajax({
-        url: "/community/comment/list?id=" + post_id,
+        url: "/post/comment/list?id=" + post_id,
         type: "GET",
         cache: false,
         success: function(data, status){
@@ -121,7 +129,7 @@ function buildComment(result){
                 <div class="talk-comment-content">
                     <img src="${fileUrl}" width="40px" class="comment-writer-pic"/>
                     <div class="comment-writer-nickname">${nickName}</div>
-                    <div class="comment-writer-content">${content}</div>
+                    <div class="comment-writer-content">${content}${delBtn}</div>
                     <div class="comment-writer-time">${createDate}</div>
                 </div>
             </div>
@@ -146,7 +154,7 @@ function addDelete(){
         const comment_id = $(this).attr("data-cmtdel-id");
 
         $.ajax({
-            url: "/community/comment/delete",
+            url: "/post/comment/delete",
             type: "POST",
             cache: false,
             data: {"id": comment_id},

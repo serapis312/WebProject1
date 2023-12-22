@@ -1,4 +1,4 @@
-package com.project.childprj.domain.mypage;
+package com.project.childprj.domain.user;
 
 import com.project.childprj.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,17 +1,14 @@
 package com.project.childprj.service;
 
-import com.project.childprj.domain.community.Attachment;
-import com.project.childprj.domain.community.Post;
-import com.project.childprj.domain.community.QryCommentList;
-import com.project.childprj.domain.community.QryResult;
-import com.project.childprj.domain.mypage.UserImage;
+import com.project.childprj.domain.post.*;
+import com.project.childprj.domain.user.UserImage;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
 
-public interface CommunityService {
+public interface PostService {
     // 글 작성
     int write(Post post, Map<String, MultipartFile> files);
 
@@ -21,9 +18,6 @@ public interface CommunityService {
     // 추천하기 추가
     int addRecommend(Long userId, Long postId);
 
-    // 해당 게시물의 추천수 구하기
-    int findRecommendCnt(Long postId);
-
     // 특정 id 의 글 조회
     // 트랜잭션 처리
     // 1. 조회수 증가 (UPDATE)
@@ -32,6 +26,9 @@ public interface CommunityService {
 
     // 글 목록
     List<Post> list();
+
+    // 검색, 정렬순 글 목록
+    List<Post> listPost(Integer page, String orderWay, String searchTxt, Model model);
 
     // 페이징 리스트
     List<Post> list(Integer page, Model model);

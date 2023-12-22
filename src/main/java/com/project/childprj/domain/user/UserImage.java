@@ -1,4 +1,4 @@
-package com.project.childprj.domain.community;
+package com.project.childprj.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Attachment {
+public class UserImage {
     private Long id;
-    private Long postId;
+    private Long userId;
     private String sourceName;
     private String fileName;
 }

@@ -31,16 +31,21 @@
 
         <!-- main -->
         <div class="main" th:with="post = ${post}">
-            <form name="frmDelete" th:action="@{/community/delete}" method="post">
+            <form name="frmDelete" th:action="@{/post/delete}" method="post">
                 <input type="hidden" name="id" th:value="${post.id}">
+            </form>
+
+            <form name="frmRecommend" th:action="@{/post/recommend}" method="post">
+                <input type="hidden" name="postId" th:value="${post.id}">
+                <input type="hidden" name="userId" th:value="${logged_user.id}">
             </form>
 
             <div class="talk-wrapper">
                 <!-- community header -->
                 <div class="talk-header-wrap">
                     <div class="talk-header">
-                        <img th:unless="${userImage}" th:src="@{/img/핑구.jpg}" width="40px" class="talk-writer-pic" />
-                        <img th:if="${userImage}" th:src="@{/upload/} + ${userImage.fileName}" width="40px" class="talk-writer-pic" />
+                        <img th:unless="${userImageDetail}" th:src="@{/img/핑구.jpg}" width="40px" class="talk-writer-pic" />
+                        <img th:if="${userImageDetail}" th:src="@{/upload/} + ${userImageDetail.fileName}" width="40px" class="talk-writer-pic" />
                         <div class="talk-writer-nickname" th:text="${post.user.nickName}"></div>
                     </div>
                     <div class="talk-header">
@@ -50,7 +55,7 @@
                         </div>
                         <div class="talk-inform-recom">
                             <div>추천수</div>
-                            <div class="talk-inform-recomCnt" th:text="${recommendCnt}"></div>
+                            <div class="talk-inform-recomCnt" th:text="${post.recommendCnt}"></div>
                         </div>
                         <div class="talk-inform-date">
                             <div>작성일</div>
@@ -64,22 +69,13 @@
                     <div class="talk-main-content" th:utext="${post.content}"></div>
                     <div class="talk-main-btn">
                         <div class="talk-left-btn-wrap">
-                            <a class="raise-btn talk-btn">추천</a>
+                            <a class="raise-btn talk-btn" id="addRecommend">추천</a>
                         </div>
                         <div class="talk-right-btn-wrap">
-<<<<<<<< HEAD:src/main/resources/templates/views/community/communityDetail.html
-                            <form method="POST" th:action="@{/community/delete}">
-                                <a th:href="@{/community/communityWrite}" class="talk-btn">작성</a>
-                                <a th:href="@{/community/communityUpdate/} + ${post.id}" class="talk-btn" th:if="${logged_user.id == post.user.id}">수정</a>
-                                <a class="talk-btn" id="btnDel" th:if="${logged_user.id == post.user.id}">삭제</a>
-                                <a th:href="@{/community/communityList}" class="talk-btn">목록</a>
-                            </form>
-========
                             <a th:href="@{/post/write}" class="talk-btn">작성</a>
-                            <a th:href="@{/post/update}" class="talk-btn">수정</a>
-                            <a href="" class="talk-btn">삭제</a>
+                            <a th:href="@{/post/update/} + ${post.id}" class="talk-btn" th:if="${logged_user.id == post.user.id}">수정</a>
+                            <a id="btnDel" class="talk-btn" th:if="${logged_user.id == post.user.id}">삭제</a>
                             <a th:href="@{/post/list}" class="talk-btn">목록</a>
->>>>>>>> seunggyu2:src/main/resources/templates/views/post/detail.html
                         </div>
                     </div>
                 </div>
@@ -145,7 +141,7 @@
                 <!-- 첨부파일목록 -->
 
                 <!-- 댓글 -->
-                <th:block th:insert="~{community/comment::comment}"></th:block>
+                <th:block th:insert="~{post/comment::comment}"></th:block>
                 <!-- 댓글 -->
 
             </div>

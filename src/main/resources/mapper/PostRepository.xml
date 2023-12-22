@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.project.childprj.repository.CommunityRepository">
+<mapper namespace="com.project.childprj.repository.PostRepository">
 
-    <insert id="save" flushCache="true" parameterType="com.project.childprj.domain.community.Post"
+    <insert id="save" flushCache="true" parameterType="com.project.childprj.domain.post.Post"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO post
             (title, content, userId)
@@ -13,7 +13,7 @@
             (#{title}, #{content}, #{user.id})
     </insert>
 
-    <select id="findUserImage" resultType="com.project.childprj.domain.mypage.UserImage">
+    <select id="findUserImage" resultType="com.project.childprj.domain.user.UserImage">
         SELECT
             id "id"
             , sourceName "sourceName"
@@ -23,12 +23,26 @@
         WHERE userId = #{userId}
     </select>
 
+    <select id="findRecommend" resultType="com.project.childprj.domain.post.Recommend">
+        SELECT
+            postId "postId",
+            userId "userId"
+        FROM recommend
+        WHERE postId = #{postId}
+    </select>
+
     <insert id="addRecommend" flushCache="true">
         INSERT INTO recommend
             (userId, postId)
         VALUES
             (#{userId}, #{postId})
     </insert>
+
+    <update id="incRecommendCnt" flushCache="true">
+        UPDATE post
+        SET recommendCnt = recommendCnt + 1
+        WHERE id = #{id}
+    </update>
 
     <select id="findRecommendCnt" resultType="int">
         SELECT count(*) FROM recommend
@@ -44,21 +58,22 @@
     <!-- 반복해서 사용될 쿼리문은 sql 태그로 정의 하고, include 태그로 가져다 쓸수 있다 -->
     <sql id="SELECT_BASE">
         SELECT
-        p.id "p_id",
-        p.title "p_title",
-        p.content "p_content",
-        p.viewCnt "p_viewCnt",
-        p.createDate "p_createDate",
-        u.id "u_id",
-        u.loginId "u_loginId",
-        u.nickName "u_nickName",
-        u.name "u_name",
-        u.email "u_email",
-        u.createDate "u_createDate"
+            p.id "p_id",
+            p.title "p_title",
+            p.content "p_content",
+            p.viewCnt "p_viewCnt",
+            p.recommendCnt "p_recommendCnt",
+            p.createDate "p_createDate",
+            u.id "u_id",
+            u.loginId "u_loginId",
+            u.nickName "u_nickName",
+            u.name "u_name",
+            u.email "u_email",
+            u.createDate "u_createDate"
         FROM
-        post p, user u
-        WHERE
-        p.userId = u.id
+            post p INNER JOIN user u
+        ON
+            p.userId = u.id
     </sql>
 
     <resultMap id="mapUser" type="com.project.childprj.domain.user.User">
@@ -70,18 +85,19 @@
         <result column="u_createDate" property="createDate"/>
     </resultMap>
 
-    <resultMap id="mapPost" type="com.project.childprj.domain.community.Post">
+    <resultMap id="mapPost" type="com.project.childprj.domain.post.Post">
         <result column="p_id" property="id"/>
         <result column="p_title" property="title"/>
         <result column="p_content" property="content"/>
         <result column="p_viewCnt" property="viewCnt"/>
+        <result column="p_recommendCnt" property="recommendCnt"/>
         <result column="p_createDate" property="createDate"/>
         <collection property="user" resultMap="mapUser"/>
     </resultMap>
 
     <select id="findById" resultMap="mapPost">
         <include refid="SELECT_BASE"/>
-        AND p.id = #{id}
+        WHERE p.id = #{id}
     </select>
 
     <select id="findAll" resultMap="mapPost">
@@ -90,14 +106,14 @@
     </select>
 
     <update id="update" flushCache="true"
-            parameterType="com.project.childprj.domain.community.Post">
+            parameterType="com.project.childprj.domain.post.Post">
         UPDATE post
         SET title = #{title}, content = #{content}
         WHERE id = #{id}
     </update>
 
     <delete id="delete" flushCache="true"
-            parameterType="com.project.childprj.domain.community.Post">
+            parameterType="com.project.childprj.domain.post.Post">
         DELETE FROM post WHERE id = #{id}
     </delete>
 
@@ -112,9 +128,47 @@
         SELECT count(*) FROM post
     </select>
 
+    <!-- 정렬순, 검색 목록용 쿼리 -->
+    <!-- 추천순 정렬만 -->
+    <select id="selectByRecommend" resultMap="mapPost">
+        <include refid="SELECT_BASE"/>
+        ORDER BY recommendCnt DESC
+        LIMIT #{param1}, #{param2}
+    </select>
+    <!-- 추천순 정렬과 검색 -->
+    <select id="selectByRecommendAndSearch" resultMap="mapPost">
+        <include refid="SELECT_BASE"/>
+        WHERE p.title like CONCAT('%',#{param3},'%')
+        OR u.nickName like CONCAT('%',#{param4},'%')
+        ORDER BY recommendCnt DESC
+        LIMIT #{param1}, #{param2}
+    </select>
+    <!-- 최신순 정렬만 -->
+    <select id="selectByNewer" resultMap="mapPost">
+        <include refid="SELECT_BASE"/>
+        ORDER BY p.id DESC
+        LIMIT #{param1}, #{param2}
+    </select>
+    <!-- 최신순 정렬과 검색 -->
+    <select id="selectByNewerAndSearch" resultMap="mapPost">
+        <include refid="SELECT_BASE"/>
+        WHERE p.title like CONCAT('%',#{param3},'%')
+        OR u.nickName like CONCAT('%',#{param4},'%')
+        ORDER BY p.id DESC
+        LIMIT #{param1}, #{param2}
+    </select>
+    <!-- 검색 결과 총 개수 -->
+    <select id="countAllWhenSearch" resultType="int">
+        SELECT count(*)
+        FROM post p INNER JOIN user u
+        ON p.userId = u.id
+        WHERE p.title LIKE CONCAT('%',#{param1},'%')
+        OR u.nickName like CONCAT('%',#{param2},'%')
+    </select>
+
     <!-- 첨부파일 용 쿼리 -->
 
-    <insert id="saveImage" flushCache="true" parameterType="com.project.childprj.domain.community.Attachment">
+    <insert id="saveImage" flushCache="true" parameterType="com.project.childprj.domain.post.Attachment">
         INSERT INTO post_img(sourceName, fileName, postId)
         VALUES
         (#{sourceName}, #{fileName}, #{postId})
@@ -127,14 +181,14 @@
         WHERE 1 = 1
     </sql>
 
-    <select id="findImageByPost" resultType="com.project.childprj.domain.community.Attachment">
+    <select id="findImageByPost" resultType="com.project.childprj.domain.post.Attachment">
         <include refid="SELECTFILE"/>
         AND
         postId = #{param1}
         ORDER BY id ASC
     </select>
 
-    <select id="findImageById" resultType="com.project.childprj.domain.community.Attachment">
+    <select id="findImageById" resultType="com.project.childprj.domain.post.Attachment">
         <include refid="SELECTFILE"/>
         AND id = #{id}
     </select>
@@ -145,7 +199,7 @@
 
     <!-- 댓글 용 쿼리 -->
 
-    <resultMap id="mapComment" type="com.project.childprj.domain.community.Comment">
+    <resultMap id="mapComment" type="com.project.childprj.domain.post.Comment">
         <result column="c_id" property="id"/>
         <result column="c_content" property="content"/>
         <result column="c_createDate" property="createDate"/>
@@ -154,35 +208,35 @@
         <collection property="userImage" resultMap="mapUserImage"/>
     </resultMap>
 
-    <resultMap id="mapUserImage" type="com.project.childprj.domain.mypage.UserImage">
+    <resultMap id="mapUserImage" type="com.project.childprj.domain.user.UserImage">
         <result column="i_id" property="id"/>
         <result column="i_fileName" property="fileName"/>
     </resultMap>
 
     <select id="findCommentByPost" resultMap="mapComment">
         SELECT
-        c.id "c_id",
-        c.content "c_content",
-        c.createDate "c_createDate",
-        c.postId "c_postId",
-        u.id "u_id",
-        u.loginId "u_loginId",
-        u.nickName "u_nickName",
-        u.name "u_name",
-        u.email "u_email",
-        u.createDate "u_createDate",
-        i.id "i_id",
-        i.fileName "i_fileName"
-        FROM post_comment c, user u, user_img i
+            c.id "c_id",
+            c.content "c_content",
+            c.createDate "c_createDate",
+            c.postId "c_postId",
+            u.id "u_id",
+            u.loginId "u_loginId",
+            u.nickName "u_nickName",
+            u.name "u_name",
+            u.email "u_email",
+            u.createDate "u_createDate",
+            i.id "i_id",
+            i.fileName "i_fileName"
+        FROM post_comment c, user u LEFT OUTER JOIN user_img i
+        ON u.id = i.userId
         WHERE
-        c.userId = u.id
-        AND u.id = i.userId
+            c.userId = u.id
         AND c.postId = #{postId}
         ORDER BY c.id DESC
     </select>
 
     <insert id="saveComment" flushCache="true"
-            parameterType="com.project.childprj.domain.community.Comment"
+            parameterType="com.project.childprj.domain.post.Comment"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO post_comment(userId, postId, content)
         VALUES(#{user.id}, #{postId}, #{content})

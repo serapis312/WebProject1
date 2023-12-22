@@ -1,7 +1,7 @@
 package com.project.childprj.controller;
 
-import com.project.childprj.domain.community.Attachment;
-import com.project.childprj.service.CommunityService;
+import com.project.childprj.domain.post.Attachment;
+import com.project.childprj.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
@@ -18,16 +18,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
-public class CommunityAttachmentController {
+public class PostAttachmentController {
 
     @Value("${app.upload.path}")
     private String uploadDir;
 
     @Autowired
-    private CommunityService communityService;
+    private PostService communityService;
 
 
-    @RequestMapping("/community/download")
+    @RequestMapping("/post/download")
     public ResponseEntity<Object> download(Long id){
 
         if(id == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);  // 400

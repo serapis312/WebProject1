@@ -1,7 +1,7 @@
 package com.project.childprj.controller;
 
-import com.project.childprj.domain.mypage.MypageValidator;
-import com.project.childprj.domain.mypage.NickName;
+import com.project.childprj.domain.user.MypageValidator;
+import com.project.childprj.domain.user.NickName;
 import com.project.childprj.domain.user.CheckPassword;
 import com.project.childprj.domain.user.MypagePassword;
 import com.project.childprj.domain.user.User;

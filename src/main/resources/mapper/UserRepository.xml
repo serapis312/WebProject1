@@ -60,7 +60,7 @@
         VALUES (#{loginId}, #{password}, #{nickName}, #{name}, #{email})
     </insert>
 
-    <select id="findUserImage" resultType="com.project.childprj.domain.mypage.UserImage">
+    <select id="findUserImage" resultType="com.project.childprj.domain.user.UserImage">
         SELECT
             id "id"
             , sourceName "sourceName"
@@ -70,17 +70,17 @@
         WHERE userId = #{userId}
     </select>
 
-    <insert id="saveImage" flushCache="true" parameterType="com.project.childprj.domain.mypage.UserImage"
+    <insert id="saveImage" flushCache="true" parameterType="com.project.childprj.domain.user.UserImage"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO user_img (sourceName, fileName, userId)
         VALUES (#{sourceName}, #{fileName}, #{userId})
     </insert>
 
-    <delete id="delImage" flushCache="true"  parameterType="com.project.childprj.domain.mypage.UserImage">
+    <delete id="delImage" flushCache="true"  parameterType="com.project.childprj.domain.user.UserImage">
         DELETE FROM user_img WHERE userId = #{userId}
     </delete>
 
-    <update id="updateNickName" flushCache="true" parameterType="com.project.childprj.domain.mypage.NickName">
+    <update id="updateNickName" flushCache="true" parameterType="com.project.childprj.domain.user.NickName">
         UPDATE user SET nickName = #{nickName}
         WHERE id = #{userId}
     </update>

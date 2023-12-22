@@ -1,4 +1,4 @@
-package com.project.childprj.domain.community;
+package com.project.childprj.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class QryResult {
-    int count;  // 결과값 (정수)
-    String status;  // 결과 메세지
+public class NickName {
+    private String nickName;
+    private Long userId;
 }

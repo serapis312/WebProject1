@@ -1,9 +1,9 @@
 package com.project.childprj.service;
 
-import com.project.childprj.domain.community.*;
-import com.project.childprj.domain.mypage.UserImage;
+import com.project.childprj.domain.post.*;
+import com.project.childprj.domain.user.UserImage;
 import com.project.childprj.domain.user.User;
-import com.project.childprj.repository.CommunityRepository;
+import com.project.childprj.repository.PostRepository;
 import com.project.childprj.repository.UserRepository;
 import com.project.childprj.util.U;
 import jakarta.servlet.http.HttpSession;
@@ -11,6 +11,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class CommunityServiceImpl implements CommunityService {
+public class PostServiceImpl implements PostService {
 
     @Value("${app.pagination.write_pages}")
     private int WRITE_PAGES;
@@ -36,12 +37,12 @@ public class CommunityServiceImpl implements CommunityService {
     @Value("${app.upload.path}")
     private String uploadDir;
 
-    private CommunityRepository communityRepository;
+    private PostRepository postRepository;
     private UserRepository userRepository;
 
     @Autowired
-    public CommunityServiceImpl(SqlSession sqlSession) {
-        communityRepository = sqlSession.getMapper(CommunityRepository.class);
+    public PostServiceImpl(SqlSession sqlSession) {
+        postRepository = sqlSession.getMapper(PostRepository.class);
         userRepository = sqlSession.getMapper(UserRepository.class);
     }
 
@@ -55,7 +56,7 @@ public class CommunityServiceImpl implements CommunityService {
         user = userRepository.findById(user.getId());
         post.setUser(user);    // 글 작성자 세팅
 
-        int cnt1 = communityRepository.save(post);
+        int cnt1 = postRepository.save(post);
 
         int cnt2 = isFileImageOrNull(files);
 
@@ -71,7 +72,7 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public UserImage findUserImageByUserId(Long userId) {
-        return communityRepository.findUserImage(userId);
+        return postRepository.findUserImage(userId);
     }
 
     // 특정 글 (id) 의 첨부파일(들) 추가 (이미지 파일만)
@@ -104,7 +105,7 @@ public class CommunityServiceImpl implements CommunityService {
             // 성공하면 db 에도 저장
             if(file != null){
                 file.setPostId(id);   // FK 설정
-                communityRepository.saveImage(file);  // INSERT
+                postRepository.saveImage(file);  // INSERT
             }
 
         }
@@ -180,23 +181,35 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
+    @Transactional
     public int addRecommend(Long userId, Long postId) {
-        return communityRepository.addRecommend(userId, postId);
+        List<Recommend> list = postRepository.findRecommend(postId);
+
+        for(Recommend recommend : list) {
+            if(recommend.getUserId() == userId) {
+                return 0;
+            }
+        }
+
+        int result1 = postRepository.addRecommend(userId, postId);
+        int result2 = postRepository.incRecommendCnt(postId);
+
+        if(result1 == 1 && result2 == 1) {
+            return 1;
+        }
+
+        return 0;
     }
 
     @Override
-    public int findRecommendCnt(Long postId) {
-        return communityRepository.findRecommendCnt(postId);
-    }
-
-    @Override
+    @Transactional
     public Post detail(Long id) {
-        communityRepository.incViewCnt(id);
-        Post post = communityRepository.findById(id);
+        postRepository.incViewCnt(id);
+        Post post = postRepository.findById(id);
 
         if(post != null){
             // 첨부파일(들) 정보 가져오기
-            List<Attachment> fileList = communityRepository.findImageByPost(post.getId());
+            List<Attachment> fileList = postRepository.findImageByPost(post.getId());
             post.setFileList(fileList);
         }
 
@@ -205,7 +218,91 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public List<Post> list() {
-        return communityRepository.findAll();
+        return postRepository.findAll();
+    }
+
+    @Override
+    public List<Post> listPost(Integer page, String orderWay, String searchTxt, Model model) {
+        // 현재 페이지 parameter
+        if(page == null) page = 1;   // 디폴트 1 page
+        if(page < 1) page = 1;
+
+        // 페이징
+        // writePages: 한 [페이징] 당 몇개의 페이지가 표시되나
+        // pageRows: 한 '페이지'에 몇개의 글을 리스트 할것인가?
+        HttpSession session = U.getSession();
+        Integer writePages = (Integer)session.getAttribute("writePages");
+        if(writePages == null) writePages = WRITE_PAGES;  // 만약 session 에 없으면 기본값으로 동작
+        Integer pageRows = (Integer) session.getAttribute("pageRows");
+        if(pageRows == null) pageRows = PAGE_ROWS; // 만약 session 에 없으면 기본값으로 동작
+        session.setAttribute("page", page);  // 현재 페이지 번호 -> session 에 저장
+
+        long cnt = 0;
+
+        if(searchTxt == null || searchTxt.isEmpty()) {
+            cnt = postRepository.countAll();
+        } else {
+            cnt = postRepository.countAllWhenSearch(searchTxt, searchTxt); // 검색 결과 총 개수
+        }
+
+
+
+        int totalPage = (int)Math.ceil(cnt / (double)pageRows);  // 총 몇 '페이지' 분량인가?
+
+        // [페이징] 에 표시할 '시작페이지' 와 '마지막 페이지'
+        int startPage = 0;
+        int endPage = 0;
+
+        // 해당 페이지의 글 목록
+        List<Post> list = null;
+
+        if(cnt > 0){  // 데이터가 최소 1개 이상 있는 경우만 페이징
+            // page 값 보정
+            if(page > totalPage) page = totalPage;
+
+            // 몇번째 데이터부터 fromRow
+            int fromRow = (page - 1) * pageRows;
+
+            // [페이징] 에 표시할 '시작페이지' 와 '마지막페이지' 계산
+            startPage = (((page - 1) / writePages) * writePages) + 1;
+            endPage = startPage + writePages - 1;
+            if (endPage >= totalPage) endPage = totalPage;
+
+            // 해당 페이지의 글 목록 읽어오기 (정렬순, 검색순)
+            if (orderWay.equals("newer") && searchTxt.isEmpty()) {
+                list = postRepository.selectByNewer(fromRow, pageRows);
+            }
+            if (orderWay.equals("recommend") && searchTxt.isEmpty()){
+                list = postRepository.selectByRecommend(fromRow, pageRows);
+            }
+            if (orderWay.equals("newer") && !searchTxt.isEmpty()) {
+                list = postRepository.selectByNewerAndSearch(fromRow, pageRows, searchTxt, searchTxt);
+                model.addAttribute("searchTxt", searchTxt);
+            }
+            if (orderWay.equals("recommend") && !searchTxt.isEmpty()){
+                list = postRepository.selectByRecommendAndSearch(fromRow, pageRows, searchTxt, searchTxt);
+                model.addAttribute("searchTxt", searchTxt);
+            }
+
+            model.addAttribute("orderWay", orderWay);
+            model.addAttribute("list", list);
+        } else {
+            page = 0;
+        }
+
+        model.addAttribute("cnt", cnt);  // 전체 글 개수
+        model.addAttribute("page", page); // 현재 페이지
+        model.addAttribute("totalPage", totalPage);  // 총 '페이지' 수
+        model.addAttribute("pageRows", pageRows);  // 한 '페이지' 에 표시할 글 개수
+
+        // [페이징]
+        model.addAttribute("url", U.getRequest().getRequestURI());  // 목록 url
+        model.addAttribute("writePages", writePages); // [페이징] 에 표시할 숫자 개수
+        model.addAttribute("startPage", startPage);  // [페이징] 에 표시할 시작 페이지
+        model.addAttribute("endPage", endPage);   // [페이징] 에 표시할 마지막 페이지
+
+
+        return list;
     }
 
     @Override
@@ -224,7 +321,7 @@ public class CommunityServiceImpl implements CommunityService {
         if(pageRows == null) pageRows = PAGE_ROWS; // 만약 session 에 없으면 기본값으로 동작
         session.setAttribute("page", page);  // 현재 페이지 번호 -> session 에 저장
 
-        long cnt = communityRepository.countAll();  // 글 목록 전체의 개수
+        long cnt = postRepository.countAll();  // 글 목록 전체의 개수
         int totalPage = (int)Math.ceil(cnt / (double)pageRows);  // 총 몇 '페이지' 분량인가?
 
         // [페이징] 에 표시할 '시작페이지' 와 '마지막 페이지'
@@ -247,7 +344,7 @@ public class CommunityServiceImpl implements CommunityService {
             if (endPage >= totalPage) endPage = totalPage;
 
             // 해당 페이지의 글 목록 읽어오기
-            list = communityRepository.selectFromRow(fromRow, pageRows);
+            list = postRepository.selectFromRow(fromRow, pageRows);
             model.addAttribute("list", list);
         } else {
             page = 0;
@@ -270,11 +367,11 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public Post selectById(Long id) {
-        Post post = communityRepository.findById(id);
+        Post post = postRepository.findById(id);
 
         if(post != null){
             // 첨부파일(들) 정보 가져오기
-            List<Attachment> fileList = communityRepository.findImageByPost(post.getId());
+            List<Attachment> fileList = postRepository.findImageByPost(post.getId());
             post.setFileList(fileList);
         }
 
@@ -283,7 +380,7 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public int update(Post post, Map<String, MultipartFile> files, Long[] delfile) {
-        int cnt1 = communityRepository.update(post);
+        int cnt1 = postRepository.update(post);
 
         int cnt2 = isFileImageOrNull(files);
 
@@ -293,10 +390,10 @@ public class CommunityServiceImpl implements CommunityService {
         // 삭제할 첨부파일들은 삭제하기
         if(delfile != null){
             for(Long fileId : delfile){
-                Attachment file = communityRepository.findImageById(fileId);
+                Attachment file = postRepository.findImageById(fileId);
                 if(file != null){
                     delFile(file);   // 물리적으로 파일 삭제
-                    communityRepository.deleteImage(file);   // DB 에서 삭제
+                    postRepository.deleteImage(file);   // DB 에서 삭제
                 }
             }
         }
@@ -344,11 +441,11 @@ public class CommunityServiceImpl implements CommunityService {
     public int deleteById(Long id) {
         int result = 0;
 
-        Post post = communityRepository.findById(id);  // 존재하는 데이터인지 읽어와보기
+        Post post = postRepository.findById(id);  // 존재하는 데이터인지 읽어와보기
         if(post != null){
 
             // 물리적으로 저장된 첨부파일(들) 삭제
-            List<Attachment> fileList = communityRepository.findImageByPost(id);
+            List<Attachment> fileList = postRepository.findImageByPost(id);
             if(fileList != null && fileList.size() > 0){
                 for(Attachment file : fileList){
                     delFile(file);
@@ -356,7 +453,7 @@ public class CommunityServiceImpl implements CommunityService {
             }
 
             // 글 삭제 (참조하는 첨부파일, 댓글 등도 같이 삭제 된다   ON DELETE CASCADE)
-            result = communityRepository.delete(post);
+            result = postRepository.delete(post);
         }
 
         return result;
@@ -365,14 +462,14 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public Attachment findImageById(Long id) {
-        return communityRepository.findImageById(id);
+        return postRepository.findImageById(id);
     }
 
     @Override
     public QryCommentList listComment(Long id) {
         QryCommentList list = new QryCommentList();
 
-        List<Comment> comments = communityRepository.findCommentByPost(id);
+        List<Comment> comments = postRepository.findCommentByPost(id);
 
         list.setCount(comments.size());
         list.setList(comments);
@@ -384,7 +481,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public QryResult writeComment(Long postId, Long userId, String content) {
         User user = userRepository.findById(userId);
-        UserImage userImage = communityRepository.findUserImage(userId);
+        UserImage userImage = postRepository.findUserImage(userId);
 
         Comment comment = Comment.builder()
                 .user(user)
@@ -393,7 +490,7 @@ public class CommunityServiceImpl implements CommunityService {
                 .userImage(userImage)
                 .build();
 
-        communityRepository.saveComment(comment);
+        postRepository.saveComment(comment);
 
         QryResult result = QryResult.builder()
                 .count(1)
@@ -405,7 +502,7 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public QryResult deleteComment(Long id) {
-        int count = communityRepository.deleteCommentById(id);
+        int count = postRepository.deleteCommentById(id);
 
         String status = (count > 0) ? "OK" : "FAIL";
 

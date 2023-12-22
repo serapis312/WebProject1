@@ -1,21 +1,28 @@
 package com.project.childprj.repository;
 
-import com.project.childprj.domain.community.Attachment;
-import com.project.childprj.domain.community.Comment;
-import com.project.childprj.domain.community.Post;
-import com.project.childprj.domain.mypage.UserImage;
+import com.project.childprj.domain.post.Attachment;
+import com.project.childprj.domain.post.Comment;
+import com.project.childprj.domain.post.Post;
+import com.project.childprj.domain.post.Recommend;
+import com.project.childprj.domain.user.UserImage;
 
 import java.util.List;
 
-public interface CommunityRepository {
+public interface PostRepository {
     // 새글 작성
     int save(Post post);
 
     // 특정 userId의 UserImage 찾기
     UserImage findUserImage(Long userId);
 
+    // 특정 글의 추천 찾기
+    List<Recommend> findRecommend(Long postId);
+
     // 특정 글에 특정 유저가 추천하기 추가
     int addRecommend(Long userId, Long postId);
+
+    // 특정 글 추천수 +1 증가
+    int incRecommendCnt(Long id);
 
     // 특정 게시물의 추천수 구하기
     int findRecommendCnt(Long postId);
@@ -44,6 +51,22 @@ public interface CommunityRepository {
 
     // 전체 글의 개수
     int countAll();
+
+    // 검색 시 전체 결과 개수
+    int countAllWhenSearch(String search1, String search2);
+
+    // 정렬순, 검색 목록
+    // 추천순 정렬만
+    List<Post> selectByRecommend(int from, int rows);
+
+    // 추천순 정렬, 검색 글 목록
+    List<Post> selectByRecommendAndSearch(int from, int rows, String search1, String search2);
+
+    // 최신순 정렬만
+    List<Post> selectByNewer(int from, int rows);
+
+    // 최신순 정렬, 검색 글 목록
+    List<Post> selectByNewerAndSearch(int from, int rows, String search1, String search2);
 
 
     // 첨부파일

@@ -1,4 +1,4 @@
-package com.project.childprj.domain.mypage;
+package com.project.childprj.domain.user;
 
 
 import org.springframework.stereotype.Component;

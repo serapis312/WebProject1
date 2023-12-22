@@ -1,4 +1,4 @@
-package com.project.childprj.domain.community;
+package com.project.childprj.domain.post;
 
 
 import com.project.childprj.domain.user.User;
@@ -17,6 +17,7 @@ public class Post {
     private String title;
     private String content;
     private Long viewCnt;
+    private Long recommendCnt;
     private LocalDateTime createDate;
 
     private User user;  // 글 작성자 (FK)

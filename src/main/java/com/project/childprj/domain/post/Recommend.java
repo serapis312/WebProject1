@@ -1,4 +1,4 @@
-package com.project.childprj.domain.mypage;
+package com.project.childprj.domain.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NickName {
-    private String nickName;
-    private Long userId;
+public class Recommend {
+    Long userId;
+    Long postId;
 }
