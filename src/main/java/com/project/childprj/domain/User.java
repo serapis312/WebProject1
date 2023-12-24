@@ -1,5 +1,23 @@
 package com.project.childprj.domain;
 
-public class User {
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class User {
+    private Long id;
+    private String loginId;
+    private String password;
+    private String name;
+    private String nickname;
+    private String email;
+    private LocalDateTime createDate;
 }

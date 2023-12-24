@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <script th:with="index = ${index}">
+        alert("해당하는 사용자가 없습니다");
+        location.href = "/user/find?index=" + [[${index}]];
+    </script>
+</html>

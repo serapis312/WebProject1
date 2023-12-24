@@ -1,10 +1,18 @@
 DELETE FROM user;
 DELETE FROM post;
-DELETE FROM post_comment ;
+DELETE FROM post_comment;
+DELETE FROM user_authority;
+DELETE FROM user_authorities;
+DELETE FROM user_img;
+DELETE FROM recommend;
 
 ALTER TABLE user AUTO_INCREMENT = 1;
 ALTER TABLE post AUTO_INCREMENT = 1;
 ALTER TABLE post_comment AUTO_INCREMENT = 1;
+ALTER TABLE user_authority AUTO_INCREMENT = 1;
+ALTER TABLE user_authorities AUTO_INCREMENT = 1;
+ALTER TABLE user_img AUTO_INCREMENT = 1;
+ALTER TABLE recommend AUTO_INCREMENT = 1;
 
 -- 샘플 사용자
 INSERT INTO user(loginId, nickname, name, password, email) VALUES
@@ -38,3 +46,21 @@ INSERT INTO post_comment(content, userId, postId) VALUES
 ('유저3이(가) 게시글5에 작성한 댓글입니다.', 3, 5),
 ('유저3이(가) 게시글6에 작성한 댓글입니다.', 3, 6)
 ;
+
+-- 샘플 user_authority
+INSERT INTO user_authority (authName) VALUES
+('ROLE_MEMBER'), ('ROLE_ADMIN')
+;
+
+-- 샘플 user_authorities
+INSERT INTO user_authorities VALUES
+(1, 1),
+(3, 1),
+(3, 2)
+;
+
+
+
+
+
+

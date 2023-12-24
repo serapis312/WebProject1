@@ -6,3 +6,24 @@ SELECT *
 
 SELECT *
   FROM post_comment;
+ 
+ SELECT *
+  FROM user_authority;
+ 
+ SELECT *
+  FROM user_authorities;
+ 
+ SELECT *
+ FROM user_img;
+ 
+SELECT *
+FROM post_img;
+
+SELECT *
+FROM post;
+
+SELECT *
+FROM recommend;
+
+INSERT INTO post(userId, title, content)
+SELECT userId, title, content FROM post;

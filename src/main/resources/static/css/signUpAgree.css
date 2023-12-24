@@ -1,0 +1,79 @@
+
+.agree-wrapper {
+    height: 100vh;
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.agree-content-wrapper {
+    width: 400px;
+    margin-top: 35px;
+}
+
+.agree-content {
+    font-size: 16px;
+    position: relative;
+}
+
+input[type="checkbox"] {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-bottom: 15px;
+}
+
+label {
+    position: absolute;
+    top: -3px;
+    left: 25px;
+    display: flex;
+    align-items: center;
+}
+
+.agree-content-content {
+    height: 150px;
+    overflow-y: scroll;
+    margin-bottom: 20px;
+    background-color: var(--light-gray);
+    padding: 15px;
+    border-radius: 3px;
+    color: var(--input-placeholder);
+}
+
+/* agree-next-btn */
+.agree-next-btn {
+    background-color: var(--cloud-color);
+    color: white;
+    border-radius: 3px;
+    border: none;
+    height: 60px;
+    width: 400px;
+    font-size: 17px;
+    font-weight: 700;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        background-color: var(--cloud-hover);
+        cursor: pointer;
+    }
+}
+
+@media screen and (max-height: 700px) {
+    .agree-wrapper {
+        height: inherit;
+        margin: 50px auto;
+    }
+}
+
+/* agree validation */
+label > .warn-message {
+    margin-left: 10px;
+    font-size: 12.5px
+}
