@@ -60,17 +60,19 @@ toggleArr[0].addEventListener("click", toggleToMarket, true);
 toggleArr[1].addEventListener("click", toggleToCommunity, true);
 
 // 페이지 이동 후 토글스위치 변경
-if(location.href == "http://localhost:8090/post/list") {
+let service = location.pathname.split("/")[1]
+if(service == "post") {
     toggleArr[1].style.display = `none`;
     toggleArr[0].style.display = `block`;
 }
-if(location.href == "http://localhost:8090/product/list") {
+if(service == "product") {
     toggleArr[0].style.display = `none`;
     toggleArr[1].style.display = `block`;
 }
 
 // 찜목록이나 마이페이지에서는 헤더 설정 초기화
-if (location == "http://localhost:8090/together/zzim" || location == "http://localhost:8090/user/mypage" || location == "http://localhost:8090/user/signIn") {
+let service2 = location.pathname.split("/")[1] + "/" + location.pathname.split("/")[2]
+if (service2 == "together/zzim" || service2 == "user/mypage") {
     clickMenu(3);
 }
 
