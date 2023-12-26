@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/post/comment")
+@RequestMapping("/board/comment")
 public class PostCommentController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class PostCommentController {
     }
 
     @PostMapping("/delete")
-    public QryResult delete(Long id){
+    public QryResult delete(@RequestParam("id") Long id){
         return postService.deleteComment(id);
     }
 

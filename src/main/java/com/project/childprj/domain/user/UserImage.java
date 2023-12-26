@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserImage {
     private Long id;
-    private Long userId;
+    private Long user_id;
     private String sourceName;
     private String fileName;
 }

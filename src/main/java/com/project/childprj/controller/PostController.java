@@ -2,14 +2,15 @@ package com.project.childprj.controller;
 
 import com.project.childprj.domain.post.Post;
 import com.project.childprj.domain.post.PostValidator;
-import com.project.childprj.domain.post.Recommend;
 import com.project.childprj.domain.user.UserImage;
 import com.project.childprj.service.PostService;
 import com.project.childprj.util.U;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.apache.tomcat.util.buf.UDecoder;
+import org.apache.tomcat.util.http.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -18,11 +19,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/post")
+@RequestMapping("/board")
 public class PostController {
 
     @Autowired
@@ -54,11 +56,11 @@ public class PostController {
                 redirectAttrs.addFlashAttribute("error_" + err.getField(), err.getCode());
             }
 
-            return "redirect:/post/write";
+            return "redirect:/board/write";
         }
 
         model.addAttribute("result", postService.write(post, files));
-        return "post/writeOk";
+        return "board/writeOk";
 
     }
 
@@ -73,7 +75,7 @@ public class PostController {
         UserImage userImageDetail = postService.findUserImageByUserId(post.getUser().getId());
         model.addAttribute("userImageDetail", userImageDetail);
 
-        return "post/detail";
+        return "board/detail";
     }
 
     @PostMapping("/recommend")
@@ -83,7 +85,7 @@ public class PostController {
         model.addAttribute("result", result);
         model.addAttribute("postId", postId);
 
-        return "post/recommendOk";
+        return "board/recommendOk";
     }
 
     @GetMapping("/list")
@@ -109,7 +111,7 @@ public class PostController {
         UserImage userImage = postService.findUserImageByUserId(post.getUser().getId());
         model.addAttribute("userImage", userImage);
 
-        return "post/update";
+        return "board/update";
     }
 
     @PostMapping("/update")
@@ -132,21 +134,33 @@ public class PostController {
                 redirectAttrs.addFlashAttribute("error_" + err.getField(), err.getCode());
             }
 
-            return "redirect:/post/update/" + post.getId();
+            return "redirect:/board/update/" + post.getId();
         }
 
         model.addAttribute("result", postService.update(post, files, delfile));
-        return "post/updateOk";
+        return "board/updateOk";
     }
 
     @PostMapping("/delete")
     public String deleteOk(Long id, Model model){
         model.addAttribute("result", postService.deleteById(id));
-        return "post/deleteOk";
+        return "board/deleteOk";
     }
 
     @InitBinder
     public void initBinder(WebDataBinder binder){
         binder.setValidator(new PostValidator());
+    }
+
+    // 페이징
+    // pageRows 변경시 동작
+    @PostMapping("/pageRows")
+    public String pageRows(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageRows") Integer pageRows, @RequestParam(name = "searchTxt") String searchTxt, @RequestParam(name = "orderWay") String orderWay, RedirectAttributes redirectAttributes){
+        U.getSession().setAttribute("pageRows", pageRows);
+
+        redirectAttributes.addAttribute("searchTxt", searchTxt);
+        redirectAttributes.addAttribute("orderWay", orderWay);
+
+        return "redirect:/board/list?page=" + page;
     }
 }

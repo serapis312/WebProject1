@@ -21,10 +21,10 @@ public class GenericValidator implements Validator {
     public boolean supports(Class<?> clazz) {
         return User.class.isAssignableFrom(clazz)
                 || NameAndEmail.class.isAssignableFrom(clazz)
-                || NameAndLoginId.class.isAssignableFrom(clazz)
+                || NameAndUsername.class.isAssignableFrom(clazz)
                 || NewPassword.class.isAssignableFrom(clazz)
                 || UserImage.class.isAssignableFrom(clazz)
-                || NickName.class.isAssignableFrom(clazz)
+                || Nickname.class.isAssignableFrom(clazz)
                 || MypagePassword.class.isAssignableFrom(clazz)
                 || CheckPassword.class.isAssignableFrom(clazz);
     }
@@ -38,8 +38,8 @@ public class GenericValidator implements Validator {
         if(target instanceof NameAndEmail) {
             ValidationUtils.invokeValidator(new NameAndEmailValidator(), target, errors);
         }
-        if(target instanceof NameAndLoginId) {
-            ValidationUtils.invokeValidator(new NameAndLoginIdValidator(), target, errors);
+        if(target instanceof NameAndUsername) {
+            ValidationUtils.invokeValidator(new NameAndUsernameValidator(), target, errors);
         }
         if(target instanceof NewPassword) {
             ValidationUtils.invokeValidator(new NewPasswordValidator(passwordEncoder, userService), target, errors);
@@ -47,8 +47,8 @@ public class GenericValidator implements Validator {
         if(target instanceof UserImage) {
             ValidationUtils.invokeValidator(new UserImageValidator(), target, errors);
         }
-        if(target instanceof NickName) {
-            ValidationUtils.invokeValidator(new NickNameValidator(userService), target, errors);
+        if(target instanceof Nickname) {
+            ValidationUtils.invokeValidator(new NicknameValidator(userService), target, errors);
         }
         if(target instanceof MypagePassword) {
             ValidationUtils.invokeValidator(new MypagePasswordValidator(passwordEncoder, userService), target, errors);

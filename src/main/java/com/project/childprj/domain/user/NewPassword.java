@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class NewPassword {
     private String newPassword;
     private String re_password;
-    private Long userId;
+    private Long user_id;
 }

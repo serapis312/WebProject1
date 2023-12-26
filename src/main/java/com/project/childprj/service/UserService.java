@@ -1,6 +1,6 @@
 package com.project.childprj.service;
 
-import com.project.childprj.domain.user.NickName;
+import com.project.childprj.domain.user.Nickname;
 import com.project.childprj.domain.user.UserImage;
 import com.project.childprj.domain.user.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,14 +11,14 @@ public interface UserService {
     // 특정 Id 의 user 정보 읽어오기
     User findById(Long id);
 
-    // 특정 loginId(회원 아이디) 의 User 정보 읽어오기
-    User findByLoginId(String loginId);
+    // 특정 username(회원 아이디) 의 User 정보 읽어오기
+    User findByUsername(String username);
 
     // 특정 email(이메일) 의 user 정보 읽어오기
     User findByEmail(String email);
 
-    // 특정 loginId(회원 아이디) 의 회원이 존재하는지 확인
-    boolean isExist(String loginId);
+    // 특정 username(회원 아이디) 의 회원이 존재하는지 확인
+    boolean isExist(String username);
 
     // 특정 id(PK) 의 회원이 존재하는지 확인
     boolean isExistById(Long id);
@@ -27,38 +27,38 @@ public interface UserService {
     boolean isExistByEmail(String email);
 
     // 특정 nickName 의 회원이 존재하는지 확인
-    boolean isExistByNickName(String nickName);
+    boolean isExistByNickName(String nickname);
 
     // 신규 회원 등록
     int register(User user);
 
     // 마이페이지 프로필사진 업로드
-    int uploadProfile(MultipartFile file, Long userId);
+    int uploadProfile(MultipartFile file, Long user_id);
 
     // 마이페이지 userImage 정보 읽어오기
-    UserImage findUserImage(Long userId);
+    UserImage findUserImage(Long user_id);
 
     // 마이페이지 닉네임 수정
-    int updateNickName(NickName nickName);
+    int updateNickName(Nickname nickName);
 
     // 특정 사용자(id)의 authority(들)
     List<Authority> selectAuthoritiesById(Long id);
 
     // 아이디 찾기 (이름, 이메일 입력하여 찾기)
-    String findLoginIdByNameAndEmail(NameAndEmail nameAndEmail);
+    String findUsernameByNameAndEmail(NameAndEmail nameAndEmail);
 
     // 비밀번호 찾기는 비밀번호가 암호화 되어있어서 안된다... 비밀번호 변경으로 하는건 어떨까??
     // 1. 이름, 아이디로 비밀번호 변경
     // 2. 이름, 이메일로 비밀번호 변경
 
     // 해당 이름, 아이디의 사용자가 존재하는지 확인
-    boolean isExistByNameAndLoginId(NameAndLoginId nameAndLoginId);
+    boolean isExistByNameAndUsername(NameAndUsername nameAndUsername);
 
     // 해당 이름, 이메일의 사용자가 존재하는지 확인
     boolean isExistByNameAndEmail(NameAndEmail nameAndEmail);
 
     // 비밀번호 변경 (이름, 아이디 이용)
-    int changePasswordByLoginId(NameAndLoginId nameAndLoginId, NewPassword newPassword);
+    int changePasswordByUsername(NameAndUsername nameAndUsername, NewPassword newPassword);
 
     // 비밀번호 변경 (이름, 이메일 이용)
     int changePasswordByEmail(NameAndEmail nameAndEmail, NewPassword newPassword);

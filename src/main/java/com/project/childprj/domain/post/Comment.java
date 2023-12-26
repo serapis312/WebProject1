@@ -26,7 +26,7 @@ public class Comment {
     @ToString.Exclude
     private User user;   // 댓글 작성자 (FK)
     @JsonIgnore
-    private Long postId;   // 어느글의 댓글 (FK)
+    private Long post_id;   // 어느글의 댓글 (FK)
 
     private String content;  // 댓글 내용
 

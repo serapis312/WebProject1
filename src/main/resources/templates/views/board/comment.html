@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:fragment="comment">
+    <script src="https://kit.fontawesome.com/57404fc0fb.js" crossorigin="anonymous"></script>
+
+    <div class="container my-3 border rounded">
+        <div class="mb-3 mt-3">
+
+            <label>댓글: <span id="cmt_cnt"></span> 개</label>
+
+            <!-- ROLE_MEMBER 권한 가진 사용자만 댓글 작성 가능 -->
+            <div class="input-group my-2" sec:authorize="hasAnyRole('ADMIN', 'MEMBER')">
+                <img th:unless="${userImageComment}" th:src="@{/images/이승규 증명사진(2021.08.30).jpg}" width="40px" class="talk-writer-pic" />
+                <img th:if="${userImageComment}" th:src="@{/upload/} + ${userImageComment.fileName}" width="40px" class="talk-writer-pic" />
+                <input type="text" class="form-control" id="input_comment">
+                <button type="button" class="btn btn-outline-primary" id="btn_comment">작성</button>
+            </div>
+
+            <table class="table table-hover mt-3" id="cmt_table">
+                <thead>
+                <tr>
+                    <th>작성자 프로필 사진</th>
+                    <th style="width: 16.66%">작성자 닉네임</th>
+                    <th>내용</th>
+                    <th style="width: 16.66%">작성일</th>
+                </tr>
+                </thead>
+                <tbody id="cmt_list">
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</th:block>
+
+</html>

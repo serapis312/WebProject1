@@ -13,19 +13,19 @@ public interface PostRepository {
     int save(Post post);
 
     // 특정 userId의 UserImage 찾기
-    UserImage findUserImage(Long userId);
+    UserImage findUserImage(Long user_id);
 
     // 특정 글의 추천 찾기
-    List<Recommend> findRecommend(Long postId);
+    List<Recommend> findRecommend(Long post_id);
 
     // 특정 글에 특정 유저가 추천하기 추가
-    int addRecommend(Long userId, Long postId);
+    int addRecommend(Long user_id, Long post_id);
 
     // 특정 글 추천수 +1 증가
     int incRecommendCnt(Long id);
 
     // 특정 게시물의 추천수 구하기
-    int findRecommendCnt(Long postId);
+    int findRecommendCnt(Long post_id);
 
     // 특정 id 글 내용 읽기 (SELECT)
     // 만약 해당 id 의 글 없으면 null 리턴함
@@ -74,7 +74,7 @@ public interface PostRepository {
     int saveImage(Attachment image);
 
     // 특정 글(postId) 의 첨부파일 목록
-    List<Attachment> findImageByPost(Long postId);
+    List<Attachment> findImageByPost(Long post_id);
 
     // 특정 첨부파일(id) 한개 select
     Attachment findImageById(Long id);
@@ -85,7 +85,7 @@ public interface PostRepository {
 
     // 댓글
     // 특정 글(post_id) 의 댓글 목록
-    List<Comment> findCommentByPost(Long postId);
+    List<Comment> findCommentByPost(Long post_id);
 
     // 댓글 작성 <-- Comment
     int saveComment(Comment comment);

@@ -33,7 +33,7 @@ public class CheckPasswordValidator implements Validator {
 
         String originPassword = checkPassword.getOriginPassword();
         String re_password = checkPassword.getRe_password();
-        Long userId = checkPassword.getUserId();
+        Long user_id = checkPassword.getUser_id();
 
         // password
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "originPassword", "비밀번호는 필수입니다");
@@ -46,8 +46,8 @@ public class CheckPasswordValidator implements Validator {
             errors.rejectValue("re_password", "비밀번호와 비밀번호 확인 입력값은 같아야 합니다");
         }
         // 회원 비밀번호와 입력한 비밀번호 일치여부 확인
-        if (userService.findById(userId) != null) {
-            User originUser = userService.findById(userId);
+        if (userService.findById(user_id) != null) {
+            User originUser = userService.findById(user_id);
             if (!passwordEncoder.matches(originPassword, originUser.getPassword())) {
                 errors.rejectValue("originPassword", "입력한 비밀번호는 회원 비밀번호와 일치해야 합니다");
             }

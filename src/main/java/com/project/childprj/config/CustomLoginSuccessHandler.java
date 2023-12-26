@@ -40,7 +40,7 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         System.out.println("authorities: " + roleNames);
 
         // 로그인 아이디를 세션에 저장해두기
-        request.getSession().setAttribute("loginId", userDetails.getUsername());
+        request.getSession().setAttribute("username", userDetails.getUsername());
 
 
         // 로그인 시간을 세션에 저장해두기 (-> logout 예제에서 활용)

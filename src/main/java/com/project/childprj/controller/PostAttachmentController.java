@@ -27,7 +27,7 @@ public class PostAttachmentController {
     private PostService communityService;
 
 
-    @RequestMapping("/post/download")
+    @RequestMapping("/board/download")
     public ResponseEntity<Object> download(Long id){
 
         if(id == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);  // 400

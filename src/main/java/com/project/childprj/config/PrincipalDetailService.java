@@ -15,11 +15,11 @@ public class PrincipalDetailService implements UserDetailsService {
     private UserService userService;
 
     @Override
-    public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
-        System.out.println("loadUserByUsername(" + loginId + ") 호출");
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("loadUserByUsername(" + username + ") 호출");
 
         // DB 조회
-        User user = userService.findByLoginId(loginId);
+        User user = userService.findByUsername(username);
 
         // 해당 username 의 user 가 DB 에 있다면
         // UserDetails 생성해서 리턴
@@ -30,6 +30,6 @@ public class PrincipalDetailService implements UserDetailsService {
         }
 
         // 해당 username 의 user 가 DB 에 없다면?
-        throw new UsernameNotFoundException(loginId);
+        throw new UsernameNotFoundException(username);
     }
 }

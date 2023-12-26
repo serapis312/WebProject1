@@ -33,7 +33,7 @@ public class NewPasswordValidator implements Validator {
 
         String newPassword = newPasswordInstance.getNewPassword();
         String re_password  = newPasswordInstance.getRe_password();
-        Long userId = newPasswordInstance.getUserId();
+        Long user_id = newPasswordInstance.getUser_id();
 
         // password
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "newPassword", "신규 비밀번호는 필수입니다");
@@ -46,8 +46,8 @@ public class NewPasswordValidator implements Validator {
             errors.rejectValue("re_password", "비밀번호와 비밀번호 확인 입력값은 같아야 합니다");
         }
         // 원래 비밀번호와 새로운 비밀번호가 동일하면 안됨
-        if(userService.findById(userId) != null) {
-            User originUser = userService.findById(userId);
+        if(userService.findById(user_id) != null) {
+            User originUser = userService.findById(user_id);
             if(passwordEncoder.matches(newPassword, originUser.getPassword())) {
                 errors.rejectValue("newPassword", "현재 비밀번호와 신규 비밀번호가 똑같습니다");
             }

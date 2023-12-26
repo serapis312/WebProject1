@@ -12,11 +12,11 @@ public interface PostService {
     // 글 작성
     int write(Post post, Map<String, MultipartFile> files);
 
-    // 특정 userId 의 프로필 이미지 가져오기
-    UserImage findUserImageByUserId(Long userId);
+    // 특정 user_id 의 프로필 이미지 가져오기
+    UserImage findUserImageByUserId(Long user_id);
 
     // 추천하기 추가
-    int addRecommend(Long userId, Long postId);
+    int addRecommend(Long user_id, Long post_id);
 
     // 특정 id 의 글 조회
     // 트랜잭션 처리
@@ -53,8 +53,8 @@ public interface PostService {
     // 특정 글(id) 의 댓글 목록
     QryCommentList listComment(Long id);
 
-    // 특정 글(postId) 에 특정 사용자(userId) 가 댓글 작성
-    QryResult writeComment(Long postId, Long userId, String content);
+    // 특정 글(post_id) 에 특정 사용자(user_id) 가 댓글 작성
+    QryResult writeComment(Long post_id, Long user_id, String content);
 
     // 특정 댓글(id) 삭제
     QryResult deleteComment(Long id);

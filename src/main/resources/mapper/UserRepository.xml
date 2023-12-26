@@ -7,12 +7,12 @@
     <sql id="SELECT_BASE">
         SELECT
             id "id"
-            , loginId "loginId"
+            , username "username"
             , password "password"
-            , nickName "nickName"
+            , nickname "nickname"
             , name "name"
             , email "email"
-            , createDate "createDate"
+            , regdate "regDate"
         FROM user
         WHERE 1 = 1
     </sql>
@@ -22,9 +22,9 @@
         AND id = #{id}
     </select>
 
-    <select id="findByLoginId" resultType="com.project.childprj.domain.user.User">
+    <select id="findByUsername" resultType="com.project.childprj.domain.user.User">
         <include refid="SELECT_BASE"/>
-        AND loginId = #{loginId}
+        AND username = #{username}
     </select>
 
     <select id="findByEmail" resultType="com.project.childprj.domain.user.User">
@@ -34,7 +34,7 @@
 
     <select id="findByNickName" resultType="com.project.childprj.domain.user.User">
         <include refid="SELECT_BASE"/>
-        AND nickName = #{nickName}
+        AND nickname = #{nickname}
     </select>
 
     <select id="findByNameAndEmail" resultType="com.project.childprj.domain.user.User" parameterType="com.project.childprj.domain.user.NameAndEmail">
@@ -43,10 +43,10 @@
         AND email = #{email}
     </select>
 
-    <select id="findByNameAndLoginId" resultType="com.project.childprj.domain.user.User" parameterType="com.project.childprj.domain.user.NameAndLoginId">
+    <select id="findByNameAndUsername" resultType="com.project.childprj.domain.user.User" parameterType="com.project.childprj.domain.user.NameAndUsername">
         <include refid="SELECT_BASE"/>
         AND name = #{name}
-        AND loginId = #{loginId}
+        AND username = #{username}
     </select>
 
     <update id="updatePassword" flushCache="true" parameterType="com.project.childprj.domain.user.User">
@@ -56,8 +56,8 @@
 
     <insert id="save" flushCache="true" parameterType="com.project.childprj.domain.user.User"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO user (loginId, password, nickName, name, email)
-        VALUES (#{loginId}, #{password}, #{nickName}, #{name}, #{email})
+        INSERT INTO user (username, password, nickname, name, email)
+        VALUES (#{username}, #{password}, #{nickname}, #{name}, #{email})
     </insert>
 
     <select id="findUserImage" resultType="com.project.childprj.domain.user.UserImage">
@@ -65,24 +65,24 @@
             id "id"
             , sourceName "sourceName"
             , fileName "fileName"
-            , userId "userId"
+            , user_id "user_id"
         FROM user_img
-        WHERE userId = #{userId}
+        WHERE user_id = #{user_id}
     </select>
 
     <insert id="saveImage" flushCache="true" parameterType="com.project.childprj.domain.user.UserImage"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO user_img (sourceName, fileName, userId)
-        VALUES (#{sourceName}, #{fileName}, #{userId})
+        INSERT INTO user_img (sourceName, fileName, user_id)
+        VALUES (#{sourceName}, #{fileName}, #{user_id})
     </insert>
 
     <delete id="delImage" flushCache="true"  parameterType="com.project.childprj.domain.user.UserImage">
-        DELETE FROM user_img WHERE userId = #{userId}
+        DELETE FROM user_img WHERE user_id = #{user_id}
     </delete>
 
-    <update id="updateNickName" flushCache="true" parameterType="com.project.childprj.domain.user.NickName">
-        UPDATE user SET nickName = #{nickName}
-        WHERE id = #{userId}
+    <update id="updateNickname" flushCache="true" parameterType="com.project.childprj.domain.user.Nickname">
+        UPDATE user SET nickname = #{nickname}
+        WHERE id = #{user_id}
     </update>
 
     <delete id="delete" flushCache="true" parameterType="com.project.childprj.domain.user.User">

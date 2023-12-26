@@ -21,7 +21,7 @@ public class MypageValidator implements Validator {
     public boolean supports(Class<?> clazz) {
         return UserImage.class.isAssignableFrom(clazz)
                 || User.class.isAssignableFrom(clazz)
-                || NickName.class.isAssignableFrom(clazz)
+                || Nickname.class.isAssignableFrom(clazz)
                 || MypagePassword.class.isAssignableFrom(clazz)
                 || CheckPassword.class.isAssignableFrom(clazz);
     }
@@ -34,8 +34,8 @@ public class MypageValidator implements Validator {
         if(target instanceof User) {
             ValidationUtils.invokeValidator(new UserValidator(userService), target, errors);
         }
-        if(target instanceof NickName) {
-            ValidationUtils.invokeValidator(new NickNameValidator(userService), target, errors);
+        if(target instanceof Nickname) {
+            ValidationUtils.invokeValidator(new NicknameValidator(userService), target, errors);
         }
         if(target instanceof CheckPassword) {
             ValidationUtils.invokeValidator(new CheckPasswordValidator(passwordEncoder, userService), target, errors);

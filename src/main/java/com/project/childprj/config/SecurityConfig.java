@@ -32,12 +32,10 @@ public class SecurityConfig {
                  **********************************************/
                 .authorizeHttpRequests(auth -> auth
                         // URL 과 접근권한 세팅(들)
-                        // ↓ /mypage/**, /community/detail/**, /product/detail/** URL로 들어오는 요청은 '인증'만 필요.
-                        .requestMatchers("/together/zzim","/user/mypage", "/post/detail/**", "/product/detail/**").authenticated()
-                        // ↓ "/post/write/**", "/post/update/**", "/post/delete/**" URL로 들어오는 요청은 '인증' 뿐 아니라 ROLE_MEMBER 나 ROLE_ADMIN 권한을 갖고 있어야 한다. ('인가')
-                        // ↓ "/product/write/**", "/product/update/**", "/product/delete/**" URL로 들어오는 요청은 '인증' 뿐 아니라 ROLE_MEMBER 나 ROLE_ADMIN 권한을 갖고 있어야 한다. ('인가')
-                        .requestMatchers("/post/write/**", "/post/update/**", "/post/delete/**"
-                                        , "product/write/**", "/product/update/**", "post/delete/**").hasAnyRole("MEMBER", "ADMIN")
+                        // ↓ /mypage/**, /board/detail/** URL로 들어오는 요청은 '인증'만 필요.
+                        .requestMatchers("/user/mypage", "/board/detail/**").authenticated()
+                        // ↓ "/board/write/**", "/board/update/**", "/board/delete/**" URL로 들어오는 요청은 '인증' 뿐 아니라 ROLE_MEMBER 나 ROLE_ADMIN 권한을 갖고 있어야 한다. ('인가')
+                        .requestMatchers("/board/write/**", "/board/update/**", "/board/delete/**").hasAnyRole("MEMBER", "ADMIN")
                         // ↓ 그 밖의 다른 요청은 모두 permit!
                         .anyRequest().permitAll()
                 )
@@ -55,7 +53,7 @@ public class SecurityConfig {
                         // 위 요청이 오면 자동으로 UserDetailsService 타입 빈객체의 loadUserByUsername() 가 실행되어 인증여부 확인진행 <- 이를 제공해주어야 한다.
                         .defaultSuccessUrl("/")  // '직접 /login' → /login(post) 에서 성공하면 "/" 로 이동시키기
                         // 만약 다른 특정페이지에 진입하려다 로그인 하여 성공하면 해당 페이지로 이동 (너무 편리!)
-                        .usernameParameter("loginId")   //기본 name="username" 이어야 함
+                        //.usernameParameter()   //기본 name="username" 이어야 함
                         //.passwordParameter()   기본 name="password" 이어야 함
 
                         // 로그인 성공직후 수행할코드

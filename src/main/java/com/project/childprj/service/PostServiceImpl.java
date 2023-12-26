@@ -71,8 +71,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public UserImage findUserImageByUserId(Long userId) {
-        return postRepository.findUserImage(userId);
+    public UserImage findUserImageByUserId(Long user_id) {
+        return postRepository.findUserImage(user_id);
     }
 
     // 특정 글 (id) 의 첨부파일(들) 추가 (이미지 파일만)
@@ -104,7 +104,7 @@ public class PostServiceImpl implements PostService {
 
             // 성공하면 db 에도 저장
             if(file != null){
-                file.setPostId(id);   // FK 설정
+                file.setPost_id(id);   // FK 설정
                 postRepository.saveImage(file);  // INSERT
             }
 
@@ -182,17 +182,17 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public int addRecommend(Long userId, Long postId) {
-        List<Recommend> list = postRepository.findRecommend(postId);
+    public int addRecommend(Long user_id, Long post_id) {
+        List<Recommend> list = postRepository.findRecommend(post_id);
 
         for(Recommend recommend : list) {
-            if(recommend.getUserId() == userId) {
+            if(recommend.getUserId() == user_id) {
                 return 0;
             }
         }
 
-        int result1 = postRepository.addRecommend(userId, postId);
-        int result2 = postRepository.incRecommendCnt(postId);
+        int result1 = postRepository.addRecommend(user_id, post_id);
+        int result2 = postRepository.incRecommendCnt(post_id);
 
         if(result1 == 1 && result2 == 1) {
             return 1;
@@ -479,14 +479,14 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public QryResult writeComment(Long postId, Long userId, String content) {
-        User user = userRepository.findById(userId);
-        UserImage userImage = postRepository.findUserImage(userId);
+    public QryResult writeComment(Long post_id, Long user_id, String content) {
+        User user = userRepository.findById(user_id);
+        UserImage userImage = postRepository.findUserImage(user_id);
 
         Comment comment = Comment.builder()
                 .user(user)
                 .content(content)
-                .postId(postId)
+                .post_id(post_id)
                 .userImage(userImage)
                 .build();
 

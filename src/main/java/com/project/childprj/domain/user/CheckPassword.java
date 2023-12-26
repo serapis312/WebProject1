@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 public class CheckPassword {
     private String originPassword;
     private String re_password;
-    private Long userId;
+    private Long user_id;
 }

@@ -28,32 +28,32 @@ public class UserValidator implements Validator {
     public void validate(Object target, Errors errors) {
         User user = (User) target;
 
-        String loginId = user.getLoginId();
+        String username = user.getUsername();
         String name = user.getName();
         String email = user.getEmail();
-        String nickName = user.getNickName();
+        String nickname = user.getNickname();
         String password = user.getPassword();
 
         // 이미 DB 에 존재하는지 확인
-        if (userService.isExist(loginId)) {
-            errors.rejectValue("loginId", "이미 존재하는 아이디 입니다");
+        if (userService.isExist(username)) {
+            errors.rejectValue("username", "이미 존재하는 아이디 입니다");
         }
         if (userService.isExistByEmail(email)) {
             errors.rejectValue("email", "이미 존재하는 이메일 입니다");
         }
-        if (userService.isExistByNickName(nickName)) {
-            errors.rejectValue("nickName", "이미 존재하는 닉네임 입니다");
+        if (userService.isExistByNickName(nickname)) {
+            errors.rejectValue("nickname", "이미 존재하는 닉네임 입니다");
         }
 
-        // loginId
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "loginId", "아이디는 필수입니다");
-        if (loginId.length() < 8) {
-            errors.rejectValue("loginId", "아이디는 8글자 이상 입력해야 됩니다");
-        } else if (loginId.length() > 50) {
-            errors.rejectValue("loginId", "아이디는 50글자 이하 입력해야 됩니다");
+        // username
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "아이디는 필수입니다");
+        if (username.length() < 8) {
+            errors.rejectValue("username", "아이디는 8글자 이상 입력해야 됩니다");
+        } else if (username.length() > 50) {
+            errors.rejectValue("username", "아이디는 50글자 이하 입력해야 됩니다");
         }
-        if (!Pattern.matches("^[a-z0-9]+$", loginId)) {
-            errors.rejectValue("loginId", "아이디는 영문 소문자, 숫자만 입력해야 됩니다");
+        if (!Pattern.matches("^[a-z0-9]+$", username)) {
+            errors.rejectValue("username", "아이디는 영문 소문자, 숫자만 입력해야 됩니다");
         }
 
         // name
@@ -65,13 +65,13 @@ public class UserValidator implements Validator {
             errors.rejectValue("name", "이름은 한글만 입력해야 됩니다");
         }
 
-        // nickName
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nickName", "닉네임은 필수입니다");
-        if (nickName.length() > 50) {
-            errors.rejectValue("nickName", "닉네임은 50글자 이하 입력해야 됩니다");
+        // nickname
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nickname", "닉네임은 필수입니다");
+        if (nickname.length() > 50) {
+            errors.rejectValue("nickname", "닉네임은 50글자 이하 입력해야 됩니다");
         }
-        if (!Pattern.matches("^[0-9a-zA-Z가-힣]+$", nickName)) {
-            errors.rejectValue("nickName", "닉네임은 영문, 한글, 숫자만 입력해야 됩니다");
+        if (!Pattern.matches("^[0-9a-zA-Z가-힣]+$", nickname)) {
+            errors.rejectValue("nickname", "닉네임은 영문, 한글, 숫자만 입력해야 됩니다");
         }
         
         // email

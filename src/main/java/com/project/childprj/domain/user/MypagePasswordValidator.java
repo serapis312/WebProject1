@@ -32,7 +32,7 @@ public class MypagePasswordValidator implements Validator {
         String nowPassword = mypagePassword.getNowPassword();
         String newPassword = mypagePassword.getNewPassword();
         String re_password = mypagePassword.getRe_password();
-        Long userId = mypagePassword.getUserId();
+        Long user_id = mypagePassword.getUser_id();
 
 
         // password
@@ -47,10 +47,10 @@ public class MypagePasswordValidator implements Validator {
             errors.rejectValue("re_password", "비밀번호와 비밀번호 확인 입력값은 같아야 합니다");
         }
         // 현재 사용자가 존재하면
-        if(userService.isExistById(userId)) {
+        if(userService.isExistById(user_id)) {
 
             // 원래 비밀번호와 새로운 비밀번호가 동일하면 안됨
-            User originUser = userService.findById(userId);
+            User originUser = userService.findById(user_id);
             if(passwordEncoder.matches(newPassword, originUser.getPassword())) {
                 errors.rejectValue("newPassword", "현재 비밀번호와 신규 비밀번호가 똑같습니다 다른 비밀번호로 바꿔주세요");
             }

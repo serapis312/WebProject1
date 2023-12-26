@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--/* 인증 헤더 */-->
+<th:block th:insert="~{common/header::header}"></th:block>
+
+    <h2>회원 탈퇴</h2>
+    <form method="POST" th:action="@{/user/delete}">
+        <input type="hidden" name="user_id" th:value="${user_id}">
+        <input type="password" name="originPassword" placeholder="비밀번호를 입력하세요">
+        <input type="password" name="re_password" placeholder="비밀번호 확인을 입력하세요">
+        <button type="submit" onclick="confirm('정말 탈퇴 하시겠습니까?');">회원 탈퇴</button>
+    </form>
+</body>
+</html>

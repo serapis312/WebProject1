@@ -1,6 +1,6 @@
 package com.project.childprj.service;
 
-import com.project.childprj.domain.user.NickName;
+import com.project.childprj.domain.user.Nickname;
 import com.project.childprj.domain.user.UserImage;
 import com.project.childprj.domain.user.*;
 import com.project.childprj.repository.AuthorityRepository;
@@ -48,8 +48,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByLoginId(String loginId) {
-        return userRepository.findByLoginId(loginId);
+    public User findByUsername(String loginId) {
+        return userRepository.findByUsername(loginId);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isExist(String loginId) {
-        User user = findByLoginId(loginId);
+        User user = findByUsername(loginId);
         return (user != null);
     }
 
@@ -119,7 +119,7 @@ public class UserServiceImpl implements UserService {
             }
 
             // 새로운 이미지 DB 에 저장
-            image.setUserId(userId); // FK 설정
+            image.setUser_id(userId); // FK 설정
             result = userRepository.saveImage(image); // INSERT
         }
 
@@ -218,8 +218,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public int updateNickName(NickName nickName) {
-        return userRepository.updateNickName(nickName);
+    public int updateNickName(Nickname nickName) {
+        return userRepository.updateNickname(nickName);
     }
 
     @Override
@@ -229,11 +229,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String findLoginIdByNameAndEmail(NameAndEmail nameAndEmail) {
+    public String findUsernameByNameAndEmail(NameAndEmail nameAndEmail) {
         User user = userRepository.findByNameAndEmail(nameAndEmail);
         String result;
         if (user != null) {
-            result = user.getLoginId();
+            result = user.getUsername();
         } else {
             result = "";
         }
@@ -241,8 +241,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isExistByNameAndLoginId(NameAndLoginId nameAndLoginId) {
-        User user = userRepository.findByNameAndLoginId(nameAndLoginId);
+    public boolean isExistByNameAndUsername(NameAndUsername nameAndUsername) {
+        User user = userRepository.findByNameAndUsername(nameAndUsername);
         return (user != null);
     }
 
@@ -253,11 +253,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int changePasswordByLoginId(NameAndLoginId nameAndLoginId, NewPassword newPasswordInstance) {
-        if(!isExistByNameAndLoginId(nameAndLoginId)) {
+    public int changePasswordByUsername(NameAndUsername nameAndUsername, NewPassword newPasswordInstance) {
+        if(!isExistByNameAndUsername(nameAndUsername)) {
             return 0;
         }
-        User user = userRepository.findByNameAndLoginId(nameAndLoginId);
+        User user = userRepository.findByNameAndUsername(nameAndUsername);
         String newPassword = newPasswordInstance.getNewPassword();
         String re_password = newPasswordInstance.getRe_password();
 
@@ -284,7 +284,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int changePassword(MypagePassword mypagePassword) {
-        User user = userRepository.findById(mypagePassword.getUserId());
+        User user = userRepository.findById(mypagePassword.getUser_id());
 
         user.setPassword(passwordEncoder.encode(mypagePassword.getNewPassword()));
 
@@ -304,7 +304,10 @@ public class UserServiceImpl implements UserService {
         
         // 탈퇴할 유저의 물리적인 프로필사진 삭제
         UserImage userImage = userRepository.findUserImage(user.getId());
-        delFile(userImage);
+        if(userImage != null) {
+            delFile(userImage);
+        }
+
         
         return userRepository.delete(user);
     }

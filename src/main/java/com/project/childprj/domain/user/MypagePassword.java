@@ -13,5 +13,5 @@ public class MypagePassword {
     private String nowPassword;
     private String newPassword;
     private String re_password;
-    private Long userId;
+    private Long user_id;
 }
